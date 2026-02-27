@@ -1,0 +1,11 @@
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.MenuBar?>
+
+<?import javafx.scene.control.SplitPane?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="CourseRegisterUI.CourseController">
+    <MenuBar fx:id="menuBar"/>
+    <SplitPane dividerPositions="0.35" VBox.vgrow="ALWAYS">
+        <VBox fx:id="courseListPane"/>
+        <BorderPane fx:id="schedulePane"/>
+    </SplitPane>
+</VBox>

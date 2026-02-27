@@ -1,0 +1,26 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<VBox fx:id="courseListPane" xmlns:fx="http://javafx.com/fxml/1">
+    <Button text="Add Course" maxWidth="Infinity"/>
+    <Accordion>
+        <panes>
+            <TitledPane text="Course">
+                <TableView prefHeight="180.0" prefWidth="200.0">
+                    <columns>
+                        <TableColumn text="Department" prefWidth="100"/>
+                        <TableColumn text="Course Number" prefWidth="100"/>
+                        <TableColumn text="Name" prefWidth="100"/>
+                    </columns>
+                </TableView>
+            </TitledPane>
+            <TitledPane animated="false" text="Department">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </TitledPane>
+            <TitledPane animated="false" text="Filter2">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </TitledPane>
+        </panes>
+    </Accordion>
+</VBox>
