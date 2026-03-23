@@ -16,6 +16,7 @@ public class MainApp extends Application {
         Scene scene = new Scene(root);
 
         primaryStage.setTitle("Course Register System");
+        scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
         primaryStage.setScene(scene);
 
         primaryStage.show();
