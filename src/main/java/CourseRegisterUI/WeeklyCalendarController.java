@@ -70,6 +70,7 @@ public class WeeklyCalendarController {
         rConst.setPrefHeight(45);
         rConst.setMinHeight(45);
         rConst.setVgrow(Priority.ALWAYS);
+
         mainGrid.getRowConstraints().add(rConst);
 
         // FIXED: Add LEFT padding + margin

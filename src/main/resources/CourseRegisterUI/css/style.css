@@ -123,3 +123,8 @@
     -fx-border-color: #dee2e6;
     -fx-border-width: 0 1 1 0;
 }
+
+.modern-dialog { -fx-background-color: white; -fx-background-radius: 20; }
+.text-field-custom { -fx-background-radius: 10; -fx-border-color: #ddd; }
+.btn-submit { -fx-background-color: #6f42c1; -fx-text-fill: white; -fx-background-radius: 20; }
+.link-ghost { -fx-text-fill: #6f42c1; -fx-underline: false; }

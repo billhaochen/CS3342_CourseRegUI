@@ -30,11 +30,16 @@ public class MainApp extends Application {
         Stage dialog = new Stage();
         dialog.initOwner(owner);
         dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+
         javafx.scene.effect.BoxBlur blur = new javafx.scene.effect.BoxBlur(8, 8, 3);
         owner.getScene().getRoot().setEffect(blur);
-        Parent signInRoot = ComponentLoader.loadSignInDialog();
-        dialog.setScene(new Scene(signInRoot));
 
+        Parent signInRoot = ComponentLoader.loadSignInDialog();
+        Scene dialogScene = new Scene(signInRoot);
+        String cssPath = getClass().getResource("css/style.css").toExternalForm();
+        dialogScene.getStylesheets().add(cssPath);
+
+        dialog.setScene(dialogScene);
         dialog.setOnHidden(e -> owner.getScene().getRoot().setEffect(null));
         dialog.show();
 
