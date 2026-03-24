@@ -25,7 +25,8 @@ public class WeeklyCalendarController {
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
 
     @FXML public void initialize() {
-        mainScroll.setStyle("-fx-scrollbar-width: 8; -fx-background-color: transparent;");
+//        mainScroll.setStyle("-fx-scrollbar-width: 8; -fx-background-color: transparent;");
+        mainScroll.getStyleClass().add("main-scroll");
         mainScroll.setFitToWidth(true);
         mainScroll.setPannable(true);  // Smooth scroll with mouse drag
         mainScroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
@@ -69,19 +70,23 @@ public class WeeklyCalendarController {
         rConst.setPrefHeight(45);
         rConst.setMinHeight(45);
         rConst.setVgrow(Priority.ALWAYS);
+
         mainGrid.getRowConstraints().add(rConst);
 
         // FIXED: Add LEFT padding + margin
         Label timeLabel = new Label(time + ":00");
         timeLabel.setPrefHeight(45);
         timeLabel.setMinHeight(45);
-        timeLabel.setStyle("""
-    -fx-background-color: #f8f9fa;
-    -fx-border-color: #dee2e6 #dee2e6 #dee2e6 #dee2e6;
-    -fx-border-width: 1;
-    -fx-padding: 8 8 8 12;
-    -fx-font-size: 12;
-    """);
+        timeLabel.setMaxWidth(Double.MAX_VALUE);
+        timeLabel.setAlignment(Pos.CENTER);
+//        timeLabel.setStyle("""
+//    -fx-background-color: #f8f9fa;
+//    -fx-border-color: #dee2e6 #dee2e6 #dee2e6 #dee2e6;
+//    -fx-border-width: 1;
+//    -fx-padding: 8 8 8 12;
+//    -fx-font-size: 12;
+//    """);
+        timeLabel.getStyleClass().add("time-label");
 
         GridPane.setMargin(timeLabel, new Insets(0, 0, 0, 4));  // ← Extra 4px margin
         mainGrid.add(timeLabel, 0, row);
@@ -115,7 +120,8 @@ public class WeeklyCalendarController {
     private void addDayHeaders() {
         // Time header
         Label timeHeader = new Label("Time");
-        timeHeader.setStyle("-fx-background-color: #495057; -fx-text-fill: white; -fx-padding: 12 8; -fx-font-weight: bold; -fx-font-size: 12;");
+//        timeHeader.setStyle("-fx-background-color: #495057; -fx-text-fill: white; -fx-padding: 12 8; -fx-font-weight: bold; -fx-font-size: 12;");
+        timeHeader.getStyleClass().add("time-header");
         GridPane.setHgrow(timeHeader, Priority.ALWAYS);
         mainGrid.add(timeHeader, 0, 0);
 
@@ -128,11 +134,14 @@ public class WeeklyCalendarController {
             Label dayName = new Label(date.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.ENGLISH));
             Label dayNum = new Label(date.format(DateTimeFormatter.ofPattern("dd")));
 
-            dayName.setStyle("-fx-font-weight: bold; -fx-font-size: 11; -fx-text-fill: white;");
-            dayNum.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white;");
+//            dayName.setStyle("-fx-font-weight: bold; -fx-font-size: 11; -fx-text-fill: white;");
+//            dayNum.setStyle("-fx-font-size: 14; -fx-font-weight: bold; -fx-text-fill: white;");
+            dayName.getStyleClass().add("day-header-dayname");
+            dayNum.getStyleClass().add("day-header-daynum");
 
             dayHeader.getChildren().addAll(dayName, dayNum);
-            dayHeader.setStyle("-fx-background-color: #007bff; -fx-padding: 6; -fx-border-color: #dee2e6; -fx-border-width: 0 0 1 1;");
+//            dayHeader.setStyle("-fx-background-color: #007bff; -fx-padding: 6; -fx-border-color: #dee2e6; -fx-border-width: 0 0 1 1;");
+            dayHeader.getStyleClass().add("day-header");
             GridPane.setHgrow(dayHeader, Priority.ALWAYS);
 
             mainGrid.add(dayHeader, col, 0);
@@ -157,15 +166,16 @@ public class WeeklyCalendarController {
         -fx-padding: 2;
         """;
 
-        cell.setStyle(baseStyle);
+//        cell.setStyle(baseStyle);
+        cell.getStyleClass().add("calendar-cell");
 
-        cell.setOnMouseEntered(e ->
-                cell.setStyle(baseStyle.replace("white", "#f8f9fa"))
-        );
-
-        cell.setOnMouseExited(e ->
-                cell.setStyle(baseStyle)
-        );
+//        cell.setOnMouseEntered(e ->
+//                cell.setStyle(baseStyle.replace("white", "#f8f9fa"))
+//        );
+//
+//        cell.setOnMouseExited(e ->
+//                cell.setStyle(baseStyle)
+//        );
 
         cell.setOnMouseClicked(e -> {
             System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
@@ -173,6 +183,7 @@ public class WeeklyCalendarController {
                     .replace("#dee2e6", "#007bff")
                     .replace("1;", "2;");
             cell.setStyle(selectedStyle);
+//            cell.getStyleClass().add("calendar-cell:selected");
         });
 
         return cell;

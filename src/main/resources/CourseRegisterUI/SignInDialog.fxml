@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CourseRegisterUI.SignInController">
+<VBox fx:id="rootContainer" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CourseRegisterUI.SignInController">
    <children>
       <StackPane>
          <children>
@@ -38,13 +38,13 @@
             <Insets bottom="30.0" left="50.0" right="50.0" top="15.0" />
          </VBox.margin>
       </TextField>
-      <Button fx:id="sign_in_button" mnemonicParsing="false" onAction="#handleSubmit" text="Submit" />
-      <Hyperlink onAction="#handleCreateNewAccount" text="Create an account">
+      <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmit" text="Submit" />
+      <Hyperlink fx:id="createAccountLink" onAction="#handleCreateNewAccount" text="Create an account">
          <VBox.margin>
             <Insets top="5.0" />
          </VBox.margin>
       </Hyperlink>
-      <Hyperlink onAction="#handleSignedOut" text="Use signed out">
+      <Hyperlink fx:id="signOutLink" onAction="#handleSignedOut" text="Use signed out">
          <VBox.margin>
             <Insets bottom="10.0" left="5.0" right="5.0" />
          </VBox.margin>
