@@ -3,6 +3,7 @@ package CourseRegisterUI.util;
 import CourseRegisterUI.models.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,12 +11,11 @@ import java.util.List;
 
 public class MasterJSONBuilder {
     private static final ObjectMapper mapper = new ObjectMapper()
-            .enable(SerializationFeature.INDENT_OUTPUT);
+            .enable(SerializationFeature.INDENT_OUTPUT).registerModule(new JavaTimeModule());
 
     public static Root buildSampleMaster() {
         // Sample courses
-//        Course c1 = new Course("c1", "Intro to Java", 30);
-//        Course c2 = new Course("c2", "Data Structures", 25);
+        List<Course> exampleCourses = ExampleJSONBuilder.buildSampleCourses();
 //
 //        // Sample users
 //        User s1 = new User(
@@ -32,7 +32,7 @@ public class MasterJSONBuilder {
 
         return new Root(
                 List.of(),
-                List.of()
+                exampleCourses
         );
     }
 
