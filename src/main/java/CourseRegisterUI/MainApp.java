@@ -1,10 +1,16 @@
 package CourseRegisterUI;
 
+import CourseRegisterUI.models.Root;
+import CourseRegisterUI.util.ExampleJSONBuilder;
+import CourseRegisterUI.util.JSONDeserializer;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainApp extends Application {
 
@@ -24,6 +30,18 @@ public class MainApp extends Application {
     }
     public static void main(String[] args) {
         launch(args);
+
+        // Only uncomment the block below to register example files
+
+//        File jsonDir = new File("src/main/resources/json/");
+//        File outputFile = new File(jsonDir, "exampleCourse.json");
+//        try {
+//            ExampleJSONBuilder.writeExampleCourseFile(outputFile);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+
+
     }
 
     private void showSignInPopup(Stage owner) {
