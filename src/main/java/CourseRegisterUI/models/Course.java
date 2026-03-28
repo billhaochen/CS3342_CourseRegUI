@@ -1,5 +1,6 @@
 package CourseRegisterUI.models;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public record Course(
@@ -8,21 +9,24 @@ public record Course(
         String subject,
         String course_code,
         String title,
+        College college,
 
         String crn,
-        String section,
+        String section, // singular but for searches can aggregate to a list
         Integer credit,
-        String campus,
+        String campus, // enum
         Boolean web_enabled,
-        String level,
+        String level, // enum
         Integer availability,
         Integer cap,
         Boolean waitlist_available,
-        Date start_date,
-        Date end_date,
+        LocalDate start_date,
+        LocalDate end_date,
+        String start_time,
+        String end_time,
         String day,
-        String building,
+        String building, // enum
         String room,
         Teacher instructor,
-        String medium
+        String medium // enum
 ) {}
