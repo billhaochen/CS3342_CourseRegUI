@@ -12,6 +12,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class JSONDeserializer {
     public static Root JSONToRoot(String filePath) {
@@ -24,13 +25,13 @@ public class JSONDeserializer {
             JsonNode coursesNode = root.path("courses");
             List<Course> read_courses = objectMapper.convertValue(
                     coursesNode,
-                    new TypeReference<List<Course>>() {
+                    new TypeReference<>() {
                     }
             );
 
             List<User> read_users = objectMapper.convertValue(
                     usersNode,
-                    new TypeReference<List<User>>() {
+                    new TypeReference<>() {
                     }
             );
             users.addAll(read_users);
@@ -42,24 +43,23 @@ public class JSONDeserializer {
         return new Root(users, courses);
     }
 
-    public static User getStudentByName(Root root, String full_student_name) {
+    public static Optional<User> getStudentByName(Root root, String full_student_name) {
         // This is the Java equivalent of the TypeScript approach for filtering by a predicate
         // Will have to implement ternary operators/null handling later when invoking this function
         List<User> students = root.users().stream().filter(s -> s.role() instanceof Student).toList();
         return students.stream()
                 .filter(student_user -> ((Student) student_user.role()).name().equals(full_student_name))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
-    public static User getStudentByID(Root root, String student_id) {
+    public static Optional<User> getStudentByID(Root root, String student_id) {
         // This is the Java equivalent of the TypeScript approach for filtering by a predicate
         // Will have to implement ternary operators/null handling later when invoking this function
         List<User> students = root.users().stream().filter(s -> s.role() instanceof Student).toList();
         return students.stream()
                 .filter(student_user -> ((Student) student_user.role()).student_id().equals(student_id))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
+
     }
 
     public static List<Course> getCoursesFromStudent(User student) {

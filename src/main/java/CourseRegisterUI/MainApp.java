@@ -1,34 +1,41 @@
 package CourseRegisterUI;
 
+import CourseRegisterUI.controllers.CourseController;
 import CourseRegisterUI.models.Root;
-import CourseRegisterUI.util.ExampleJSONBuilder;
 import CourseRegisterUI.util.JSONDeserializer;
-import CourseRegisterUI.util.MasterJSONBuilder;
-import com.fasterxml.jackson.databind.JsonNode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-
 public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Root initialData = JSONDeserializer.JSONToRoot("src/main/resources/json/master_export_2026-03-30_13-24-32-630.json");
+        CourseController mainController = new CourseController(initialData);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+        loader.setControllerFactory(controllerClass -> {
+            if (controllerClass == CourseController.class) {
+                return mainController;
+            }
+            try {
+                return controllerClass.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
         Parent root = loader.load();
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1000, 600);
 
         primaryStage.setTitle("Course Register System");
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
         primaryStage.setScene(scene);
 
         primaryStage.show();
-        showSignInPopup(primaryStage);
+        showSignInPopup(primaryStage, initialData, mainController);
     }
     public static void main(String[] args) {
         launch(args);
@@ -41,7 +48,7 @@ public class MainApp extends Application {
 //        MasterJSONBuilder.generateExamplesAndMaster();
     }
 
-    private void showSignInPopup(Stage owner) {
+    private void showSignInPopup(Stage owner, Root root, CourseController mainController) {
         Stage dialog = new Stage();
         dialog.initOwner(owner);
         dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
@@ -49,7 +56,7 @@ public class MainApp extends Application {
         javafx.scene.effect.BoxBlur blur = new javafx.scene.effect.BoxBlur(8, 8, 3);
         owner.getScene().getRoot().setEffect(blur);
 
-        Parent signInRoot = ComponentLoader.loadSignInDialog();
+        Parent signInRoot = ComponentLoader.loadSignInDialog(root, mainController);
         Scene dialogScene = new Scene(signInRoot);
         String cssPath = getClass().getResource("css/style.css").toExternalForm();
         dialogScene.getStylesheets().add(cssPath);
