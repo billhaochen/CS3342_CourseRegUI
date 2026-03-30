@@ -2,18 +2,35 @@
 <?import javafx.scene.control.MenuBar?>
 
 <?import javafx.scene.control.SplitPane?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="CourseRegisterUI.CourseController">
+<?import javafx.scene.shape.Circle?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="CourseRegisterUI.controllers.CourseController">
     <MenuBar fx:id="menuBar"/>
-    <BorderPane prefHeight="10.0" prefWidth="640.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-        <left>
-            <HBox fx:id="userIcon"/>
-        </left>
-        <right>
-            <HBox fx:id="exportHBox" BorderPane.alignment="TOP_RIGHT"/>
-        </right>
-    </BorderPane>
+    <HBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="18.0" prefWidth="126.0" BorderPane.alignment="CENTER">
+        <Circle fx:id="profilePicture" fill="WHITE" radius="12.0" stroke="#737373" strokeType="INSIDE">
+            <HBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </HBox.margin>
+        </Circle>
+        <Label fx:id="userNameAndId" HBox.hgrow="ALWAYS" maxWidth="Infinity" contentDisplay="CENTER" text="Name">
+            <HBox.margin>
+                <Insets bottom="8.0" right="8.0" top="8.0"/>
+            </HBox.margin>
+            <font>
+                <Font name="System Bold" size="14.0"/>
+            </font>
+            <padding>
+                <Insets top="6.0"/>
+            </padding>
+        </Label>
+        <Button fx:id="exportButton" prefWidth="80.0" HBox.hgrow="ALWAYS" text="Export" BorderPane.alignment="TOP_RIGHT" onAction="#handleExportButton"/>
+    </HBox>
     <SplitPane dividerPositions="0.35" VBox.vgrow="ALWAYS">
         <VBox fx:id="courseListPane"/>
         <BorderPane fx:id="schedulePane"/>
     </SplitPane>
+
 </VBox>

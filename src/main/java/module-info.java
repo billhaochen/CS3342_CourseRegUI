@@ -12,4 +12,6 @@ module CourseRegisterUI {
 
 
     exports CourseRegisterUI;
+    exports CourseRegisterUI.models;
+    exports CourseRegisterUI.controllers;
 }

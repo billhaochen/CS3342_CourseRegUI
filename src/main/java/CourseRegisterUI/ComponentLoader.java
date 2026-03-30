@@ -1,4 +1,7 @@
 package CourseRegisterUI;
+import CourseRegisterUI.controllers.CourseController;
+import CourseRegisterUI.controllers.SignInController;
+import CourseRegisterUI.models.Root;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
@@ -48,42 +51,27 @@ public class ComponentLoader {
         }
     }
 
-    public static Parent loadExportButton() {
-        URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/ExportButton.fxml");
-        System.out.println("ExportButton URL: " + resource);  // ← ADD THIS
-        if (resource == null) {
-            System.err.println("❌ ExportButton.fxml NOT FOUND at /CourseRegisterUI/ExportButton.fxml");
-            throw new RuntimeException("File missing");
-        }
-        try {
-            return FXMLLoader.load(resource);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Parent loadUserIcon() {
-        URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/UserIcon.fxml");
-        System.out.println("UserIcon URL: " + resource);  // ← ADD THIS
-        if (resource == null) {
-            System.err.println("❌ UserIcon.fxml NOT FOUND at /CourseRegisterUI/UserIcon.fxml");
-            throw new RuntimeException("File missing");
-        }
-        try {
-            return FXMLLoader.load(resource);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Parent loadSignInDialog(){
+    public static Parent loadSignInDialog(Root initData, CourseController mainController){
         URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/SignInDialog.fxml");
         System.out.println("SignInDialog URL: " + resource);  // ← ADD THIS
         if (resource == null) {
             throw new RuntimeException("SignInDialog.fxml NOT FOUND");
         }
         try {
-            return FXMLLoader.load(resource);
+            FXMLLoader loader = new FXMLLoader(ComponentLoader.class.getResource("SignInDialog.fxml"));
+            SignInController controller = new SignInController(initData);
+            loader.setControllerFactory(type -> {
+                if (type == SignInController.class) {
+                    return controller;
+                }
+                try {
+                    return type.getDeclaredConstructor().newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            controller.setMainController(mainController);
+            return loader.load();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

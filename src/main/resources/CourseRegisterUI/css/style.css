@@ -128,3 +128,8 @@
 .text-field-custom { -fx-background-radius: 10; -fx-border-color: #ddd; }
 .btn-submit { -fx-background-color: #6f42c1; -fx-text-fill: white; -fx-background-radius: 20; }
 .link-ghost { -fx-text-fill: #6f42c1; -fx-underline: false; }
+.idWarningClass {
+    -fx-text-fill: #d32f2f;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}

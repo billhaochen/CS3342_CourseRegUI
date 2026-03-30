@@ -1,5 +1,6 @@
 package CourseRegisterUI;
 
+import CourseRegisterUI.controllers.CourseController;
 import CourseRegisterUI.models.Root;
 import CourseRegisterUI.util.ExampleJSONBuilder;
 import CourseRegisterUI.util.JSONDeserializer;
@@ -11,24 +12,33 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
-import java.io.IOException;
-
 public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        Root initialData = JSONDeserializer.JSONToRoot("src/main/resources/json/master_export_2026-03-30_13-24-32-630.json");
+        CourseController mainController = new CourseController(initialData);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+        loader.setControllerFactory(controllerClass -> {
+            if (controllerClass == CourseController.class) {
+                return mainController;
+            }
+            try {
+                return controllerClass.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
         Parent root = loader.load();
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1000, 600);
 
         primaryStage.setTitle("Course Register System");
         scene.getStylesheets().add(getClass().getResource("css/style.css").toExternalForm());
         primaryStage.setScene(scene);
 
         primaryStage.show();
-        WindowController.showSignIn(primaryStage);
+        WindowController.showSignIn(primaryStage,  initialData, mainController);
 
     }
     public static void main(String[] args) {
@@ -41,5 +51,4 @@ public class MainApp extends Application {
         // Only uncomment the block below to register example files
 //        MasterJSONBuilder.generateExamplesAndMaster();
     }
-
 }
