@@ -74,7 +74,7 @@
          <children>
             <ScrollPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <content>
-                  <TableView fx:id="add_course_table" maxWidth="1.7976931348623157E308" prefHeight="392.0">
+                  <TableView fx:id="courseTableView" maxWidth="1.7976931348623157E308" prefHeight="392.0">
                      <columns>
                         <TableColumn prefWidth="38.0" text="  " />
                         <TableColumn minWidth="150.0" prefWidth="-1.0" text="Acedemic unit" />
