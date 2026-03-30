@@ -75,4 +75,17 @@ public class ComponentLoader {
             throw new RuntimeException(e);
         }
     }
+
+    public static Parent loadSignInDialog(){
+        URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/SignInDialog.fxml");
+        System.out.println("SignInDialog URL: " + resource);  // ← ADD THIS
+        if (resource == null) {
+            throw new RuntimeException("SignInDialog.fxml NOT FOUND");
+        }
+        try {
+            return FXMLLoader.load(resource);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

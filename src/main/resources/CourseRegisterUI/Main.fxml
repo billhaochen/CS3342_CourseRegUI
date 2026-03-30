@@ -9,7 +9,7 @@
             <HBox fx:id="userIcon"/>
         </left>
         <right>
-            <HBox fx:id="exportButton" BorderPane.alignment="TOP_RIGHT"/>
+            <HBox fx:id="exportHBox" BorderPane.alignment="TOP_RIGHT"/>
         </right>
     </BorderPane>
     <SplitPane dividerPositions="0.35" VBox.vgrow="ALWAYS">
