@@ -1,25 +1,31 @@
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.*?>
+<?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<VBox fx:id="courseListPane" xmlns:fx="http://javafx.com/fxml/1">
-    <Button text="Add Course" maxWidth="Infinity"/>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="courseListPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="CourseRegisterUI.SidePanelController">
+    <Button fx:id="addCourseBtn" maxWidth="Infinity" onAction="#handleAddCourseDialog" text="Add Course" />
     <Accordion>
         <panes>
             <TitledPane text="Course">
                 <TableView prefHeight="180.0" prefWidth="200.0">
                     <columns>
-                        <TableColumn text="Department" prefWidth="100"/>
-                        <TableColumn text="Course Number" prefWidth="100"/>
-                        <TableColumn text="Name" prefWidth="100"/>
+                        <TableColumn prefWidth="100" text="Department" />
+                        <TableColumn prefWidth="100" text="Course Number" />
+                        <TableColumn prefWidth="100" text="Name" />
                     </columns>
                 </TableView>
             </TitledPane>
             <TitledPane animated="false" text="Department">
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </TitledPane>
             <TitledPane animated="false" text="Filter2">
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
             </TitledPane>
         </panes>
     </Accordion>
