@@ -76,4 +76,18 @@ public class ComponentLoader {
             throw new RuntimeException(e);
         }
     }
+
+    public static Parent loadAddCourseDialog() {
+        final String name = "AddCourseDialog";
+        URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/AddCourseDialog.fxml");
+        System.out.println(name+" URL: " + resource);  // ← ADD THIS
+        if (resource == null) {
+            throw new RuntimeException(name+".fxml NOT FOUND");
+        }
+        try {
+            return FXMLLoader.load(resource);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

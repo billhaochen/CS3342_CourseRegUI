@@ -2,7 +2,10 @@ package CourseRegisterUI;
 
 import CourseRegisterUI.controllers.CourseController;
 import CourseRegisterUI.models.Root;
+import CourseRegisterUI.util.ExampleJSONBuilder;
 import CourseRegisterUI.util.JSONDeserializer;
+import CourseRegisterUI.util.MasterJSONBuilder;
+import com.fasterxml.jackson.databind.JsonNode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,6 +39,8 @@ public class MainApp extends Application {
 
         primaryStage.show();
         showSignInPopup(primaryStage, initialData, mainController);
+        WindowController.showSignIn(primaryStage);
+
     }
     public static void main(String[] args) {
         launch(args);
@@ -48,22 +53,22 @@ public class MainApp extends Application {
 //        MasterJSONBuilder.generateExamplesAndMaster();
     }
 
-    private void showSignInPopup(Stage owner, Root root, CourseController mainController) {
-        Stage dialog = new Stage();
-        dialog.initOwner(owner);
-        dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-
-        javafx.scene.effect.BoxBlur blur = new javafx.scene.effect.BoxBlur(8, 8, 3);
-        owner.getScene().getRoot().setEffect(blur);
-
-        Parent signInRoot = ComponentLoader.loadSignInDialog(root, mainController);
-        Scene dialogScene = new Scene(signInRoot);
-        String cssPath = getClass().getResource("css/style.css").toExternalForm();
-        dialogScene.getStylesheets().add(cssPath);
-
-        dialog.setScene(dialogScene);
-        dialog.setOnHidden(e -> owner.getScene().getRoot().setEffect(null));
-        dialog.show();
-
-    }
+//    private void showSignInPopup(Stage owner, Root root, CourseController mainController) {
+//        Stage dialog = new Stage();
+//        dialog.initOwner(owner);
+//        dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+//
+//        javafx.scene.effect.BoxBlur blur = new javafx.scene.effect.BoxBlur(8, 8, 3);
+//        owner.getScene().getRoot().setEffect(blur);
+//
+//        Parent signInRoot = ComponentLoader.loadSignInDialog(root, mainController);
+//        Scene dialogScene = new Scene(signInRoot);
+//        String cssPath = getClass().getResource("css/style.css").toExternalForm();
+//        dialogScene.getStylesheets().add(cssPath);
+//
+//        dialog.setScene(dialogScene);
+//        dialog.setOnHidden(e -> owner.getScene().getRoot().setEffect(null));
+//        dialog.show();
+//
+//    }
 }
