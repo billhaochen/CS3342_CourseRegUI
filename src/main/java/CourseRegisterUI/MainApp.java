@@ -3,6 +3,8 @@ package CourseRegisterUI;
 import CourseRegisterUI.models.Root;
 import CourseRegisterUI.util.ExampleJSONBuilder;
 import CourseRegisterUI.util.JSONDeserializer;
+import CourseRegisterUI.util.MasterJSONBuilder;
+import com.fasterxml.jackson.databind.JsonNode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,17 +33,12 @@ public class MainApp extends Application {
     public static void main(String[] args) {
         launch(args);
 
+//        Root root = JSONDeserializer.JSONToRoot("src/main/resources/json/master_export_2026-03-30_13-24-32-630.json");
+//
+//        System.out.println(JSONDeserializer.getStudentByName(root, "John Doe"));
+
         // Only uncomment the block below to register example files
-
-//        File jsonDir = new File("src/main/resources/json/");
-//        File outputFile = new File(jsonDir, "exampleCourse.json");
-//        try {
-//            ExampleJSONBuilder.writeExampleCourseFile(outputFile);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-
-
+//        MasterJSONBuilder.generateExamplesAndMaster();
     }
 
     private void showSignInPopup(Stage owner) {

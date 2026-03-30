@@ -21,6 +21,7 @@
   "building" : "YEUNG",
   "room" : "B4702",
   "instructor" : {
+    "@type" : "teacher",
     "name" : "Kim Tae Wook"
   },
   "medium" : "English"
@@ -47,6 +48,7 @@
   "building" : "LI",
   "room" : "6606",
   "instructor" : {
+    "@type" : "teacher",
     "name" : "Liu Chen"
   },
   "medium" : "English"
@@ -73,6 +75,7 @@
   "building" : "YEUNG",
   "room" : "LT-6",
   "instructor" : {
+    "@type" : "teacher",
     "name" : "Chan Michael C."
   },
   "medium" : "English"
