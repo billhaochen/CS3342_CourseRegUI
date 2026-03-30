@@ -1,9 +1,6 @@
 package CourseRegisterUI.util;
 
-import CourseRegisterUI.models.College;
-import CourseRegisterUI.models.Course;
-import CourseRegisterUI.models.Root;
-import CourseRegisterUI.models.Teacher;
+import CourseRegisterUI.models.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -17,7 +14,8 @@ import java.util.List;
 
 public class ExampleJSONBuilder {
     private static final ObjectMapper mapper = new ObjectMapper()
-            .enable(SerializationFeature.INDENT_OUTPUT).registerModule(new JavaTimeModule());
+            .enable(SerializationFeature.INDENT_OUTPUT)
+            .registerModule(new JavaTimeModule());
 
     public static List<Course> buildSampleCourses() {
         List<Course> courses = new ArrayList<>();
@@ -102,7 +100,88 @@ public class ExampleJSONBuilder {
         return courses;
     }
 
+    public static List<User> buildSampleStudents() {
+        List<User> users = new ArrayList<User>();
+        Student s1 = new Student(
+                "John Doe",
+                "Doe",
+                "John",
+                "S12345678",
+                "johndoe3",
+                "password1",
+                College.COLLEGE_OF_BUSINESS,
+                "Bachelor's Degree",
+                Status.FULL_TIME,
+                Program.EXCHANGE,
+                "Main Campus",
+                LocalDate.of(2022, 1, 12),
+                LocalDate.of(2026, 4, 18),
+                new ArrayList<Course>(),
+                buildSampleCourses()
+        );
+        Student s2 = new Student(
+                "Jane Doe",
+                "Doe",
+                "Jane",
+                "S23456789",
+                "janedoe4",
+                "password2",
+                College.COLLEGE_OF_LIFE_SCIENCES,
+                "Bachelor's Degree",
+                Status.PART_TIME,
+                Program.LOCAL,
+                "Main Campus",
+                LocalDate.of(2023, 1, 12),
+                LocalDate.of(2027, 4, 18),
+                buildSampleCourses(),
+                new ArrayList<>()
+        );
+        Student s3 = new Student(
+                "Frank Ocean",
+                "Ocean",
+                "Frank",
+                "S34567890",
+                "frankocean5",
+                "password3",
+                College.COLLEGE_OF_LIBERAL_ARTS,
+                "Bachelor's Degree",
+                Status.PART_TIME,
+                Program.INTERNATIONAL,
+                "Main Campus",
+                LocalDate.of(2024, 1, 12),
+                LocalDate.of(2028, 4, 18),
+                buildSampleCourses(),
+                new ArrayList<>()
+        );
+        User u1 = new User(
+                "1",
+                "John Doe",
+                s1
+        );
+        User u2 = new User(
+                "2",
+                "Jane Doe",
+                s2
+        );
+        User u3 = new User(
+                "3",
+                "Frank Ocean",
+                s3
+        );
+
+        users.add(u1);
+        users.add(u2);
+        users.add(u3);
+        return users;
+    }
+
     public static void writeExampleCourseFile(File file) throws IOException {
+        mapper.registerSubtypes(Student.class, Teacher.class);
         mapper.writeValue(file, buildSampleCourses());
+    }
+
+    public static void writeExampleStudentFile(File file) throws IOException {
+        mapper.registerSubtypes(Student.class, Teacher.class);
+        mapper.writeValue(file, buildSampleStudents());
     }
 }

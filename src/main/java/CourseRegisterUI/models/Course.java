@@ -4,13 +4,11 @@ import java.time.LocalDate;
 import java.util.Date;
 
 public record Course(
-        // TODO fill in later
         String academic_unit,
         String subject,
         String course_code,
         String title,
         College college,
-
         String crn,
         String section, // singular but for searches can aggregate to a list
         Integer credit,
