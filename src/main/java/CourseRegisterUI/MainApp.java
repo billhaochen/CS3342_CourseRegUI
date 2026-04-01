@@ -1,11 +1,9 @@
 package CourseRegisterUI;
 
 import CourseRegisterUI.controllers.CourseController;
+import CourseRegisterUI.controllers.WindowController;
 import CourseRegisterUI.models.Root;
-import CourseRegisterUI.util.ExampleJSONBuilder;
 import CourseRegisterUI.util.JSONDeserializer;
-import CourseRegisterUI.util.MasterJSONBuilder;
-import com.fasterxml.jackson.databind.JsonNode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

@@ -1,4 +1,4 @@
-package CourseRegisterUI;
+package CourseRegisterUI.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

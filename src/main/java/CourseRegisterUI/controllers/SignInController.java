@@ -105,8 +105,8 @@ public class SignInController {
                 && id_lookup.isPresent()
                 && name_lookup.get().role() instanceof Student
                 && id_lookup.get().role() instanceof Student
-                && ((Student) name_lookup.get().role()).student_id().equals(student_id)
-                && ((Student) id_lookup.get().role()).name().equals(student_name);
+                && name_lookup.get().getID().equals(student_id)
+                && id_lookup.get().getName().equals(student_name);
     }
 
     @FXML

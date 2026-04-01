@@ -22,4 +22,12 @@ public record Student(
         LocalDate end_date,
         List<Course> enrolled_courses,
         List<Course> completed_courses
-) implements Role {}
+) implements Role {
+    public String getId() {
+        return student_id;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
