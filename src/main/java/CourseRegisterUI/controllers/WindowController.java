@@ -1,6 +1,6 @@
-package CourseRegisterUI;
+package CourseRegisterUI.controllers;
 
-import CourseRegisterUI.controllers.CourseController;
+import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.models.Root;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
