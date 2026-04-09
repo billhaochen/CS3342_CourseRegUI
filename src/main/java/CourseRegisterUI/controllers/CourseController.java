@@ -27,7 +27,8 @@ public class CourseController {
     public CourseController(Root initialData) {
         this.root = initialData;
     }
-
+    public CourseController() {
+    }
     @FXML
     public void initialize() {
         courseListPane.getChildren().setAll(ComponentLoader.loadSidePanel());
