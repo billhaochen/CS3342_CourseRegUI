@@ -35,4 +35,18 @@ public class WindowController {
         Parent root = ComponentLoader.loadAddCourseDialog();
         openModal(owner, root, "Add New Course");
     }
+    public static void switchToMainView(Stage stage) {
+        try {
+            Parent root = javafx.fxml.FXMLLoader.load(WindowController.class.getResource("/CourseRegisterUI/Main.fxml"));
+            if (stage.getScene() != null) {
+                stage.getScene().setRoot(root);
+            } else {
+                Scene scene = new Scene(root, 800, 600);
+                stage.setScene(scene);
+            }
+            WindowController.showSignIn(stage);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

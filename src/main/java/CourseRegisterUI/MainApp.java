@@ -10,7 +10,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("LandingPage.fxml"));
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
@@ -20,7 +20,6 @@ public class MainApp extends Application {
         primaryStage.setScene(scene);
 
         primaryStage.show();
-        WindowController.showSignIn(primaryStage);
 
     }
     public static void main(String[] args) {
