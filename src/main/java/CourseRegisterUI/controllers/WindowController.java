@@ -1,5 +1,7 @@
-package CourseRegisterUI;
+package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.ComponentLoader;
+import CourseRegisterUI.models.Root;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.BoxBlur;
@@ -27,8 +29,8 @@ public class WindowController {
 
         dialog.show();
     }
-    public static void showSignIn(Window owner) {
-        Parent root = ComponentLoader.loadSignInDialog();
+    public static void showSignIn(Window owner, Root initialData, CourseController mainController) {
+        Parent root = ComponentLoader.loadSignInDialog(initialData, mainController);
         openModal(owner, root, "Sign In");
     }
     public static void showAddCourse(Window owner) {

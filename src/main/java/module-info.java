@@ -2,6 +2,7 @@ module CourseRegisterUI {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.datatype.jsr310;
 
 
     opens CourseRegisterUI to javafx.fxml;
@@ -11,4 +12,6 @@ module CourseRegisterUI {
 
 
     exports CourseRegisterUI;
+    exports CourseRegisterUI.models;
+    exports CourseRegisterUI.controllers;
 }

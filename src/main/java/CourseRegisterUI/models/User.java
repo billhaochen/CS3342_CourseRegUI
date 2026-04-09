@@ -10,4 +10,12 @@ public record User(
         String id,
         String name,
         Role role
-) {}
+) {
+    public String getID() {
+        return role.getId();
+    }
+
+    public String getName() {
+        return role.getName();
+    }
+}
