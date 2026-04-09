@@ -13,8 +13,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CourseRegisterUI.controllers.CourseInfoController">
    <top>
       <HBox spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -63,7 +62,7 @@
                   <HBox>
                      <children>
                         <Label styleClass="info-label" text="Department: " />
-                        <Label fx:id="DepartmentName" styleClass="info-label" text="Label" />
+                        <Label fx:id="departmentName" styleClass="info-label" text="Label" />
                      </children>
                   </HBox>
                   <HBox>
@@ -104,6 +103,6 @@
                </padding>
             </VBox>
          </content>
-      </ScrollPane>
+      </ScrollPane> 
    </left>
 </BorderPane>

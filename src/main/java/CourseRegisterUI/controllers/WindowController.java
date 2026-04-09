@@ -1,6 +1,7 @@
 package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.ComponentLoader;
+import CourseRegisterUI.models.Course;
 import CourseRegisterUI.models.Root;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -51,6 +52,37 @@ public class WindowController {
             }
             WindowController.showSignIn(stage,null,mainController);
         }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void showCourseInfoPopup(Window owner, Course selectedCourse) {
+        try {
+            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/CourseInfoDialog.fxml"));
+            Parent root = loader.load();
+
+            CourseInfoController controller = loader.getController();
+            controller.setCourseInfo(selectedCourse);
+
+            Stage popupStage = new Stage();
+            popupStage.initOwner(owner);
+            popupStage.initModality(Modality.NONE);
+            popupStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+
+            Scene scene = new Scene(root);
+            scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+            popupStage.setScene(scene);
+
+            popupStage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+                if (!isNowFocused) {
+                    popupStage.close();
+                }
+            });
+
+            popupStage.show();
+            popupStage.setX(owner.getX() + (owner.getWidth() - popupStage.getWidth()) / 2);
+            popupStage.setY(owner.getY() + (owner.getHeight() - popupStage.getHeight()) / 2);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
