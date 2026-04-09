@@ -1,4 +1,4 @@
-package CourseRegisterUI;
+package CourseRegisterUI.controllers;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
