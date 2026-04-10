@@ -1,5 +1,6 @@
 package CourseRegisterUI.controllers;
 import CourseRegisterUI.AppContext;
+import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Course;
 import CourseRegisterUI.models.CourseRow;
 import CourseRegisterUI.models.Root;
@@ -12,7 +13,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
-public class AddCourseController {
+public class AddCourseController implements ContextAware {
     @FXML private TableView<CourseRow> courseTableView;
     @FXML private TableColumn<CourseRow,  String> academicUnitColumn;
     @FXML private TableColumn<CourseRow,  String> subjectColumn;
@@ -22,19 +23,18 @@ public class AddCourseController {
     @FXML private TableColumn<CourseRow,  String> mediumColumn;
 
     private final ObservableList<CourseRow> rows = FXCollections.observableArrayList();
-    private AppContext context;
 
+    @Override
     public void setAppContext(AppContext appContext) {
-        this.context = appContext;
-        courseTableView.setItems(context.getCourseRows());
+        courseTableView.setItems(appContext.getCourseRows());
     }
 
 
     @FXML
     public void initialize() {
-        academicUnitColumn.setCellValueFactory(cell -> cell.getValue().getProperty("academicUnit"));
+        academicUnitColumn.setCellValueFactory(cell -> cell.getValue().getProperty("academic_unit"));
         subjectColumn     .setCellValueFactory(cell -> cell.getValue().getProperty("subject"));
-        courseColumn      .setCellValueFactory(cell -> cell.getValue().getProperty("courseCode"));
+        courseColumn      .setCellValueFactory(cell -> cell.getValue().getProperty("course_code"));
         titleColumn       .setCellValueFactory(cell -> cell.getValue().getProperty("title"));
         creditColumn      .setCellValueFactory(cell -> cell.getValue().getProperty("credit"));
         mediumColumn      .setCellValueFactory(cell -> cell.getValue().getProperty("medium"));
