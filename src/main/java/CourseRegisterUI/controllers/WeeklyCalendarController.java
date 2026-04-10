@@ -1,5 +1,6 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.models.Course;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -8,9 +9,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.stage.Window;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.util.Locale;
@@ -179,6 +182,12 @@ public class WeeklyCalendarController {
 
         cell.setOnMouseClicked(e -> {
             System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
+            Course c = getCourseAt(finalDate,finalHour);
+            if(c!=null){
+                Window owner = mainScroll.getScene().getWindow();
+                WindowController.requestCourseInfo(owner,c);
+            }
+
             String selectedStyle = baseStyle.replace("white", "#cce7ff")
                     .replace("#dee2e6", "#007bff")
                     .replace("1;", "2;");
@@ -187,5 +196,9 @@ public class WeeklyCalendarController {
         });
 
         return cell;
+    }
+    public Course getCourseAt(LocalDate d, int t){
+        //TODO
+        return null;
     }
 }

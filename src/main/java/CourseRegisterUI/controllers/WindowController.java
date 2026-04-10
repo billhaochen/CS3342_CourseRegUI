@@ -57,7 +57,7 @@ public class WindowController {
     }
     public static void showCourseInfoPopup(Window owner, Course selectedCourse) {
         try {
-            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/CourseInfoDialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/CourseInfo.fxml"));
             Parent root = loader.load();
 
             CourseInfoController controller = loader.getController();
@@ -77,6 +77,9 @@ public class WindowController {
                     popupStage.close();
                 }
             });
+            BoxBlur blur = new BoxBlur(8, 8, 3);
+            owner.getScene().getRoot().setEffect(blur);
+            popupStage.setOnHidden(e -> owner.getScene().getRoot().setEffect(null));
 
             popupStage.show();
             popupStage.setX(owner.getX() + (owner.getWidth() - popupStage.getWidth()) / 2);
@@ -85,5 +88,9 @@ public class WindowController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void requestCourseInfo(Window owner,Course course) {
+        showCourseInfoPopup(owner,course);
     }
 }
