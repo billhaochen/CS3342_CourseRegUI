@@ -6,4 +6,5 @@ public record Root(
         List<User> users,
         List<Course> courses
         ) {
+
 }

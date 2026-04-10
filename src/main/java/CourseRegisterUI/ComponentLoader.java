@@ -1,5 +1,7 @@
 package CourseRegisterUI;
+import CourseRegisterUI.controllers.AddCourseController;
 import CourseRegisterUI.controllers.CourseController;
+import CourseRegisterUI.controllers.SidePanelController;
 import CourseRegisterUI.controllers.SignInController;
 import CourseRegisterUI.models.Root;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +11,7 @@ import javafx.scene.control.MenuBar;
 import java.net.URL;
 
 public class ComponentLoader {
-    public static Parent loadSidePanel() {
+    public static Parent loadSidePanel(AppContext context) {
         URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/SidePanel.fxml");
         System.out.println("SidePanel URL: " + resource);  // ← ADD THIS
         if (resource == null) {
@@ -17,7 +19,20 @@ public class ComponentLoader {
             throw new RuntimeException("File missing");
         }
         try {
-            return FXMLLoader.load(resource);
+            FXMLLoader loader = new FXMLLoader(resource);
+            SidePanelController controller = new SidePanelController();
+            controller.setAppContext(context);
+            loader.setControllerFactory(type -> {
+                if (type == SidePanelController.class) {
+                    return controller;
+                }
+                try {
+                    return type.getDeclaredConstructor().newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            return loader.load();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -51,15 +66,16 @@ public class ComponentLoader {
         }
     }
 
-    public static Parent loadSignInDialog(Root initData, CourseController mainController){
+    public static Parent loadSignInDialog(AppContext context, CourseController mainController){
         URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/SignInDialog.fxml");
         System.out.println("SignInDialog URL: " + resource);  // ← ADD THIS
         if (resource == null) {
             throw new RuntimeException("SignInDialog.fxml NOT FOUND");
         }
         try {
-            FXMLLoader loader = new FXMLLoader(ComponentLoader.class.getResource("SignInDialog.fxml"));
-            SignInController controller = new SignInController(initData);
+            FXMLLoader loader = new FXMLLoader(resource);
+            SignInController controller = new SignInController();
+            controller.setAppContext(context);
             loader.setControllerFactory(type -> {
                 if (type == SignInController.class) {
                     return controller;
@@ -77,7 +93,7 @@ public class ComponentLoader {
         }
     }
 
-    public static Parent loadAddCourseDialog() {
+    public static Parent loadAddCourseDialog(AppContext context) {
         final String name = "AddCourseDialog";
         URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/AddCourseDialog.fxml");
         System.out.println(name+" URL: " + resource);  // ← ADD THIS
@@ -85,7 +101,20 @@ public class ComponentLoader {
             throw new RuntimeException(name+".fxml NOT FOUND");
         }
         try {
-            return FXMLLoader.load(resource);
+            FXMLLoader loader = new FXMLLoader(resource);
+            AddCourseController controller = new AddCourseController();
+            controller.setAppContext(context);
+            loader.setControllerFactory(type -> {
+                if (type == AddCourseController.class) {
+                    return controller;
+                }
+                try {
+                    return type.getDeclaredConstructor().newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            return loader.load();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

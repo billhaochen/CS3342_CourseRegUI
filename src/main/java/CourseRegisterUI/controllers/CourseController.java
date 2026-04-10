@@ -1,5 +1,6 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.models.Root;
 import CourseRegisterUI.util.MasterJSONBuilder;
@@ -22,16 +23,15 @@ public class CourseController {
     @FXML private MenuBar menuBar;
     @FXML private Circle profilePicture;
     @FXML private Label userNameAndId;
-    private Root root;
+    private AppContext context;
 
-    public CourseController(Root initialData) {
-        this.root = initialData;
+    public void setAppContext(AppContext appContext) {
+        this.context = appContext;
     }
-    public CourseController() {
-    }
+
     @FXML
     public void initialize() {
-        courseListPane.getChildren().setAll(ComponentLoader.loadSidePanel());
+        courseListPane.getChildren().setAll(ComponentLoader.loadSidePanel(this.context));
         schedulePane.setCenter(ComponentLoader.loadWeeklyCalendar());
         menuBar.getMenus().addAll(ComponentLoader.loadMenuBar().getMenus());
         userNameAndId.setText("Not Signed In");

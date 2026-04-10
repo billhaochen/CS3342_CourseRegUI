@@ -1,5 +1,6 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.models.Root;
 import javafx.fxml.FXMLLoader;
@@ -30,15 +31,15 @@ public class WindowController {
 
         dialog.show();
     }
-    public static void showSignIn(Window owner, Root initialData, CourseController mainController) {
-        Parent root = ComponentLoader.loadSignInDialog(initialData, mainController);
+    public static void showSignIn(Window owner, AppContext context, CourseController mainController) {
+        Parent root = ComponentLoader.loadSignInDialog(context, mainController);
         openModal(owner, root, "Sign In");
     }
-    public static void showAddCourse(Window owner) {
-        Parent root = ComponentLoader.loadAddCourseDialog();
+    public static void showAddCourse(Window owner, AppContext context) {
+        Parent root = ComponentLoader.loadAddCourseDialog(context);
         openModal(owner, root, "Add New Course");
     }
-    public static void switchToMainView(Stage stage) {
+    public static void switchToMainView(Stage stage, AppContext context) {
         try {
             FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/Main.fxml"));
             Parent root = loader.load();
@@ -49,7 +50,7 @@ public class WindowController {
                 Scene scene = new Scene(root, 800, 600);
                 stage.setScene(scene);
             }
-            WindowController.showSignIn(stage,null,mainController);
+            WindowController.showSignIn(stage, context, mainController);
         }catch (Exception e) {
             e.printStackTrace();
         }

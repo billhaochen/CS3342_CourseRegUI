@@ -1,5 +1,6 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.AppContext;
 import CourseRegisterUI.models.Root;
 import CourseRegisterUI.models.Student;
 import CourseRegisterUI.models.User;
@@ -27,11 +28,11 @@ public class SignInController {
     @FXML private Hyperlink createAccountLink;
     @FXML private Label idWarningLabel;
     private UserRole userRole = UserRole.STUDENT;
-    private final Root root;
+    private AppContext context;
     private CourseController mainController;
 
-    public SignInController(Root initData) {
-        this.root = initData;
+    public void setAppContext(AppContext appContext) {
+        this.context = appContext;
     }
 
     public enum UserRole {
@@ -56,6 +57,7 @@ public class SignInController {
 
     public void setMainController(CourseController mainController) {
         this.mainController = mainController;
+        this.mainController.setAppContext(this.context); // TODO double check this later
     }
 
     @FXML
@@ -99,8 +101,8 @@ public class SignInController {
         if (Objects.equals(student_name, "") || Objects.equals(student_id, "")) {
             return valid;
         }
-        Optional<User> name_lookup = JSONDeserializer.getStudentByName(root, student_name);
-        Optional<User> id_lookup = JSONDeserializer.getStudentByID(root, student_id);
+        Optional<User> name_lookup = JSONDeserializer.getStudentByName(this.context.getCourseRepository(), student_name);
+        Optional<User> id_lookup = JSONDeserializer.getStudentByID(this.context.getCourseRepository(), student_id);
         return name_lookup.isPresent()
                 && id_lookup.isPresent()
                 && name_lookup.get().role() instanceof Student

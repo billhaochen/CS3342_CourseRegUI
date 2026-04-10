@@ -76,13 +76,12 @@
                <content>
                   <TableView fx:id="courseTableView" maxWidth="1.7976931348623157E308" prefHeight="392.0">
                      <columns>
-                        <TableColumn prefWidth="38.0" text="  " />
-                        <TableColumn minWidth="150.0" prefWidth="-1.0" text="Acedemic unit" />
-                        <TableColumn minWidth="80.0" prefWidth="-1.0" text="Subject" />
-                        <TableColumn minWidth="60.0" prefWidth="-1.0" text="Course" />
-                        <TableColumn minWidth="200.0" prefWidth="-1.0" text="Title" />
-                        <TableColumn minWidth="60.0" prefWidth="-1.0" text="Credit" />
-                        <TableColumn minWidth="75.0" prefWidth="-1.0" text="Medium" />
+                        <TableColumn fx:id="academicUnitColumn" prefWidth="150.0" text="academic_unit" />
+                        <TableColumn fx:id="subjectColumn" text="subject" />
+                        <TableColumn fx:id="courseColumn" prefWidth="60.0" text="course" />
+                        <TableColumn fx:id="titleColumn" prefWidth="200.0" text="title" />
+                        <TableColumn fx:id="creditColumn" prefWidth="60.0" text="credit" />
+                        <TableColumn fx:id="mediumColumn" prefWidth="75.0" text="medium" />
                      </columns>
                   </TableView>
                </content>
