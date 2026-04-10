@@ -59,6 +59,8 @@ public class CourseInfoController {
             WeeklyCalendarController calController = loader.getController();
 
             calController.setInteractive(false);
+            //TODO display single course
+//            calController.displayCourse(course);
             calanderContainPane.setCenter(calendarView);
         }catch(Exception e){
             e.printStackTrace();
