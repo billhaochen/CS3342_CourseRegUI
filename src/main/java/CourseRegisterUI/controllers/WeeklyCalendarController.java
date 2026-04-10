@@ -26,7 +26,7 @@ public class WeeklyCalendarController {
     @FXML private Button prevWeek, nextWeek, todayBtn;
 
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
-
+    private boolean gridInteractive = true;
     @FXML public void initialize() {
 //        mainScroll.setStyle("-fx-scrollbar-width: 8; -fx-background-color: transparent;");
         mainScroll.getStyleClass().add("main-scroll");
@@ -181,21 +181,24 @@ public class WeeklyCalendarController {
 //        );
 
         cell.setOnMouseClicked(e -> {
-            System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
-            Course c = getCourseAt(finalDate,finalHour);
-            if(c!=null){
+            if(gridInteractive){
+                System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
+                Course c = getCourseAt(finalDate,finalHour);
+                if(c!=null){
+                    Window owner = mainScroll.getScene().getWindow();
+                    WindowController.requestCourseInfo(owner,c);
+                }
+                //Test
                 Window owner = mainScroll.getScene().getWindow();
                 WindowController.requestCourseInfo(owner,c);
-            }
-            //Test
-            Window owner = mainScroll.getScene().getWindow();
-            WindowController.requestCourseInfo(owner,c);
 
-            String selectedStyle = baseStyle.replace("white", "#cce7ff")
-                    .replace("#dee2e6", "#007bff")
-                    .replace("1;", "2;");
-            cell.setStyle(selectedStyle);
+                String selectedStyle = baseStyle.replace("white", "#cce7ff")
+                        .replace("#dee2e6", "#007bff")
+                        .replace("1;", "2;");
+                cell.setStyle(selectedStyle);
 //            cell.getStyleClass().add("calendar-cell:selected");
+            }
+
         });
 
         return cell;
@@ -233,4 +236,9 @@ public class WeeklyCalendarController {
         );
         return testCourse;
     }
+
+    public void setInteractive(boolean b) {
+        gridInteractive = b;
+    }
+
 }

@@ -50,7 +50,18 @@ public class CourseInfoController {
 //            AnchorPane.setBottomAnchor(calendarView, 0.0);
 //            AnchorPane.setLeftAnchor(calendarView, 0.0);
 //            AnchorPane.setRightAnchor(calendarView, 0.0);
-            calanderContainPane.setCenter(ComponentLoader.loadWeeklyCalendar());
+//            calanderContainPane.setCenter(ComponentLoader.loadWeeklyCalendar());
+        try{
+            FXMLLoader loader = ComponentLoader.getWeeklyCalendarLoader();
 
+            Parent calendarView = loader.load();
+
+            WeeklyCalendarController calController = loader.getController();
+
+            calController.setInteractive(false);
+            calanderContainPane.setCenter(calendarView);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

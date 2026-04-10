@@ -65,7 +65,7 @@ public class WindowController {
 
             Stage popupStage = new Stage();
             popupStage.initOwner(owner);
-            popupStage.initModality(Modality.NONE);
+            popupStage.initModality(Modality.APPLICATION_MODAL);
             popupStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
 
             Scene scene = new Scene(root);
@@ -77,11 +77,11 @@ public class WindowController {
                     popupStage.close();
                 }
             });
+            scene.getStylesheets().add(WindowController.class.getResource("/CourseRegisterUI/css/style.css").toExternalForm());
+            popupStage.show();
             BoxBlur blur = new BoxBlur(8, 8, 3);
             owner.getScene().getRoot().setEffect(blur);
             popupStage.setOnHidden(e -> owner.getScene().getRoot().setEffect(null));
-
-            popupStage.show();
             popupStage.setX(owner.getX() + (owner.getWidth() - popupStage.getWidth()) / 2);
             popupStage.setY(owner.getY() + (owner.getHeight() - popupStage.getHeight()) / 2);
 
