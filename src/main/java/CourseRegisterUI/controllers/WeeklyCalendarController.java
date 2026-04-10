@@ -187,6 +187,9 @@ public class WeeklyCalendarController {
                 Window owner = mainScroll.getScene().getWindow();
                 WindowController.requestCourseInfo(owner,c);
             }
+            //Test
+            Window owner = mainScroll.getScene().getWindow();
+            WindowController.requestCourseInfo(owner,c);
 
             String selectedStyle = baseStyle.replace("white", "#cce7ff")
                     .replace("#dee2e6", "#007bff")
@@ -197,8 +200,37 @@ public class WeeklyCalendarController {
 
         return cell;
     }
+    //to get the course information at certain time?
     public Course getCourseAt(LocalDate d, int t){
         //TODO
-        return null;
+        //test
+        return getTestCourse();
+
+
+//        return null;
+    }
+    private Course getTestCourse(){
+        Course testCourse = new Course(
+                "Engineering",      // academic_unit
+                "CS",               // subject
+                "3402",             // course_code
+                "Database Systems", // title
+                null,               // college
+                "12345",            // crn
+                "A01",              // section
+                3,                  // credit
+                "Main Campus",      // campus
+                true,               // web_enabled
+                "Undergraduate",    // level
+                30, 60, true,       // availability, cap, waitlist
+                LocalDate.now(),    // start_date
+                LocalDate.now().plusMonths(4), // end_date
+                "10:00", "11:30",   // start/end time
+                "MWF",              // day
+                "Building A", "101",// building, room
+                null,               // instructor
+                "English"           // medium
+        );
+        return testCourse;
     }
 }

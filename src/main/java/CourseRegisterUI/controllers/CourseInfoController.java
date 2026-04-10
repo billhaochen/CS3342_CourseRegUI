@@ -1,10 +1,17 @@
 package CourseRegisterUI.controllers;
+import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.models.Course;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 import javafx.scene.control.Label;
+
+import java.io.IOException;
 
 public class CourseInfoController {
     @FXML private Label courseName;
@@ -15,7 +22,7 @@ public class CourseInfoController {
     @FXML private Label courseLevel;
     @FXML private Label courseCredits;
     @FXML private Label courseWebEnabled;
-    @FXML private Pane calanderContainPane;
+    @FXML private BorderPane calanderContainPane;
     public void setCourseInfo(Course course) {
         if (course == null) return;
 
@@ -33,6 +40,17 @@ public class CourseInfoController {
         courseLevel.setText(course.level() != null ? course.level() : "N/A");
         courseCredits.setText(course.credit() != null ? String.valueOf(course.credit()) : "0");
         courseWebEnabled.setText(course.web_enabled() != null && course.web_enabled() ? "Yes" : "No");
+
+
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CourseRegisterUI/WeeklyCalendar.fxml"));
+//            Parent calendarView = loader.load();
+//            WeeklyCalendarController calController = loader.getController();
+//            calanderContainPane.getChildren().setAll(calendarView);
+//            AnchorPane.setTopAnchor(calendarView, 0.0);
+//            AnchorPane.setBottomAnchor(calendarView, 0.0);
+//            AnchorPane.setLeftAnchor(calendarView, 0.0);
+//            AnchorPane.setRightAnchor(calendarView, 0.0);
+            calanderContainPane.setCenter(ComponentLoader.loadWeeklyCalendar());
 
     }
 }
