@@ -26,6 +26,7 @@ public class AddCourseController {
 
     public void setAppContext(AppContext appContext) {
         this.context = appContext;
+        courseTableView.setItems(context.getCourseRows());
     }
 
 
@@ -37,7 +38,6 @@ public class AddCourseController {
         titleColumn       .setCellValueFactory(cell -> cell.getValue().getProperty("title"));
         creditColumn      .setCellValueFactory(cell -> cell.getValue().getProperty("credit"));
         mediumColumn      .setCellValueFactory(cell -> cell.getValue().getProperty("medium"));
-        courseTableView.setItems(rows);
     }
 
 //    public void addCourse(Course course) {

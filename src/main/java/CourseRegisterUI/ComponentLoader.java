@@ -1,9 +1,6 @@
 package CourseRegisterUI;
-import CourseRegisterUI.controllers.AddCourseController;
-import CourseRegisterUI.controllers.CourseController;
 import CourseRegisterUI.controllers.SidePanelController;
-import CourseRegisterUI.controllers.SignInController;
-import CourseRegisterUI.models.Root;
+import CourseRegisterUI.util.LoadedView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
@@ -11,7 +8,7 @@ import javafx.scene.control.MenuBar;
 import java.net.URL;
 
 public class ComponentLoader {
-    public static Parent loadSidePanel(AppContext context) {
+    public static LoadedView<SidePanelController> loadSidePanel() {
         URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/SidePanel.fxml");
         System.out.println("SidePanel URL: " + resource);  // ← ADD THIS
         if (resource == null) {
@@ -19,20 +16,14 @@ public class ComponentLoader {
             throw new RuntimeException("File missing");
         }
         try {
-            FXMLLoader loader = new FXMLLoader(resource);
-            SidePanelController controller = new SidePanelController();
-            controller.setAppContext(context);
-            loader.setControllerFactory(type -> {
-                if (type == SidePanelController.class) {
-                    return controller;
-                }
-                try {
-                    return type.getDeclaredConstructor().newInstance();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            return loader.load();
+            FXMLLoader loader = new FXMLLoader(
+                    ComponentLoader.class.getResource("/CourseRegisterUI/SidePanel.fxml")
+            );
+
+            Parent root = loader.load();
+            SidePanelController controller = loader.getController();
+
+            return new LoadedView<>(root, controller);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -58,73 +49,6 @@ public class ComponentLoader {
         if (resource == null) {
             System.err.println("❌ WeeklyCalendar.fxml NOT FOUND at /CourseRegisterUI/WeeklyCalendar.fxml");
             throw new RuntimeException("File missing");
-        }
-        try {
-            return FXMLLoader.load(resource);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Parent loadSignInDialog(AppContext context, CourseController mainController){
-        URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/SignInDialog.fxml");
-        System.out.println("SignInDialog URL: " + resource);  // ← ADD THIS
-        if (resource == null) {
-            throw new RuntimeException("SignInDialog.fxml NOT FOUND");
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(resource);
-            SignInController controller = new SignInController();
-            controller.setAppContext(context);
-            loader.setControllerFactory(type -> {
-                if (type == SignInController.class) {
-                    return controller;
-                }
-                try {
-                    return type.getDeclaredConstructor().newInstance();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            controller.setMainController(mainController);
-            return loader.load();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Parent loadAddCourseDialog(AppContext context) {
-        final String name = "AddCourseDialog";
-        URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/AddCourseDialog.fxml");
-        System.out.println(name+" URL: " + resource);  // ← ADD THIS
-        if (resource == null) {
-            throw new RuntimeException(name+".fxml NOT FOUND");
-        }
-        try {
-            FXMLLoader loader = new FXMLLoader(resource);
-            AddCourseController controller = new AddCourseController();
-            controller.setAppContext(context);
-            loader.setControllerFactory(type -> {
-                if (type == AddCourseController.class) {
-                    return controller;
-                }
-                try {
-                    return type.getDeclaredConstructor().newInstance();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            return loader.load();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public static Parent loadLandingPage() {
-        final String name = "LandingComponent";
-        URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/LandingPage.fxml");
-        System.out.println(name+" URL: " + resource);  // ← ADD THIS
-        if (resource == null) {
-            throw new RuntimeException(name+".fxml NOT FOUND");
         }
         try {
             return FXMLLoader.load(resource);

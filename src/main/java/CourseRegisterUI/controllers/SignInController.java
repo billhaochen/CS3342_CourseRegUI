@@ -1,6 +1,7 @@
 package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.AppContext;
+import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Root;
 import CourseRegisterUI.models.Student;
 import CourseRegisterUI.models.User;
@@ -18,7 +19,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 import java.util.Optional;
 
-public class SignInController {
+public class SignInController implements ContextAware {
     @FXML private Circle sign_in_graph;
     @FXML private VBox rootContainer;
     @FXML private TextField nameField;
@@ -31,6 +32,7 @@ public class SignInController {
     private AppContext context;
     private CourseController mainController;
 
+    @Override
     public void setAppContext(AppContext appContext) {
         this.context = appContext;
     }
@@ -57,7 +59,6 @@ public class SignInController {
 
     public void setMainController(CourseController mainController) {
         this.mainController = mainController;
-        this.mainController.setAppContext(this.context); // TODO double check this later
     }
 
     @FXML
