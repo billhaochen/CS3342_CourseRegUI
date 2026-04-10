@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="contentBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CourseRegisterUI.controllers.LandingPageController">
+   <padding>
+      <Insets bottom="200.0" left="300.0" right="300.0" top="200.0" />
+   </padding>
+   <children>
+      <Label alignment="CENTER" text="Welcome to Our project" VBox.vgrow="ALWAYS">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" text="Please choose which user you are" VBox.vgrow="NEVER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#handleStudentPage" styleClass="button-primary" text="Student">
+         <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </VBox.margin>
+      </Button>
+      <Button mnemonicParsing="false" onAction="#handleTeacherPage" styleClass="button-primary" text="Teacher">
+         <VBox.margin>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+         </VBox.margin>
+      </Button>
+   </children>
+</VBox>

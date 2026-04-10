@@ -2,6 +2,7 @@ package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.models.Root;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.effect.BoxBlur;
@@ -36,5 +37,21 @@ public class WindowController {
     public static void showAddCourse(Window owner) {
         Parent root = ComponentLoader.loadAddCourseDialog();
         openModal(owner, root, "Add New Course");
+    }
+    public static void switchToMainView(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/Main.fxml"));
+            Parent root = loader.load();
+            CourseController mainController = loader.getController();
+            if (stage.getScene() != null) {
+                stage.getScene().setRoot(root);
+            } else {
+                Scene scene = new Scene(root, 800, 600);
+                stage.setScene(scene);
+            }
+            WindowController.showSignIn(stage,null,mainController);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

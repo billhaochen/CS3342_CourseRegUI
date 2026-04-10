@@ -90,4 +90,17 @@ public class ComponentLoader {
             throw new RuntimeException(e);
         }
     }
+    public static Parent loadLandingPage() {
+        final String name = "LandingComponent";
+        URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/LandingPage.fxml");
+        System.out.println(name+" URL: " + resource);  // ← ADD THIS
+        if (resource == null) {
+            throw new RuntimeException(name+".fxml NOT FOUND");
+        }
+        try {
+            return FXMLLoader.load(resource);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
