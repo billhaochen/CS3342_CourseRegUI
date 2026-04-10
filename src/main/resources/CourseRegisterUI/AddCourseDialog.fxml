@@ -81,6 +81,11 @@
                         <TableColumn fx:id="courseColumn" prefWidth="60.0" text="course" />
                         <TableColumn fx:id="titleColumn" prefWidth="200.0" text="title" />
                         <TableColumn fx:id="creditColumn" prefWidth="60.0" text="credit" />
+                        <TableColumn fx:id="webColumn" prefWidth="75.0" text="web" />
+                        <TableColumn fx:id="levelColumn" prefWidth="60.0" text="level" />
+                        <TableColumn fx:id="availabilityColumn" prefWidth="60.0" text="avail" />
+                        <TableColumn fx:id="capColumn" prefWidth="60.0" text="cap" />
+                        <TableColumn fx:id="waitlistAvailColumn" prefWidth="75.0" text="waitlist" />
                         <TableColumn fx:id="mediumColumn" prefWidth="75.0" text="medium" />
                      </columns>
                   </TableView>

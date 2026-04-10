@@ -20,9 +20,12 @@ public class AddCourseController implements ContextAware {
     @FXML private TableColumn<CourseRow,  String> courseColumn;
     @FXML private TableColumn<CourseRow,  String> titleColumn;
     @FXML private TableColumn<CourseRow,  Integer> creditColumn;
+    @FXML private TableColumn<CourseRow,  Boolean> webColumn;
+    @FXML private TableColumn<CourseRow,  String> levelColumn;
+    @FXML private TableColumn<CourseRow,  Integer> availabilityColumn;
+    @FXML private TableColumn<CourseRow,  Integer> capColumn;
+    @FXML private TableColumn<CourseRow, Boolean> waitlistAvailColumn;
     @FXML private TableColumn<CourseRow,  String> mediumColumn;
-
-    private final ObservableList<CourseRow> rows = FXCollections.observableArrayList();
 
     @Override
     public void setAppContext(AppContext appContext) {
@@ -37,6 +40,11 @@ public class AddCourseController implements ContextAware {
         courseColumn      .setCellValueFactory(cell -> cell.getValue().getProperty("course_code"));
         titleColumn       .setCellValueFactory(cell -> cell.getValue().getProperty("title"));
         creditColumn      .setCellValueFactory(cell -> cell.getValue().getProperty("credit"));
+        webColumn.setCellValueFactory(cell -> cell.getValue().getProperty("web_enabled"));
+        levelColumn.setCellValueFactory(cell -> cell.getValue().getProperty("level"));
+        availabilityColumn.setCellValueFactory(cell -> cell.getValue().getProperty("availability"));
+        capColumn.setCellValueFactory(cell -> cell.getValue().getProperty("cap"));
+        waitlistAvailColumn.setCellValueFactory(cell -> cell.getValue().getProperty("waitlist_available"));
         mediumColumn      .setCellValueFactory(cell -> cell.getValue().getProperty("medium"));
     }
 
