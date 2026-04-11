@@ -42,7 +42,8 @@ public class ExampleJSONBuilder {
                 "YEUNG",
                 "B4702",
                 new Teacher("Kim Tae Wook"),
-                "English"
+                "English",
+                "03:00 PM - 05:50 PM"
         );
         Course c2 = new Course(
                 "Computer Science",
@@ -67,7 +68,8 @@ public class ExampleJSONBuilder {
                 "LI",
                 "6606",
                 new Teacher("Liu Chen"),
-                "English"
+                "English",
+                "04:00 PM - 06:50 PM"
         );
         Course c3 = new Course(
                 "Chemistry",
@@ -92,11 +94,39 @@ public class ExampleJSONBuilder {
                 "YEUNG",
                 "LT-6",
                 new Teacher("Chan Michael C."),
-                "English"
+                "English",
+                "09:00 AM - 10:50 AM"
+        );
+        Course c4 = new Course(
+                "English",
+                "GE",
+                "2402",
+                "English for Business Communication",
+                College.COLLEGE_OF_LIBERAL_ARTS,
+                "10091",
+                "T01",
+                3,
+                "Main Campus",
+                Boolean.TRUE,
+                "B",
+                25,
+                25,
+                Boolean.FALSE,
+                LocalDate.of(2026, 6, 8),
+                LocalDate.of(2026, 7, 25),
+                "09:00",
+                "11:50",
+                "R",
+                "YEUNG",
+                "P1615",
+                new Teacher("TBA LC005"),
+                "English",
+                "09:00 AM - 11:50 AM"
         );
         courses.add(c1);
         courses.add(c2);
         courses.add(c3);
+        courses.add(c4);
         return courses;
     }
 

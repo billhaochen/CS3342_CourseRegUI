@@ -1,5 +1,7 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.AppContext;
+import CourseRegisterUI.models.Root;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -10,6 +12,11 @@ import javafx.util.Duration;
 public class LandingPageController {
     @FXML
     private VBox contentBox;
+    private AppContext appContext;
+
+    public void setAppContext(AppContext appContext) {
+        this.appContext = appContext;
+    }
 
     @FXML
     public void initialize() {
@@ -22,7 +29,7 @@ public class LandingPageController {
     private void handleStudentPage(){
         slideOutAndNavigate(() -> {
             Stage stage = (Stage) contentBox.getScene().getWindow();
-            WindowController.switchToMainView(stage);
+            WindowController.switchToMainView(stage, this.appContext);
         });
     }
 

@@ -1,7 +1,9 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.models.Root;
+import CourseRegisterUI.util.LoadedView;
 import CourseRegisterUI.util.MasterJSONBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -22,19 +24,34 @@ public class CourseController {
     @FXML private MenuBar menuBar;
     @FXML private Circle profilePicture;
     @FXML private Label userNameAndId;
-    private Root root;
+    private AppContext context;
 
-    public CourseController(Root initialData) {
-        this.root = initialData;
-    }
-    public CourseController() {
-    }
+    private LoadedView<SidePanelController> sidePanelView;
+//    private LoadedView<WeeklyCalendarController> weeklyCalendarView;
+//    private LoadedView<MenuBarController> menuBarView;
+
     @FXML
     public void initialize() {
-        courseListPane.getChildren().setAll(ComponentLoader.loadSidePanel());
+        sidePanelView = ComponentLoader.loadSidePanel();
+        courseListPane.getChildren().setAll(sidePanelView.view());
+
         schedulePane.setCenter(ComponentLoader.loadWeeklyCalendar());
         menuBar.getMenus().addAll(ComponentLoader.loadMenuBar().getMenus());
         userNameAndId.setText("Not Signed In");
+    }
+
+    public void setAppContext(AppContext appContext) {
+        this.context = appContext;
+
+        if (sidePanelView != null) {
+            sidePanelView.controller().setAppContext(context);
+        }
+//        if (weeklyCalendarView != null) {
+//            weeklyCalendarView.controller().setAppContext(context);
+//        }
+//        if (menuBarView != null) {
+//            menuBarView.controller().setAppContext(context);
+//        }
     }
 
     @FXML

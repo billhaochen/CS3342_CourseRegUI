@@ -1,5 +1,7 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.AppContext;
+import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Root;
 import CourseRegisterUI.models.Student;
 import CourseRegisterUI.models.User;
@@ -17,7 +19,7 @@ import javafx.stage.Stage;
 import java.util.Objects;
 import java.util.Optional;
 
-public class SignInController {
+public class SignInController implements ContextAware {
     @FXML private Circle sign_in_graph;
     @FXML private VBox rootContainer;
     @FXML private TextField nameField;
@@ -27,11 +29,12 @@ public class SignInController {
     @FXML private Hyperlink createAccountLink;
     @FXML private Label idWarningLabel;
     private UserRole userRole = UserRole.STUDENT;
-    private final Root root;
+    private AppContext context;
     private CourseController mainController;
 
-    public SignInController(Root initData) {
-        this.root = initData;
+    @Override
+    public void setAppContext(AppContext appContext) {
+        this.context = appContext;
     }
 
     public enum UserRole {
@@ -77,6 +80,7 @@ public class SignInController {
         String full_name = nameField.getText();
         String id = idField.getText();
         if (validateStudentCredentials(full_name, id)) {
+            context.setCurrentUser(full_name, id);
             mainController.updateUserInfo(full_name, id);
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.close();
@@ -99,18 +103,19 @@ public class SignInController {
         if (Objects.equals(student_name, "") || Objects.equals(student_id, "")) {
             return valid;
         }
-        Optional<User> name_lookup = JSONDeserializer.getStudentByName(root, student_name);
-        Optional<User> id_lookup = JSONDeserializer.getStudentByID(root, student_id);
+        Optional<User> name_lookup = JSONDeserializer.getStudentByName(this.context.getCourseRepository(), student_name);
+        Optional<User> id_lookup = JSONDeserializer.getStudentByID(this.context.getCourseRepository(), student_id);
         return name_lookup.isPresent()
                 && id_lookup.isPresent()
                 && name_lookup.get().role() instanceof Student
                 && id_lookup.get().role() instanceof Student
                 && name_lookup.get().getID().equals(student_id)
-                && id_lookup.get().getName().equals(student_name);
+                && id_lookup.get().name().equals(student_name);
     }
 
     @FXML
     private void handleSignedOut(){
+        // by default the user is set to signed out
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
     }

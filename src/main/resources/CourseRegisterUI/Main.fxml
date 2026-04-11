@@ -32,5 +32,4 @@
         <VBox fx:id="courseListPane"/>
         <BorderPane fx:id="schedulePane"/>
     </SplitPane>
-
 </VBox>
