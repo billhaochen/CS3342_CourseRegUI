@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -83,6 +84,15 @@ public class AddCourseController implements ContextAware {
 //        rows.add(new CourseRow(course));
 //    }
 
+    @FXML
+    private void showConflict() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Schedule Conflict");
+        alert.setHeaderText(null);
+        alert.setContentText("One or more selected courses overlap.");
+        alert.showAndWait();
+    }
+
 
 
     @FXML
@@ -101,7 +111,7 @@ public class AddCourseController implements ContextAware {
             Stage stage = (Stage) courseTableView.getScene().getWindow();
             stage.close();
         } else {
-            System.out.println("you have some conflicts you need to validate");
+            showConflict();
         }
     }
 

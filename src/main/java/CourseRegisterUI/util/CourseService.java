@@ -19,6 +19,12 @@ public class CourseService {
         return rows;
     }
 
+    /**
+     * this is going to assume that every course here is in the same semester for now
+     * @param a
+     * @param b
+     * @return
+     */
     public static boolean conflicts(Course a, Course b) {
         boolean dateOverlap = !a.end_date().isBefore(b.start_date())
                 && !b.end_date().isBefore(a.start_date());
