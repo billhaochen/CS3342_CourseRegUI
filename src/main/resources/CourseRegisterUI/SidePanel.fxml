@@ -8,24 +8,38 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="courseListPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25" fx:controller="CourseRegisterUI.controllers.SidePanelController">
-    <Button fx:id="addCourseBtn" maxWidth="Infinity" onAction="#handleAddCourseDialog" text="Add Course" />
+<VBox fx:id="courseListPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25"
+      fx:controller="CourseRegisterUI.controllers.SidePanelController">
+    <Button fx:id="addCourseBtn" maxWidth="Infinity" onAction="#handleAddCourseDialog" text="Add Course"/>
     <Accordion>
         <panes>
             <TitledPane text="Course">
-                <TableView prefHeight="180.0" prefWidth="200.0">
+                <TableView fx:id="courseTable" prefHeight="180.0" prefWidth="200.0">
                     <columns>
-                        <TableColumn prefWidth="100" text="Department" />
-                        <TableColumn prefWidth="100" text="Course Number" />
-                        <TableColumn prefWidth="100" text="Name" />
+                        <TableColumn fx:id="subjectColumn" prefWidth="100" text="Subject"/>
+                        <TableColumn fx:id="courseNumberColumn" prefWidth="100" text="Course Number"/>
+                        <TableColumn fx:id="titleColumn" prefWidth="100" text="Title"/>
+                        <TableColumn fx:id="academicUnitColumn" prefWidth="150.0" text="Academic_Unit"/>
+                        <TableColumn fx:id="courseColumn" prefWidth="60.0" text="Course"/>
+                        <TableColumn fx:id="sectionColumn" prefWidth="60.0" text="Section"/>
+                        <TableColumn fx:id="creditColumn" prefWidth="60.0" text="Credit"/>
+                        <TableColumn fx:id="crnColumn" prefWidth="60.0" text="CRN"/>
+                        <TableColumn fx:id="dayColumn" prefWidth="60.0" text="Day"/>
+                        <TableColumn fx:id="meetingColumn" prefWidth="200.0" text="Meeting_Time"/>
+                        <TableColumn fx:id="webColumn" prefWidth="75.0" text="Web"/>
+                        <TableColumn fx:id="levelColumn" prefWidth="60.0" text="Level"/>
+                        <TableColumn fx:id="availabilityColumn" prefWidth="60.0" text="Avail"/>
+                        <TableColumn fx:id="capColumn" prefWidth="60.0" text="Cap"/>
+                        <TableColumn fx:id="waitlistAvailColumn" prefWidth="75.0" text="Waitlist"/>
+                        <TableColumn fx:id="mediumColumn" prefWidth="75.0" text="Medium"/>
                     </columns>
                 </TableView>
             </TitledPane>
             <TitledPane animated="false" text="Department">
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
             </TitledPane>
             <TitledPane animated="false" text="Filter2">
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
             </TitledPane>
         </panes>
     </Accordion>

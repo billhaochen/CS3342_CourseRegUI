@@ -106,6 +106,7 @@ public class AddCourseController implements ContextAware {
                             .map(CourseRow::getCourse)
                             .toList()
             );
+            context.getSelectedCourseRows().setAll(selectedRows);
             System.out.println("State Confirmation: Add to Schedule Clicked");
 
             Stage stage = (Stage) courseTableView.getScene().getWindow();

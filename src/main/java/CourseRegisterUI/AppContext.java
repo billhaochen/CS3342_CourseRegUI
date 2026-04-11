@@ -17,6 +17,7 @@ public class AppContext {
     private final ObservableList<CourseRow> courseRows = FXCollections.observableArrayList();
 
     private final ObservableList<Course> selectedCourses = FXCollections.observableArrayList();
+    private final ObservableList<CourseRow> selectedCourseRows= FXCollections.observableArrayList();
 
     public AppContext() {
         this.courseUserRepository = new Root(new ArrayList<>(), new ArrayList<>());
@@ -45,6 +46,10 @@ public class AppContext {
 
     public ObservableList<Course> getSelectedCourses() {
         return selectedCourses;
+    }
+
+    public ObservableList<CourseRow> getSelectedCourseRows() {
+        return selectedCourseRows;
     }
 
     public void clearSelectedCourses() {

@@ -76,21 +76,21 @@
                <content>
                   <TableView fx:id="courseTableView" maxWidth="1.7976931348623157E308" prefHeight="392.0">
                      <columns>
-                        <TableColumn fx:id="academicUnitColumn" prefWidth="150.0" text="academic_unit" />
-                        <TableColumn fx:id="subjectColumn" text="subject" />
-                        <TableColumn fx:id="courseColumn" prefWidth="60.0" text="course" />
-                        <TableColumn fx:id="titleColumn" prefWidth="200.0" text="title" />
-                        <TableColumn fx:id="sectionColumn" prefWidth="60.0" text="section" />
-                        <TableColumn fx:id="creditColumn" prefWidth="60.0" text="credit" />
-                        <TableColumn fx:id="crnColumn" prefWidth="60.0" text="crn" />
-                        <TableColumn fx:id="dayColumn" prefWidth="60.0" text="day" />
-                        <TableColumn fx:id="meetingColumn" prefWidth="200.0" text="meeting_time" />
-                        <TableColumn fx:id="webColumn" prefWidth="75.0" text="web" />
-                        <TableColumn fx:id="levelColumn" prefWidth="60.0" text="level" />
-                        <TableColumn fx:id="availabilityColumn" prefWidth="60.0" text="avail" />
-                        <TableColumn fx:id="capColumn" prefWidth="60.0" text="cap" />
-                        <TableColumn fx:id="waitlistAvailColumn" prefWidth="75.0" text="waitlist" />
-                        <TableColumn fx:id="mediumColumn" prefWidth="75.0" text="medium" />
+                        <TableColumn fx:id="academicUnitColumn" prefWidth="150.0" text="Academic Unit" />
+                        <TableColumn fx:id="subjectColumn" text="Subject" />
+                        <TableColumn fx:id="courseColumn" prefWidth="60.0" text="Course" />
+                        <TableColumn fx:id="titleColumn" prefWidth="200.0" text="Title" />
+                        <TableColumn fx:id="sectionColumn" prefWidth="60.0" text="Section" />
+                        <TableColumn fx:id="creditColumn" prefWidth="60.0" text="Credit" />
+                        <TableColumn fx:id="crnColumn" prefWidth="60.0" text="CRN" />
+                        <TableColumn fx:id="dayColumn" prefWidth="60.0" text="Day" />
+                        <TableColumn fx:id="meetingColumn" prefWidth="200.0" text="Meeting_Time" />
+                        <TableColumn fx:id="webColumn" prefWidth="75.0" text="Web" />
+                        <TableColumn fx:id="levelColumn" prefWidth="60.0" text="Level" />
+                        <TableColumn fx:id="availabilityColumn" prefWidth="60.0" text="Avail" />
+                        <TableColumn fx:id="capColumn" prefWidth="60.0" text="Cap" />
+                        <TableColumn fx:id="waitlistAvailColumn" prefWidth="75.0" text="Waitlist" />
+                        <TableColumn fx:id="mediumColumn" prefWidth="75.0" text="Medium" />
                      </columns>
                   </TableView>
                </content>
