@@ -70,6 +70,7 @@ public class WeeklyCalendarController implements ContextAware {
         mainGrid.setPrefHeight(45 * (times.length + 1));  // Header + 12 rows
         mainGrid.setPrefWidth(800);  // Minimum width
         updateTitle();
+        renderCourses();
     }
 
     private void addTimeRow(int row, String time) {
@@ -217,11 +218,22 @@ public class WeeklyCalendarController implements ContextAware {
                 node.getStyleClass().contains("course-block"));
     }
 
+    private boolean isCourseVisibleThisWeek(Course course) {
+        LocalDate weekEnd = weekStart.plusDays(6);
+
+        return !(course.end_date().isBefore(weekStart) ||
+                course.start_date().isAfter(weekEnd));
+    }
+
     public void renderCourses() {
         clearCourseBlocks();
-
+        LocalDate weekEnd = weekStart.plusDays(6);
         ObservableList<Course> courses = this.context.getSelectedCourses();
+
         for (Course course : courses) {
+            if (course.end_date().isBefore(weekStart) || course.start_date().isAfter(weekEnd)) {
+                continue;
+            }
             int dayCol = mapDayToColumn(course.day());
             int startRow = mapTimeToRow(course.start_time());
             int endRow = mapTimeToRow(course.end_time());
@@ -277,6 +289,24 @@ public class WeeklyCalendarController implements ContextAware {
         context.getSelectedCourses().addListener((javafx.collections.ListChangeListener<Course>) change -> {
             renderCourses();
         });
+    }
+
+    @FXML
+    private void handlePrevWeek() {
+        weekStart = weekStart.minusWeeks(1);
+        refreshCalendar();
+    }
+
+    @FXML
+    private void handleNextWeek() {
+        weekStart = weekStart.plusWeeks(1);
+        refreshCalendar();
+    }
+
+    @FXML
+    private void handleToday() {
+        weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
+        refreshCalendar();
     }
 
     @Override
