@@ -65,7 +65,7 @@ public class WindowController {
 
             Stage popupStage = new Stage();
             popupStage.initOwner(owner);
-            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.initModality(Modality.NONE);
             popupStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
 
             Scene scene = new Scene(root);
