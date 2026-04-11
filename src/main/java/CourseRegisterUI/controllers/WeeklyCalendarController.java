@@ -187,14 +187,14 @@ public class WeeklyCalendarController implements ContextAware {
         cell.setOnMouseClicked(e -> {
             if(gridInteractive){
                 System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
-                Course c = getCourseAt(finalDate,finalHour);
-                if(c!=null){
-                    Window owner = mainScroll.getScene().getWindow();
-                    WindowController.requestCourseInfo(owner,c);
-                }
-                //Test
-                Window owner = mainScroll.getScene().getWindow();
-                WindowController.requestCourseInfo(owner,c);
+//                Course c = getCourseAt(finalDate,finalHour);
+//                if(c!=null){
+//                    Window owner = mainScroll.getScene().getWindow();
+//                    WindowController.requestCourseInfo(owner,c);
+//                }
+//                //Test
+//                Window owner = mainScroll.getScene().getWindow();
+//                WindowController.requestCourseInfo(owner,c);
 
                 String selectedStyle = baseStyle.replace("white", "#cce7ff")
                         .replace("#dee2e6", "#007bff")
@@ -266,6 +266,14 @@ public class WeeklyCalendarController implements ContextAware {
         label.getStyleClass().add("course-block-label");
 
         block.getChildren().add(label);
+        block.setOnMouseClicked(e -> {
+            if(gridInteractive){
+                Window owner = mainScroll.getScene().getWindow();
+                WindowController.requestCourseInfo(owner,course);
+//            cell.getStyleClass().add("calendar-cell:selected");
+            }
+
+        });
         return block;
     }
 
@@ -281,18 +289,7 @@ public class WeeklyCalendarController implements ContextAware {
         attachListeners();
         renderCourses();
     }
-    //to get the course information at certain time?
-    public Course getCourseAt(LocalDate d, int t){
-        //TODO
-        //test
-        return getTestCourse();
 
-
-//        return null;
-    }
-    private Course getTestCourse(){
-        return null;
-    }
 
     public void setInteractive(boolean b) {
         gridInteractive = b;

@@ -79,6 +79,19 @@ public class AddCourseController implements ContextAware {
         capColumn.setCellValueFactory(cell -> cell.getValue().getProperty("cap"));
         waitlistAvailColumn.setCellValueFactory(cell -> cell.getValue().getProperty("waitlist_available"));
         mediumColumn.setCellValueFactory(cell -> cell.getValue().getProperty("medium"));
+
+        courseTableView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                CourseRow selectedRow = courseTableView.getSelectionModel().getSelectedItem();
+                if (selectedRow != null) {
+                    Course selectedCourse = selectedRow.getCourse();
+                    if (selectedCourse != null) {
+                        javafx.stage.Window owner = courseTableView.getScene().getWindow();
+                        WindowController.showCourseInfoPopup(owner, selectedCourse);
+                    }
+                }
+            }
+        });
     }
 
 //    public void addCourse(Course course) {
