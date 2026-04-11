@@ -106,7 +106,7 @@ public class AddCourseController implements ContextAware {
         proposedRows.addAll(context.getSelectedCourseRows());
 
         if (CourseService.validateCourses(proposedRows)) {
-            context.getSelectedCourses().setAll(
+            context.getSelectedCourses().addAll(
                     selectedRows.stream()
                             .map(CourseRow::getCourse)
                             .toList()

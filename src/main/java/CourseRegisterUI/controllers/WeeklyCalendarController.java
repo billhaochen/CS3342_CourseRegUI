@@ -212,7 +212,7 @@ public class WeeklyCalendarController implements ContextAware {
             StackPane block = createCourseBlock(course);
 
             mainGrid.add(block, dayCol, startRow);
-            GridPane.setRowSpan(block, Math.max(1, endRow - startRow));
+            GridPane.setRowSpan(block, Math.max(1, endRow - startRow + 1));
         }
     }
 
@@ -241,10 +241,16 @@ public class WeeklyCalendarController implements ContextAware {
     private StackPane createCourseBlock(Course course) {
         StackPane block = new StackPane();
         block.getStyleClass().add("course-block");
+        block.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        block.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
 
-        Label label = new Label(course.subject() + " " + course.course_code() + "\n" + course.title());
+        Label label = new Label(
+                course.subject() + " " + course.course_code() + "\n" +
+                        course.title() + "\n" +
+                        course.start_time() + " - " + course.end_time()
+        );
         label.setWrapText(true);
-        label.setMaxWidth(Double.MAX_VALUE);
+        label.getStyleClass().add("course-block-label");
 
         block.getChildren().add(label);
         return block;

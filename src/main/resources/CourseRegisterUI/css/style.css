@@ -5,6 +5,22 @@
     -fx-border-light: #dee2e6;
 }
 
+.course-block {
+    -fx-background-color: #7cc7ff;
+    -fx-border-color: #1f6fb2;
+    -fx-border-width: 1;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 8;
+    -fx-alignment: top-left;
+}
+
+.course-block-label {
+    -fx-text-fill: #0b1f33;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
 .label {
     -fx-text-fill: -fx-text-main;
 }
