@@ -1,5 +1,6 @@
 package CourseRegisterUI;
 import CourseRegisterUI.controllers.SidePanelController;
+import CourseRegisterUI.controllers.WeeklyCalendarController;
 import CourseRegisterUI.util.LoadedView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -43,7 +44,7 @@ public class ComponentLoader {
         }
     }
 
-    public static Parent loadWeeklyCalendar() {
+    public static LoadedView<WeeklyCalendarController> loadWeeklyCalendar() {
         URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/WeeklyCalendar.fxml");
         System.out.println("WeeklyCalendar URL: " + resource);  // ← ADD THIS
         if (resource == null) {
@@ -51,7 +52,14 @@ public class ComponentLoader {
             throw new RuntimeException("File missing");
         }
         try {
-            return FXMLLoader.load(resource);
+            FXMLLoader loader = new FXMLLoader(
+                    ComponentLoader.class.getResource("/CourseRegisterUI/WeeklyCalendar.fxml")
+            );
+
+            Parent root = loader.load();
+            WeeklyCalendarController controller = loader.getController();
+
+            return new LoadedView<>(root, controller);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

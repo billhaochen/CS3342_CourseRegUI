@@ -52,13 +52,13 @@ public class CourseService {
     }
 
     public static boolean validateCourses(ObservableList<CourseRow> rows) {
-        List<Course> courses = rows.stream()
+        List<Course> addedCourses = rows.stream()
                 .map(CourseRow::getCourse)
                 .toList();
 
-        for (int i = 0; i < courses.size(); i++) {
-            for (int j = i + 1; j < courses.size(); j++) {
-                if (conflicts(courses.get(i), courses.get(j))) {
+        for (int i = 0; i < addedCourses.size(); i++) {
+            for (int j = i + 1; j < addedCourses.size(); j++) {
+                if (conflicts(addedCourses.get(i), addedCourses.get(j))) {
                     return false;
                 }
             }

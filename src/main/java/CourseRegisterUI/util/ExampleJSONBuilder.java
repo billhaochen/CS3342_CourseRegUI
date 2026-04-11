@@ -132,6 +132,8 @@ public class ExampleJSONBuilder {
 
     public static List<User> buildSampleStudents() {
         List<User> users = new ArrayList<User>();
+        List<Course> courses = buildSampleCourses();
+        courses.removeLast();
         Student s1 = new Student(
                 "John Doe",
                 "Doe",
@@ -147,7 +149,7 @@ public class ExampleJSONBuilder {
                 LocalDate.of(2022, 1, 12),
                 LocalDate.of(2026, 4, 18),
                 new ArrayList<Course>(),
-                buildSampleCourses()
+                courses
         );
         Student s2 = new Student(
                 "Jane Doe",
@@ -163,7 +165,7 @@ public class ExampleJSONBuilder {
                 "Main Campus",
                 LocalDate.of(2023, 1, 12),
                 LocalDate.of(2027, 4, 18),
-                buildSampleCourses(),
+                courses,
                 new ArrayList<>()
         );
         Student s3 = new Student(
@@ -180,7 +182,7 @@ public class ExampleJSONBuilder {
                 "Main Campus",
                 LocalDate.of(2024, 1, 12),
                 LocalDate.of(2028, 4, 18),
-                buildSampleCourses(),
+                courses,
                 new ArrayList<>()
         );
         User u1 = new User(
