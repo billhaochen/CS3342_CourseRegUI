@@ -80,7 +80,11 @@
                         <TableColumn fx:id="subjectColumn" text="subject" />
                         <TableColumn fx:id="courseColumn" prefWidth="60.0" text="course" />
                         <TableColumn fx:id="titleColumn" prefWidth="200.0" text="title" />
+                        <TableColumn fx:id="sectionColumn" prefWidth="60.0" text="section" />
                         <TableColumn fx:id="creditColumn" prefWidth="60.0" text="credit" />
+                        <TableColumn fx:id="crnColumn" prefWidth="60.0" text="crn" />
+                        <TableColumn fx:id="dayColumn" prefWidth="60.0" text="day" />
+                        <TableColumn fx:id="meetingColumn" prefWidth="200.0" text="meeting_time" />
                         <TableColumn fx:id="webColumn" prefWidth="75.0" text="web" />
                         <TableColumn fx:id="levelColumn" prefWidth="60.0" text="level" />
                         <TableColumn fx:id="availabilityColumn" prefWidth="60.0" text="avail" />

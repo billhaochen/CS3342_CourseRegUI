@@ -25,13 +25,13 @@ public class JSONDeserializer {
             JsonNode coursesNode = root.path("courses");
             List<Course> read_courses = objectMapper.convertValue(
                     coursesNode,
-                    new TypeReference<>() {
+                    new TypeReference<List<Course>>() {
                     }
             );
 
             List<User> read_users = objectMapper.convertValue(
                     usersNode,
-                    new TypeReference<>() {
+                    new TypeReference<List<User>>() {
                     }
             );
             users.addAll(read_users);

@@ -23,11 +23,7 @@ public record Student(
         List<Course> enrolled_courses,
         List<Course> completed_courses
 ) implements Role {
-    public String getId() {
+    public String idValue() {
         return student_id;
-    }
-
-    public String getName() {
-        return name;
     }
 }

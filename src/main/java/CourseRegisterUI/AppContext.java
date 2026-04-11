@@ -1,5 +1,6 @@
 package CourseRegisterUI;
 
+import CourseRegisterUI.models.Course;
 import CourseRegisterUI.models.CourseRow;
 import CourseRegisterUI.models.Root;
 import CourseRegisterUI.models.User;
@@ -15,12 +16,14 @@ public class AppContext {
     private User currentUser;
     private final ObservableList<CourseRow> courseRows = FXCollections.observableArrayList();
 
+    private final ObservableList<Course> selectedCourses = FXCollections.observableArrayList();
+
     public AppContext() {
         this.courseUserRepository = new Root(new ArrayList<>(), new ArrayList<>());
     }
 
     public void loadInitialData() {
-        this.courseUserRepository = JSONDeserializer.JSONToRoot("src/main/resources/json/master_export_2026-03-30_13-24-32-630.json");
+        this.courseUserRepository = JSONDeserializer.JSONToRoot("src/main/resources/json/master_export_2026-04-11_14-29-27-641.json");
         courseRows.setAll(CourseService.loadCourseRowsFromRoot(this.courseUserRepository));
     }
 
@@ -38,6 +41,14 @@ public class AppContext {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public ObservableList<Course> getSelectedCourses() {
+        return selectedCourses;
+    }
+
+    public void clearSelectedCourses() {
+        selectedCourses.clear();
     }
 
 }

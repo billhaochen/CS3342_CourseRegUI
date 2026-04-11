@@ -21,6 +21,10 @@ public class CourseRow {
         properties.put("cap", new SimpleIntegerProperty(c.cap()));
         properties.put("waitlist_available", new SimpleBooleanProperty(c.waitlist_available()));
         properties.put("medium", new SimpleStringProperty(c.medium()));
+        properties.put("meeting_time", new SimpleStringProperty(c.meeting_time()));
+        properties.put("day", new SimpleStringProperty(c.day()));
+        properties.put("crn", new SimpleStringProperty(c.crn()));
+        properties.put("section", new SimpleStringProperty(c.section()));
 //        properties.put("instructor", new SimpleObjectProperty<Teacher>(c.instructor()));
     }
     @SuppressWarnings("unchecked")

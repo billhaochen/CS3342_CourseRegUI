@@ -12,10 +12,6 @@ public record User(
         Role role
 ) {
     public String getID() {
-        return role.getId();
-    }
-
-    public String getName() {
-        return role.getName();
+        return role.idValue();
     }
 }

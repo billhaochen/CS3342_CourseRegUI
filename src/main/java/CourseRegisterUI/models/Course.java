@@ -26,5 +26,6 @@ public record Course(
         String building, // enum
         String room,
         Teacher instructor,
-        String medium // enum
+        String medium, // enum
+        String meeting_time
 ) {}
