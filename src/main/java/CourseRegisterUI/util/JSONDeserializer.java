@@ -1,9 +1,6 @@
 package CourseRegisterUI.util;
 
-import CourseRegisterUI.models.Course;
-import CourseRegisterUI.models.Root;
-import CourseRegisterUI.models.Student;
-import CourseRegisterUI.models.User;
+import CourseRegisterUI.models.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,13 +22,13 @@ public class JSONDeserializer {
             JsonNode coursesNode = root.path("courses");
             List<Course> read_courses = objectMapper.convertValue(
                     coursesNode,
-                    new TypeReference<>() {
+                    new TypeReference<List<Course>>() {
                     }
             );
 
             List<User> read_users = objectMapper.convertValue(
                     usersNode,
-                    new TypeReference<>() {
+                    new TypeReference<List<User>>() {
                     }
             );
             users.addAll(read_users);
@@ -67,6 +64,14 @@ public class JSONDeserializer {
         if (student.role() instanceof Student) {
             List<Course> read_courses = ((Student) student.role()).enrolled_courses();
             resulting_courses.addAll(read_courses);
+        }
+        return resulting_courses;
+    }
+
+    public static List<CourseRow> getCourseRowsFromStudent(User student) {
+        List<CourseRow> resulting_courses = new ArrayList<>();
+        for (Course course : getCoursesFromStudent(student)) {
+            resulting_courses.add(new CourseRow(course));
         }
         return resulting_courses;
     }

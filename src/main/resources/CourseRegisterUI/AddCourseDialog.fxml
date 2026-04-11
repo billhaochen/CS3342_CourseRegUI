@@ -76,13 +76,21 @@
                <content>
                   <TableView fx:id="courseTableView" maxWidth="1.7976931348623157E308" prefHeight="392.0">
                      <columns>
-                        <TableColumn prefWidth="38.0" text="  " />
-                        <TableColumn minWidth="150.0" prefWidth="-1.0" text="Acedemic unit" />
-                        <TableColumn minWidth="80.0" prefWidth="-1.0" text="Subject" />
-                        <TableColumn minWidth="60.0" prefWidth="-1.0" text="Course" />
-                        <TableColumn minWidth="200.0" prefWidth="-1.0" text="Title" />
-                        <TableColumn minWidth="60.0" prefWidth="-1.0" text="Credit" />
-                        <TableColumn minWidth="75.0" prefWidth="-1.0" text="Medium" />
+                        <TableColumn fx:id="academicUnitColumn" prefWidth="150.0" text="Academic Unit" />
+                        <TableColumn fx:id="subjectColumn" text="Subject" />
+                        <TableColumn fx:id="courseColumn" prefWidth="60.0" text="Course" />
+                        <TableColumn fx:id="titleColumn" prefWidth="200.0" text="Title" />
+                        <TableColumn fx:id="sectionColumn" prefWidth="60.0" text="Section" />
+                        <TableColumn fx:id="creditColumn" prefWidth="60.0" text="Credit" />
+                        <TableColumn fx:id="crnColumn" prefWidth="60.0" text="CRN" />
+                        <TableColumn fx:id="dayColumn" prefWidth="60.0" text="Day" />
+                        <TableColumn fx:id="meetingColumn" prefWidth="200.0" text="Meeting_Time" />
+                        <TableColumn fx:id="webColumn" prefWidth="75.0" text="Web" />
+                        <TableColumn fx:id="levelColumn" prefWidth="60.0" text="Level" />
+                        <TableColumn fx:id="availabilityColumn" prefWidth="60.0" text="Avail" />
+                        <TableColumn fx:id="capColumn" prefWidth="60.0" text="Cap" />
+                        <TableColumn fx:id="waitlistAvailColumn" prefWidth="75.0" text="Waitlist" />
+                        <TableColumn fx:id="mediumColumn" prefWidth="75.0" text="Medium" />
                      </columns>
                   </TableView>
                </content>

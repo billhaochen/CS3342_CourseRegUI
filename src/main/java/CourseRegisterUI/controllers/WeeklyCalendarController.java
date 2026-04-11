@@ -1,7 +1,10 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.AppContext;
+import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Course;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,18 +16,19 @@ import javafx.stage.Window;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
+import java.util.List;
 import java.util.Locale;
 
 
-public class WeeklyCalendarController {
+public class WeeklyCalendarController implements ContextAware {
     @FXML private ScrollPane mainScroll;
     @FXML private GridPane mainGrid;  // Single grid!
     @FXML private Label weekTitle;
     @FXML private Button prevWeek, nextWeek, todayBtn;
 
+    private AppContext context;
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
     private boolean gridInteractive = true;
     @FXML public void initialize() {
@@ -202,6 +206,80 @@ public class WeeklyCalendarController {
         });
 
         return cell;
+    }
+
+    private void clearCourseBlocks() {
+        mainGrid.getChildren().removeIf(node ->
+                node.getStyleClass().contains("course-block"));
+    }
+
+    public void renderCourses() {
+        clearCourseBlocks();
+
+        ObservableList<Course> courses = this.context.getSelectedCourses();
+        for (Course course : courses) {
+            int dayCol = mapDayToColumn(course.day());
+            int startRow = mapTimeToRow(course.start_time());
+            int endRow = mapTimeToRow(course.end_time());
+
+            StackPane block = createCourseBlock(course);
+
+            mainGrid.add(block, dayCol, startRow);
+            GridPane.setRowSpan(block, Math.max(1, endRow - startRow + 1));
+        }
+    }
+
+    private int mapDayToColumn(String day) {
+        if (day == null) return -1;
+
+        return switch (day.toUpperCase()) {
+            case "M" -> 1;
+            case "T" -> 2;
+            case "W" -> 3;
+            case "R" -> 4;
+            case "F" -> 5;
+            case "S" -> 6;
+            case "U" -> 7;
+            default -> -1;
+        };
+    }
+
+    private int mapTimeToRow(String time) {
+        if (time == null || time.isBlank()) return -1;
+
+        java.time.LocalTime localTime = java.time.LocalTime.parse(time);
+        return localTime.getHour() - 8 + 1;
+    }
+
+    private StackPane createCourseBlock(Course course) {
+        StackPane block = new StackPane();
+        block.getStyleClass().add("course-block");
+        block.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        block.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+
+        Label label = new Label(
+                course.subject() + " " + course.course_code() + "\n" +
+                        course.title() + "\n" +
+                        course.start_time() + " - " + course.end_time()
+        );
+        label.setWrapText(true);
+        label.getStyleClass().add("course-block-label");
+
+        block.getChildren().add(label);
+        return block;
+    }
+
+    private void attachListeners() {
+        context.getSelectedCourses().addListener((javafx.collections.ListChangeListener<Course>) change -> {
+            renderCourses();
+        });
+    }
+
+    @Override
+    public void setAppContext(AppContext appContext) {
+        this.context = appContext;
+        attachListeners();
+        renderCourses();
     }
     //to get the course information at certain time?
     public Course getCourseAt(LocalDate d, int t){
