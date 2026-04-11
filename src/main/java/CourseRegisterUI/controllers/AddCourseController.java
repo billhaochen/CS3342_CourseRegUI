@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -100,13 +101,17 @@ public class AddCourseController implements ContextAware {
         ObservableList<CourseRow> selectedRows =
                 courseTableView.getSelectionModel().getSelectedItems();
 
-        if (CourseService.validateCourses(selectedRows)) {
-            context.getSelectedCourses().setAll(
+        ObservableList<CourseRow> proposedRows = FXCollections.observableArrayList();
+        proposedRows.addAll(selectedRows);
+        proposedRows.addAll(context.getSelectedCourseRows());
+
+        if (CourseService.validateCourses(proposedRows)) {
+            context.getSelectedCourses().addAll(
                     selectedRows.stream()
                             .map(CourseRow::getCourse)
                             .toList()
             );
-            context.getSelectedCourseRows().setAll(selectedRows);
+            context.getSelectedCourseRows().addAll(selectedRows);
             System.out.println("State Confirmation: Add to Schedule Clicked");
 
             Stage stage = (Stage) courseTableView.getScene().getWindow();

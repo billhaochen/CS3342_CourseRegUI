@@ -22,7 +22,7 @@ public class AppContext {
     }
 
     public void loadInitialData() {
-        this.courseUserRepository = JSONDeserializer.JSONToRoot("src/main/resources/json/master_export_2026-04-11_14-29-27-641.json");
+        this.courseUserRepository = JSONDeserializer.JSONToRoot("src/main/resources/json/master_export_2026-04-11_16-38-16-535.json");
         courseRows.setAll(CourseService.loadCourseRowsFromRoot(this.courseUserRepository));
         selectedCourses.setAll(CourseService.loadCoursesForStudent(getCurrentUser()));
         selectedCourseRows.setAll(CourseService.loadCourseRowsForStudent(getCurrentUser()));

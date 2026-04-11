@@ -27,15 +27,15 @@ public class CourseController {
     private AppContext context;
 
     private LoadedView<SidePanelController> sidePanelView;
-//    private LoadedView<WeeklyCalendarController> weeklyCalendarView;
+    private LoadedView<WeeklyCalendarController> weeklyCalendarView;
 //    private LoadedView<MenuBarController> menuBarView;
 
     @FXML
     public void initialize() {
         sidePanelView = ComponentLoader.loadSidePanel();
         courseListPane.getChildren().setAll(sidePanelView.view());
-
-        schedulePane.setCenter(ComponentLoader.loadWeeklyCalendar());
+        weeklyCalendarView = ComponentLoader.loadWeeklyCalendar();
+        schedulePane.setCenter(weeklyCalendarView.view());
         menuBar.getMenus().addAll(ComponentLoader.loadMenuBar().getMenus());
         userNameAndId.setText("Not Signed In");
     }
@@ -46,9 +46,10 @@ public class CourseController {
         if (sidePanelView != null) {
             sidePanelView.controller().setAppContext(context);
         }
-//        if (weeklyCalendarView != null) {
-//            weeklyCalendarView.controller().setAppContext(context);
-//        }
+        if (weeklyCalendarView != null) {
+            weeklyCalendarView.controller().setAppContext(context);
+            weeklyCalendarView.controller().renderCourses();
+        }
 //        if (menuBarView != null) {
 //            menuBarView.controller().setAppContext(context);
 //        }
