@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
+import javafx.stage.Window;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -29,7 +30,7 @@ public class WeeklyCalendarController implements ContextAware {
 
     private AppContext context;
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
-
+    private boolean gridInteractive = true;
     @FXML public void initialize() {
 //        mainScroll.setStyle("-fx-scrollbar-width: 8; -fx-background-color: transparent;");
         mainScroll.getStyleClass().add("main-scroll");
@@ -184,12 +185,24 @@ public class WeeklyCalendarController implements ContextAware {
 //        );
 
         cell.setOnMouseClicked(e -> {
-            System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
-            String selectedStyle = baseStyle.replace("white", "#cce7ff")
-                    .replace("#dee2e6", "#007bff")
-                    .replace("1;", "2;");
-            cell.setStyle(selectedStyle);
+            if(gridInteractive){
+                System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
+//                Course c = getCourseAt(finalDate,finalHour);
+//                if(c!=null){
+//                    Window owner = mainScroll.getScene().getWindow();
+//                    WindowController.requestCourseInfo(owner,c);
+//                }
+//                //Test
+//                Window owner = mainScroll.getScene().getWindow();
+//                WindowController.requestCourseInfo(owner,c);
+
+                String selectedStyle = baseStyle.replace("white", "#cce7ff")
+                        .replace("#dee2e6", "#007bff")
+                        .replace("1;", "2;");
+                cell.setStyle(selectedStyle);
 //            cell.getStyleClass().add("calendar-cell:selected");
+            }
+
         });
 
         return cell;
@@ -253,6 +266,14 @@ public class WeeklyCalendarController implements ContextAware {
         label.getStyleClass().add("course-block-label");
 
         block.getChildren().add(label);
+        block.setOnMouseClicked(e -> {
+            if(gridInteractive){
+                Window owner = mainScroll.getScene().getWindow();
+                WindowController.requestCourseInfo(owner,course);
+//            cell.getStyleClass().add("calendar-cell:selected");
+            }
+
+        });
         return block;
     }
 
@@ -268,4 +289,10 @@ public class WeeklyCalendarController implements ContextAware {
         attachListeners();
         renderCourses();
     }
+
+
+    public void setInteractive(boolean b) {
+        gridInteractive = b;
+    }
+
 }
