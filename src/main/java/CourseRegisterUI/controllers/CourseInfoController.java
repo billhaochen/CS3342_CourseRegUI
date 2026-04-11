@@ -31,7 +31,7 @@ public class CourseInfoController {
         courseCRN.setText(course.crn() != null ? course.crn() : "N/A");
 
         if (course.instructor() != null) {
-            professorName.setText(course.instructor().getName());
+            professorName.setText(course.instructor().idValue());
         } else {
             professorName.setText("TBD");
         }
@@ -42,15 +42,6 @@ public class CourseInfoController {
         courseWebEnabled.setText(course.web_enabled() != null && course.web_enabled() ? "Yes" : "No");
 
 
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CourseRegisterUI/WeeklyCalendar.fxml"));
-//            Parent calendarView = loader.load();
-//            WeeklyCalendarController calController = loader.getController();
-//            calanderContainPane.getChildren().setAll(calendarView);
-//            AnchorPane.setTopAnchor(calendarView, 0.0);
-//            AnchorPane.setBottomAnchor(calendarView, 0.0);
-//            AnchorPane.setLeftAnchor(calendarView, 0.0);
-//            AnchorPane.setRightAnchor(calendarView, 0.0);
-//            calanderContainPane.setCenter(ComponentLoader.loadWeeklyCalendar());
         try{
             FXMLLoader loader = ComponentLoader.getWeeklyCalendarLoader();
 
