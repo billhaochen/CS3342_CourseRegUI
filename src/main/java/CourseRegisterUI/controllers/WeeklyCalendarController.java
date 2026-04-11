@@ -28,6 +28,7 @@ public class WeeklyCalendarController implements ContextAware {
     @FXML private Button prevWeek, nextWeek, todayBtn;
 
     private AppContext context;
+    private StackPane selectedCell;
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
 
     @FXML public void initialize() {
@@ -183,14 +184,30 @@ public class WeeklyCalendarController implements ContextAware {
 //                cell.setStyle(baseStyle)
 //        );
 
+//        cell.setOnMouseClicked(e -> {
+//            System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
+//            String selectedStyle = baseStyle.replace("white", "#cce7ff")
+//                    .replace("#dee2e6", "#007bff")
+//                    .replace("1;", "2;");
+//            cell.setStyle(selectedStyle);
         cell.setOnMouseClicked(e -> {
-            System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
-            String selectedStyle = baseStyle.replace("white", "#cce7ff")
-                    .replace("#dee2e6", "#007bff")
-                    .replace("1;", "2;");
-            cell.setStyle(selectedStyle);
-//            cell.getStyleClass().add("calendar-cell:selected");
+            if (selectedCell == cell) {
+                cell.getStyleClass().remove("calendar-cell-selected");
+                cell.getStyleClass().add("calendar-cell");
+                selectedCell = null;
+                return;
+            }
+
+            if (selectedCell != null) {
+                selectedCell.getStyleClass().remove("calendar-cell-selected");
+                selectedCell.getStyleClass().add("calendar-cell");
+            }
+
+            selectedCell = cell;
+            selectedCell.getStyleClass().remove("calendar-cell");
+            selectedCell.getStyleClass().add("calendar-cell-selected");
         });
+//            cell.getStyleClass().add("calendar-cell:selected");
 
         return cell;
     }
