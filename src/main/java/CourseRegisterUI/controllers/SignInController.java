@@ -80,6 +80,7 @@ public class SignInController implements ContextAware {
         String full_name = nameField.getText();
         String id = idField.getText();
         if (validateStudentCredentials(full_name, id)) {
+            context.setCurrentUser(full_name, id);
             mainController.updateUserInfo(full_name, id);
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.close();
@@ -114,6 +115,7 @@ public class SignInController implements ContextAware {
 
     @FXML
     private void handleSignedOut(){
+        // by default the user is set to signed out
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
     }

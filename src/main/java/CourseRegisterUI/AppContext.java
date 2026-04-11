@@ -1,9 +1,6 @@
 package CourseRegisterUI;
 
-import CourseRegisterUI.models.Course;
-import CourseRegisterUI.models.CourseRow;
-import CourseRegisterUI.models.Root;
-import CourseRegisterUI.models.User;
+import CourseRegisterUI.models.*;
 import CourseRegisterUI.util.CourseService;
 import CourseRegisterUI.util.JSONDeserializer;
 import javafx.collections.FXCollections;
@@ -21,11 +18,14 @@ public class AppContext {
 
     public AppContext() {
         this.courseUserRepository = new Root(new ArrayList<>(), new ArrayList<>());
+        this.currentUser = new User("", "", new SignedOut());
     }
 
     public void loadInitialData() {
         this.courseUserRepository = JSONDeserializer.JSONToRoot("src/main/resources/json/master_export_2026-04-11_14-29-27-641.json");
         courseRows.setAll(CourseService.loadCourseRowsFromRoot(this.courseUserRepository));
+        selectedCourses.setAll(CourseService.loadCoursesForStudent(getCurrentUser()));
+        selectedCourseRows.setAll(CourseService.loadCourseRowsForStudent(getCurrentUser()));
     }
 
     public ObservableList<CourseRow> getCourseRows() {
@@ -34,6 +34,24 @@ public class AppContext {
 
     public Root getCourseRepository() {
         return courseUserRepository;
+    }
+
+    public void setCurrentUser(String full_name, String id) {
+        User new_user = this.courseUserRepository.users().stream().filter(
+                user -> user.id().equals(id) && user.name().equals(full_name)
+        ).findFirst().orElse(null);
+
+        if (new_user != null) {
+            this.currentUser = new_user;
+            reloadData();
+        } else {
+            System.out.println("There was an issue with finding the credentials in the list of Users ");
+        }
+    }
+
+    private void reloadData() {
+        selectedCourses.setAll(CourseService.loadCoursesForStudent(getCurrentUser()));
+        selectedCourseRows.setAll(CourseService.loadCourseRowsForStudent(getCurrentUser()));
     }
 
     public User getCurrentUser() {

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = Student.class, name = "student"),
         @JsonSubTypes.Type(value = Teacher.class, name = "teacher")
 })
-public sealed interface Role permits Student, Teacher {
+public sealed interface Role permits Student, Teacher, SignedOut {
     public String idValue();
 }
 // This is the Java equivalent of a TypeScript Student | Teacher type

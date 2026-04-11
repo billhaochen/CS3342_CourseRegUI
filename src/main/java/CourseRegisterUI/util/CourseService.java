@@ -3,6 +3,7 @@ package CourseRegisterUI.util;
 import CourseRegisterUI.models.Course;
 import CourseRegisterUI.models.CourseRow;
 import CourseRegisterUI.models.Root;
+import CourseRegisterUI.models.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -16,6 +17,19 @@ public class CourseService {
             rows.add(new CourseRow(course));
         }
 
+        return rows;
+    }
+
+    // Honestly these two functions can be combined into the JSONDeserializer class but this makes it easier to follow
+    public static ObservableList<Course> loadCoursesForStudent(User student) {
+        ObservableList<Course> rows = FXCollections.observableArrayList();
+        rows.addAll(JSONDeserializer.getCoursesFromStudent(student));
+        return rows;
+    }
+
+    public static ObservableList<CourseRow> loadCourseRowsForStudent(User student) {
+        ObservableList<CourseRow> rows = FXCollections.observableArrayList();
+        rows.addAll(JSONDeserializer.getCourseRowsFromStudent(student));
         return rows;
     }
 
