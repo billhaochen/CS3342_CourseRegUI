@@ -3,7 +3,9 @@ package CourseRegisterUI.controllers;
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Course;
+import CourseRegisterUI.models.CourseRow;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -251,6 +253,12 @@ public class WeeklyCalendarController implements ContextAware {
     private void attachListeners() {
         context.getSelectedCourses().addListener((javafx.collections.ListChangeListener<Course>) change -> {
             renderCourses();
+        });
+
+        context.getSelectedCourseRows().addListener((ListChangeListener<CourseRow>) change -> {
+            while (change.next()) {
+                renderCourses();
+            }
         });
     }
 

@@ -5,6 +5,7 @@ import CourseRegisterUI.util.CourseService;
 import CourseRegisterUI.util.JSONDeserializer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 import java.util.ArrayList;
 
@@ -15,10 +16,12 @@ public class AppContext {
 
     private final ObservableList<Course> selectedCourses = FXCollections.observableArrayList();
     private final ObservableList<CourseRow> selectedCourseRows= FXCollections.observableArrayList();
+    private final FilteredList<CourseRow> filteredCourseRows;
 
     public AppContext() {
         this.courseUserRepository = new Root(new ArrayList<>(), new ArrayList<>());
         this.currentUser = new User("", "", new SignedOut());
+        this.filteredCourseRows = new FilteredList<>(selectedCourseRows, null);
     }
 
     public void loadInitialData() {
@@ -73,5 +76,7 @@ public class AppContext {
     public void clearSelectedCourses() {
         selectedCourses.clear();
     }
+
+    public FilteredList<CourseRow> getFilteredCourseRows() { return filteredCourseRows; }
 
 }
