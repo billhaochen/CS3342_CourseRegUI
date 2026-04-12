@@ -8,39 +8,101 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="courseListPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25"
-      fx:controller="CourseRegisterUI.controllers.SidePanelController">
-    <Button fx:id="addCourseBtn" maxWidth="Infinity" onAction="#handleAddCourseDialog" text="Add Course"/>
-    <Accordion>
-        <panes>
-            <TitledPane text="Course">
-                <TableView fx:id="courseTable" prefHeight="180.0" prefWidth="200.0">
-                    <columns>
-                        <TableColumn fx:id="subjectColumn" prefWidth="100" text="Subject"/>
-                        <TableColumn fx:id="courseNumberColumn" prefWidth="100" text="Course Number"/>
-                        <TableColumn fx:id="titleColumn" prefWidth="100" text="Title"/>
-                        <TableColumn fx:id="academicUnitColumn" prefWidth="150.0" text="Academic_Unit"/>
-                        <TableColumn fx:id="courseColumn" prefWidth="60.0" text="Course"/>
-                        <TableColumn fx:id="sectionColumn" prefWidth="60.0" text="Section"/>
-                        <TableColumn fx:id="creditColumn" prefWidth="60.0" text="Credit"/>
-                        <TableColumn fx:id="crnColumn" prefWidth="60.0" text="CRN"/>
-                        <TableColumn fx:id="dayColumn" prefWidth="60.0" text="Day"/>
-                        <TableColumn fx:id="meetingColumn" prefWidth="200.0" text="Meeting_Time"/>
-                        <TableColumn fx:id="webColumn" prefWidth="75.0" text="Web"/>
-                        <TableColumn fx:id="levelColumn" prefWidth="60.0" text="Level"/>
-                        <TableColumn fx:id="availabilityColumn" prefWidth="60.0" text="Avail"/>
-                        <TableColumn fx:id="capColumn" prefWidth="60.0" text="Cap"/>
-                        <TableColumn fx:id="waitlistAvailColumn" prefWidth="75.0" text="Waitlist"/>
-                        <TableColumn fx:id="mediumColumn" prefWidth="75.0" text="Medium"/>
-                    </columns>
-                </TableView>
-            </TitledPane>
-            <TitledPane animated="false" text="Department">
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
-            </TitledPane>
-            <TitledPane animated="false" text="Filter2">
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
-            </TitledPane>
-        </panes>
-    </Accordion>
-</VBox>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<ScrollPane fx:id="courseListPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25"
+            fx:controller="CourseRegisterUI.controllers.SidePanelController">
+    <VBox>
+        <Button fx:id="addCourseBtn" maxWidth="Infinity" onAction="#handleAddCourseDialog" text="Add Course"/>
+        <VBox.margin>
+            <Insets top="10.0" right="10.0" bottom="15.0" left="10.0"/>
+        </VBox.margin>
+        <TitledPane text="Course">
+            <TableView fx:id="courseTable" prefHeight="180.0" prefWidth="200.0">
+                <columns>
+                    <TableColumn fx:id="subjectColumn" prefWidth="100" text="Subject"/>
+                    <TableColumn fx:id="courseNumberColumn" prefWidth="100" text="Course Number"/>
+                    <TableColumn fx:id="titleColumn" prefWidth="100" text="Title"/>
+                    <TableColumn fx:id="academicUnitColumn" prefWidth="150.0" text="Academic_Unit"/>
+                    <TableColumn fx:id="courseColumn" prefWidth="60.0" text="Course"/>
+                    <TableColumn fx:id="sectionColumn" prefWidth="60.0" text="Section"/>
+                    <TableColumn fx:id="creditColumn" prefWidth="60.0" text="Credit"/>
+                    <TableColumn fx:id="crnColumn" prefWidth="60.0" text="CRN"/>
+                    <TableColumn fx:id="dayColumn" prefWidth="60.0" text="Day"/>
+                    <TableColumn fx:id="meetingColumn" prefWidth="200.0" text="Meeting_Time"/>
+                    <TableColumn fx:id="webColumn" prefWidth="75.0" text="Web"/>
+                    <TableColumn fx:id="levelColumn" prefWidth="60.0" text="Level"/>
+                    <TableColumn fx:id="availabilityColumn" prefWidth="60.0" text="Avail"/>
+                    <TableColumn fx:id="capColumn" prefWidth="60.0" text="Cap"/>
+                    <TableColumn fx:id="waitlistAvailColumn" prefWidth="75.0" text="Waitlist"/>
+                    <TableColumn fx:id="mediumColumn" prefWidth="75.0" text="Medium"/>
+                </columns>
+            </TableView>
+        </TitledPane>
+        <!--            <TitledPane animated="false" text="Department">-->
+        <!--                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>-->
+        <!--            </TitledPane>-->
+        <TitledPane text="Filters">
+            <AnchorPane minHeight="0.0" minWidth="0.0">
+                <VBox maxHeight="1.7976931348623157E308" maxWidth="400.0" spacing="20.0">
+                    <children>
+                        <VBox spacing="10.0">
+                            <children>
+                                <TextField fx:id="search_by_text_field" maxHeight="30.0" maxWidth="300.0" promptText="Search By Title"/>
+                                <ComboBox fx:id="academicUnitComboBox" prefWidth="130.0"
+                                          promptText="Select an Academic Unit">
+                                    <VBox.margin>
+                                        <Insets/>
+                                    </VBox.margin>
+                                </ComboBox>
+                                <TextField fx:id="academicUnitTextField" maxWidth="1.7976931348623157E308"
+                                           prefHeight="26.0" promptText="Academic Unit">
+                                    <VBox.margin>
+                                        <Insets/>
+                                    </VBox.margin>
+                                </TextField>
+                            </children>
+                        </VBox>
+                        <VBox spacing="10.0">
+                            <children>
+                                <CheckBox fx:id="creditCheckBox" mnemonicParsing="false" text="Credit"/>
+                                <HBox alignment="CENTER">
+                                    <children>
+                                        <TextField fx:id="creditTextField" maxWidth="80.0"
+                                                   promptText="Minimum Credits"/>
+                                        <RadioButton fx:id="exactCreditButton" mnemonicParsing="false"
+                                                     text="Exact Credits*" HBox.hgrow="ALWAYS">
+                                            <padding>
+                                                <Insets left="10.0"/>
+                                            </padding>
+                                        </RadioButton>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                        <VBox spacing="10.0">
+                            <children>
+                                <CheckBox fx:id="programCheckBox" mnemonicParsing="false" text="Program"/>
+                                <ComboBox fx:id="programComboBox" prefWidth="130.0" promptText="Select a College"/>
+                            </children>
+                        </VBox>
+                        <VBox spacing="10.0">
+                            <children>
+                                <CheckBox fx:id="mediumCheckBox" mnemonicParsing="false" text="Medium"/>
+                                <ComboBox fx:id="mediumComboBox" prefWidth="130.0" promptText="Select a language"/>
+                            </children>
+                        </VBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                </VBox>
+            </AnchorPane>
+        </TitledPane>
+    </VBox>
+</ScrollPane>

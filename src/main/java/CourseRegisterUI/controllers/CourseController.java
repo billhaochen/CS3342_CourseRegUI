@@ -6,10 +6,7 @@ import CourseRegisterUI.models.Root;
 import CourseRegisterUI.util.LoadedView;
 import CourseRegisterUI.util.MasterJSONBuilder;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 
@@ -19,7 +16,7 @@ import java.time.format.DateTimeFormatter;
 
 public class CourseController {
     @FXML private Button exportButton;
-    @FXML private VBox courseListPane;
+    @FXML private ScrollPane courseListPane;
     @FXML private BorderPane schedulePane;
     @FXML private MenuBar menuBar;
     @FXML private Circle profilePicture;
@@ -33,7 +30,7 @@ public class CourseController {
     @FXML
     public void initialize() {
         sidePanelView = ComponentLoader.loadSidePanel();
-        courseListPane.getChildren().setAll(sidePanelView.view());
+        courseListPane.setContent(sidePanelView.view());
         weeklyCalendarView = ComponentLoader.loadWeeklyCalendar();
         schedulePane.setCenter(weeklyCalendarView.view());
         menuBar.getMenus().addAll(ComponentLoader.loadMenuBar().getMenus());

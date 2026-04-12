@@ -2,21 +2,22 @@ package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ContextAware;
+import CourseRegisterUI.models.College;
 import CourseRegisterUI.models.Course;
 import CourseRegisterUI.models.CourseRow;
-import CourseRegisterUI.models.Root;
 import CourseRegisterUI.util.CourseService;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 public class AddCourseController implements ContextAware {
@@ -52,12 +53,32 @@ public class AddCourseController implements ContextAware {
     private TableColumn<CourseRow, String> dayColumn;
     @FXML
     private TableColumn<CourseRow, String> meetingColumn;
+
+    @FXML private ComboBox<String> academicUnitComboBox;
+    @FXML private TextField academicUnitTextField;
+    @FXML private TextField search_by_text_field;
+    @FXML private CheckBox creditCheckBox;
+    @FXML private TextField creditTextField;
+    @FXML private RadioButton exactCreditButton;
+    @FXML private CheckBox programCheckBox;
+    @FXML private ComboBox<College> programComboBox;
+    @FXML private CheckBox mediumCheckBox;
+    @FXML private ComboBox<String> mediumComboBox;
+
     private AppContext context;
+    private FilteredList<CourseRow> filteredList;
 
     @Override
     public void setAppContext(AppContext appContext) {
         this.context = appContext;
-        courseTableView.setItems(appContext.getCourseRows());
+        filteredList = new FilteredList<>(context.getCourseRows(), p -> true);
+        courseTableView.setItems(filteredList);
+
+        SortedList<CourseRow> sortedData = new SortedList<>(filteredList);
+        sortedData.comparatorProperty().bind(courseTableView.comparatorProperty());
+        courseTableView.setItems(sortedData);
+
+        attachFilters();
     }
 
 
@@ -92,11 +113,13 @@ public class AddCourseController implements ContextAware {
                 }
             }
         });
-    }
 
-//    public void addCourse(Course course) {
-//        rows.add(new CourseRow(course));
-//    }
+        creditTextField.disableProperty().bind(creditCheckBox.selectedProperty().not());
+        exactCreditButton.disableProperty().bind(creditCheckBox.selectedProperty().not());
+
+        programComboBox.disableProperty().bind(programCheckBox.selectedProperty().not());
+        mediumComboBox.disableProperty().bind(mediumCheckBox.selectedProperty().not());
+    }
 
     @FXML
     private void showConflict() {
@@ -105,6 +128,111 @@ public class AddCourseController implements ContextAware {
         alert.setHeaderText(null);
         alert.setContentText("One or more selected courses overlap.");
         alert.showAndWait();
+    }
+
+    private void applyFilters() {
+        filteredList.setPredicate(row -> {
+            Course c = row.getCourse();
+
+            String courseTitle = search_by_text_field.getText();
+            if (courseTitle != null && !courseTitle.isBlank()) {
+                String s = courseTitle.toLowerCase();
+                if (!c.title().toLowerCase().contains(s) && !c.course_code().toLowerCase().contains(s)) {
+                    return false;
+                }
+            }
+
+            String nameText = academicUnitTextField.getText();
+            String nameChoice = academicUnitComboBox.getValue();
+
+            if (nameText != null && !nameText.isBlank()) {
+                String s = nameText.toLowerCase();
+                if (!c.academic_unit().toLowerCase().contains(s) && !c.course_code().toLowerCase().contains(s)) {
+                    return false;
+                }
+            }
+
+            if (nameChoice != null && !nameChoice.isBlank()) {
+                if (!c.academic_unit().equalsIgnoreCase(nameChoice)) {
+                    return false;
+                }
+            }
+
+            if (creditCheckBox.isSelected()) {
+                if (creditTextField.getText() == null || creditTextField.getText().isBlank()) {
+                    return false;
+                }
+
+                try {
+                    int credit = Integer.parseInt(creditTextField.getText().trim());
+                    if (exactCreditButton.isSelected()) {
+                        if (!c.credit().equals(credit)) return false;
+                    } else {
+                        if (c.credit() < credit) return false;
+                    }
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+            }
+
+            if (programCheckBox.isSelected()) {
+                College selectedCollege = programComboBox.getValue();
+                if (selectedCollege != null) {
+                    if (!c.college().equals(selectedCollege)) {
+                        return false;
+                    }
+                }
+            }
+
+            if (mediumCheckBox.isSelected()) {
+                String medium = mediumComboBox.getValue();
+                if (medium != null && !medium.isBlank()) {
+                    if (!c.medium().equalsIgnoreCase(medium)) return false;
+                }
+            }
+
+            return true;
+        });
+    }
+
+    private void attachFilters() {
+        loadFilters();
+
+        search_by_text_field.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        academicUnitComboBox.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        academicUnitTextField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+
+        creditCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        creditTextField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        exactCreditButton.selectedProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+
+        programCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        programComboBox.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+
+        mediumCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        mediumComboBox.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+    }
+
+    public void loadFilters() {
+        List<String> course_titles = new ArrayList<>(context.getCourseRows().stream()
+                .map(courseRow -> courseRow.getCourse().academic_unit())
+                .distinct()
+                .sorted()
+                .toList());
+        course_titles.addFirst(null);
+
+        academicUnitComboBox.setItems(FXCollections.observableArrayList(course_titles));
+
+        programComboBox.setItems(FXCollections.observableArrayList(
+                Stream.concat(Stream.of((College) null), Arrays.stream(College.values()))
+                        .toList()
+        ));
+
+        mediumComboBox.setItems(FXCollections.observableArrayList(
+                null,
+                "English",
+                "Chinese"
+        ));
     }
 
 

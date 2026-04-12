@@ -3,7 +3,10 @@ package CourseRegisterUI.controllers;
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Course;
+import CourseRegisterUI.models.CourseRow;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -31,8 +34,9 @@ public class WeeklyCalendarController implements ContextAware {
     private AppContext context;
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
     private boolean gridInteractive = true;
+    private StackPane selectedCell;
+
     @FXML public void initialize() {
-//        mainScroll.setStyle("-fx-scrollbar-width: 8; -fx-background-color: transparent;");
         mainScroll.getStyleClass().add("main-scroll");
         mainScroll.setFitToWidth(true);
         mainScroll.setPannable(true);  // Smooth scroll with mouse drag
@@ -45,6 +49,13 @@ public class WeeklyCalendarController implements ContextAware {
             mainGrid.setPrefHeight(500);  // Minimum visible height
             mainScroll.requestLayout();
         });
+    }
+
+    @Override
+    public void setAppContext(AppContext appContext) {
+        this.context = appContext;
+        attachListeners();
+        renderCourses();
     }
 
     private void updateTitle() {
@@ -86,13 +97,6 @@ public class WeeklyCalendarController implements ContextAware {
         timeLabel.setMinHeight(45);
         timeLabel.setMaxWidth(Double.MAX_VALUE);
         timeLabel.setAlignment(Pos.CENTER);
-//        timeLabel.setStyle("""
-//    -fx-background-color: #f8f9fa;
-//    -fx-border-color: #dee2e6 #dee2e6 #dee2e6 #dee2e6;
-//    -fx-border-width: 1;
-//    -fx-padding: 8 8 8 12;
-//    -fx-font-size: 12;
-//    """);
         timeLabel.getStyleClass().add("time-label");
 
         GridPane.setMargin(timeLabel, new Insets(0, 0, 0, 4));  // ← Extra 4px margin
@@ -100,7 +104,7 @@ public class WeeklyCalendarController implements ContextAware {
 
         // Cells (unchanged)
         for (int col = 1; col <= 7; col++) {
-            StackPane cell = createScheduleCell(weekStart.plusDays(col-1), row-1);
+            StackPane cell = createScheduleCell();
             cell.setPrefHeight(45);
             cell.setMinHeight(45);
             mainGrid.add(cell, col, row);
@@ -156,53 +160,30 @@ public class WeeklyCalendarController implements ContextAware {
         }
     }
 
-    private StackPane createScheduleCell(LocalDate date, int hour) {
+    private StackPane createScheduleCell() {
         StackPane cell = new StackPane();
         cell.setPrefHeight(45);
         cell.setMinHeight(45);
         cell.setMinWidth(80);
 
-        final int finalHour = hour;
-        final LocalDate finalDate = date;
-
-        // ✅ FULL BORDER ON ALL STATES (top, right, bottom, left)
-        String baseStyle = """
-        -fx-background-color: white;
-        -fx-border-color: #dee2e6 #dee2e6 #dee2e6 #dee2e6;
-        -fx-border-width: 1;
-        -fx-padding: 2;
-        """;
-
-//        cell.setStyle(baseStyle);
         cell.getStyleClass().add("calendar-cell");
 
-//        cell.setOnMouseEntered(e ->
-//                cell.setStyle(baseStyle.replace("white", "#f8f9fa"))
-//        );
-//
-//        cell.setOnMouseExited(e ->
-//                cell.setStyle(baseStyle)
-//        );
-
         cell.setOnMouseClicked(e -> {
-            if(gridInteractive){
-                System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
-//                Course c = getCourseAt(finalDate,finalHour);
-//                if(c!=null){
-//                    Window owner = mainScroll.getScene().getWindow();
-//                    WindowController.requestCourseInfo(owner,c);
-//                }
-//                //Test
-//                Window owner = mainScroll.getScene().getWindow();
-//                WindowController.requestCourseInfo(owner,c);
-
-                String selectedStyle = baseStyle.replace("white", "#cce7ff")
-                        .replace("#dee2e6", "#007bff")
-                        .replace("1;", "2;");
-                cell.setStyle(selectedStyle);
-//            cell.getStyleClass().add("calendar-cell:selected");
+            if (selectedCell == cell) {
+                cell.getStyleClass().remove("calendar-cell-selected");
+                cell.getStyleClass().add("calendar-cell");
+                selectedCell = null;
+                return;
             }
 
+            if (selectedCell != null) {
+                selectedCell.getStyleClass().remove("calendar-cell-selected");
+                selectedCell.getStyleClass().add("calendar-cell");
+            }
+
+            selectedCell = cell;
+            selectedCell.getStyleClass().remove("calendar-cell");
+            selectedCell.getStyleClass().add("calendar-cell-selected");
         });
 
         return cell;
@@ -216,14 +197,30 @@ public class WeeklyCalendarController implements ContextAware {
     public void renderCourses() {
         clearCourseBlocks();
 
-        ObservableList<Course> courses = this.context.getSelectedCourses();
-        for (Course course : courses) {
+        LocalDate weekEnd = weekStart.plusDays(6);
+
+        List<Course> weekCourses = context.getFilteredCourseRows().stream()
+                .map(CourseRow::getCourse)
+                .filter(course -> {
+                    if (course == null || course.start_date() == null || course.end_date() == null)
+                        return false;
+
+                    LocalDate courseStart = course.start_date();
+                    LocalDate courseEnd = course.end_date();
+
+                    return !courseEnd.isBefore(weekStart) && !courseStart.isAfter(weekEnd);
+                })
+                .toList();
+
+        for (Course course : weekCourses) {
             int dayCol = mapDayToColumn(course.day());
+            if (dayCol == -1) continue;
+
             int startRow = mapTimeToRow(course.start_time());
             int endRow = mapTimeToRow(course.end_time());
+            if (startRow == -1 || endRow == -1) continue;
 
             StackPane block = createCourseBlock(course);
-
             mainGrid.add(block, dayCol, startRow);
             GridPane.setRowSpan(block, Math.max(1, endRow - startRow + 1));
         }
@@ -278,18 +275,31 @@ public class WeeklyCalendarController implements ContextAware {
     }
 
     private void attachListeners() {
-        context.getSelectedCourses().addListener((javafx.collections.ListChangeListener<Course>) change -> {
+        context.getFilteredCourseRows().addListener((javafx.collections.ListChangeListener<CourseRow>) change -> {
             renderCourses();
         });
     }
 
-    @Override
-    public void setAppContext(AppContext appContext) {
-        this.context = appContext;
-        attachListeners();
+    @FXML
+    private void handlePrevWeek() {
+        weekStart = weekStart.minusWeeks(1);
+        refreshCalendar();
         renderCourses();
     }
 
+    @FXML
+    private void handleNextWeek() {
+        weekStart = weekStart.plusWeeks(1);
+        refreshCalendar();
+        renderCourses();
+    }
+
+    @FXML
+    private void handleToday() {
+        weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
+        refreshCalendar();
+        renderCourses();
+    }
 
     public void setInteractive(boolean b) {
         gridInteractive = b;

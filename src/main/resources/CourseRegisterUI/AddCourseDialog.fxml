@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 
+<?import javafx.scene.control.ToggleButton?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CourseRegisterUI.controllers.AddCourseController">
    <left>
       <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -22,12 +23,12 @@
                <children>
                   <VBox spacing="10.0">
                      <children>
-                        <ComboBox fx:id="courseNameComboBox" prefWidth="130.0" promptText="Course Name">
+                        <ComboBox fx:id="academicUnitComboBox" prefWidth="130.0" promptText="Select an Academic Unit">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </ComboBox>
-                        <TextField fx:id="courseNameTextField" maxWidth="1.7976931348623157E308" prefHeight="26.0" promptText="Course Name">
+                        <TextField fx:id="academicUnitTextField" maxWidth="1.7976931348623157E308" prefHeight="26.0" promptText="Academic Unit">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -36,11 +37,11 @@
                   </VBox>
                   <VBox spacing="10.0">
                      <children>
-                        <CheckBox fx:id="CreditCheckBox" mnemonicParsing="false" text="Credit" />
+                        <CheckBox fx:id="creditCheckBox" mnemonicParsing="false" text="Credit" />
                         <HBox alignment="CENTER">
                            <children>
-                              <TextField fx:id="creditTextField" maxWidth="80.0" promptText="Credits" />
-                              <RadioButton fx:id="exactCreditRadioButtom" mnemonicParsing="false" text="Exact Credits*" HBox.hgrow="ALWAYS">
+                              <TextField fx:id="creditTextField" maxWidth="80.0" promptText="Minimum Credits" />
+                              <RadioButton fx:id="exactCreditButton" mnemonicParsing="false" text="Exact Credits*" HBox.hgrow="ALWAYS">
                                  <padding>
                                     <Insets left="10.0" />
                                  </padding>
@@ -52,13 +53,13 @@
                   <VBox spacing="10.0">
                      <children>
                         <CheckBox fx:id="programCheckBox" mnemonicParsing="false" text="Program" />
-                        <ComboBox fx:id="programComboBox" prefWidth="130.0" />
+                        <ComboBox fx:id="programComboBox" prefWidth="130.0" promptText="Select a College" />
                      </children>
                   </VBox>
                   <VBox spacing="10.0">
                      <children>
                         <CheckBox fx:id="mediumCheckBox" mnemonicParsing="false" text="Medium" />
-                        <ComboBox fx:id="mediumComboBox" prefWidth="130.0" />
+                        <ComboBox fx:id="mediumComboBox" prefWidth="130.0"  promptText="Select a language"/>
                      </children>
                   </VBox>
                </children>
@@ -115,7 +116,7 @@
                   <Insets bottom="15.0" left="20.0" top="25.0" />
                </HBox.margin>
             </Rectangle>
-            <TextField fx:id="search_by_text_filed" maxHeight="30.0" maxWidth="300.0" promptText="Search By">
+            <TextField fx:id="search_by_text_field" maxHeight="30.0" maxWidth="300.0" promptText="Search By Title">
                <HBox.margin>
                   <Insets bottom="10.0" left="3.0" right="20.0" top="25.0" />
                </HBox.margin>
