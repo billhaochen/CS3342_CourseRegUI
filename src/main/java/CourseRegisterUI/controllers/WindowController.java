@@ -3,6 +3,7 @@ package CourseRegisterUI.controllers;
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.ContextAware;
+import CourseRegisterUI.models.Course;
 import CourseRegisterUI.models.Root;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -67,5 +68,43 @@ public class WindowController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static void showCourseInfoPopup(Window owner, Course selectedCourse) {
+        try {
+            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/CourseInfo.fxml"));
+            Parent root = loader.load();
+
+            CourseInfoController controller = loader.getController();
+            controller.setCourseInfo(selectedCourse);
+
+            Stage popupStage = new Stage();
+            popupStage.initOwner(owner);
+            popupStage.initModality(Modality.NONE);
+            popupStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+
+            Scene scene = new Scene(root);
+            scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+            popupStage.setScene(scene);
+
+            popupStage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+                if (!isNowFocused) {
+                    popupStage.close();
+                }
+            });
+            scene.getStylesheets().add(WindowController.class.getResource("/CourseRegisterUI/css/style.css").toExternalForm());
+            popupStage.show();
+            BoxBlur blur = new BoxBlur(8, 8, 3);
+            owner.getScene().getRoot().setEffect(blur);
+            popupStage.setOnHidden(e -> owner.getScene().getRoot().setEffect(null));
+            popupStage.setX(owner.getX() + (owner.getWidth() - popupStage.getWidth()) / 2);
+            popupStage.setY(owner.getY() + (owner.getHeight() - popupStage.getHeight()) / 2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void requestCourseInfo(Window owner,Course course) {
+        showCourseInfoPopup(owner,course);
     }
 }
