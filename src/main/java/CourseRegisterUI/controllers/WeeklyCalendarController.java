@@ -31,8 +31,9 @@ public class WeeklyCalendarController implements ContextAware {
     private AppContext context;
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
     private boolean gridInteractive = true;
+    private StackPane selectedCell;
+
     @FXML public void initialize() {
-//        mainScroll.setStyle("-fx-scrollbar-width: 8; -fx-background-color: transparent;");
         mainScroll.getStyleClass().add("main-scroll");
         mainScroll.setFitToWidth(true);
         mainScroll.setPannable(true);  // Smooth scroll with mouse drag
@@ -86,13 +87,6 @@ public class WeeklyCalendarController implements ContextAware {
         timeLabel.setMinHeight(45);
         timeLabel.setMaxWidth(Double.MAX_VALUE);
         timeLabel.setAlignment(Pos.CENTER);
-//        timeLabel.setStyle("""
-//    -fx-background-color: #f8f9fa;
-//    -fx-border-color: #dee2e6 #dee2e6 #dee2e6 #dee2e6;
-//    -fx-border-width: 1;
-//    -fx-padding: 8 8 8 12;
-//    -fx-font-size: 12;
-//    """);
         timeLabel.getStyleClass().add("time-label");
 
         GridPane.setMargin(timeLabel, new Insets(0, 0, 0, 4));  // ← Extra 4px margin
@@ -100,7 +94,7 @@ public class WeeklyCalendarController implements ContextAware {
 
         // Cells (unchanged)
         for (int col = 1; col <= 7; col++) {
-            StackPane cell = createScheduleCell(weekStart.plusDays(col-1), row-1);
+            StackPane cell = createScheduleCell();
             cell.setPrefHeight(45);
             cell.setMinHeight(45);
             mainGrid.add(cell, col, row);
@@ -156,53 +150,30 @@ public class WeeklyCalendarController implements ContextAware {
         }
     }
 
-    private StackPane createScheduleCell(LocalDate date, int hour) {
+    private StackPane createScheduleCell() {
         StackPane cell = new StackPane();
         cell.setPrefHeight(45);
         cell.setMinHeight(45);
         cell.setMinWidth(80);
 
-        final int finalHour = hour;
-        final LocalDate finalDate = date;
-
-        // ✅ FULL BORDER ON ALL STATES (top, right, bottom, left)
-        String baseStyle = """
-        -fx-background-color: white;
-        -fx-border-color: #dee2e6 #dee2e6 #dee2e6 #dee2e6;
-        -fx-border-width: 1;
-        -fx-padding: 2;
-        """;
-
-//        cell.setStyle(baseStyle);
         cell.getStyleClass().add("calendar-cell");
 
-//        cell.setOnMouseEntered(e ->
-//                cell.setStyle(baseStyle.replace("white", "#f8f9fa"))
-//        );
-//
-//        cell.setOnMouseExited(e ->
-//                cell.setStyle(baseStyle)
-//        );
-
         cell.setOnMouseClicked(e -> {
-            if(gridInteractive){
-                System.out.println("Clicked: " + finalDate + " " + finalHour + ":00");
-//                Course c = getCourseAt(finalDate,finalHour);
-//                if(c!=null){
-//                    Window owner = mainScroll.getScene().getWindow();
-//                    WindowController.requestCourseInfo(owner,c);
-//                }
-//                //Test
-//                Window owner = mainScroll.getScene().getWindow();
-//                WindowController.requestCourseInfo(owner,c);
-
-                String selectedStyle = baseStyle.replace("white", "#cce7ff")
-                        .replace("#dee2e6", "#007bff")
-                        .replace("1;", "2;");
-                cell.setStyle(selectedStyle);
-//            cell.getStyleClass().add("calendar-cell:selected");
+            if (selectedCell == cell) {
+                cell.getStyleClass().remove("calendar-cell-selected");
+                cell.getStyleClass().add("calendar-cell");
+                selectedCell = null;
+                return;
             }
 
+            if (selectedCell != null) {
+                selectedCell.getStyleClass().remove("calendar-cell-selected");
+                selectedCell.getStyleClass().add("calendar-cell");
+            }
+
+            selectedCell = cell;
+            selectedCell.getStyleClass().remove("calendar-cell");
+            selectedCell.getStyleClass().add("calendar-cell-selected");
         });
 
         return cell;
