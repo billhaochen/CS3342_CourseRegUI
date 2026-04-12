@@ -5,22 +5,19 @@ import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.College;
 import CourseRegisterUI.models.Course;
 import CourseRegisterUI.models.CourseRow;
-import CourseRegisterUI.models.Root;
 import CourseRegisterUI.util.CourseService;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 public class AddCourseController implements ContextAware {
@@ -57,13 +54,14 @@ public class AddCourseController implements ContextAware {
     @FXML
     private TableColumn<CourseRow, String> meetingColumn;
 
-    @FXML private ComboBox<String> courseNameComboBox;
-    @FXML private TextField courseNameTextField;
+    @FXML private ComboBox<String> academicUnitComboBox;
+    @FXML private TextField academicUnitTextField;
+    @FXML private TextField search_by_text_field;
     @FXML private CheckBox creditCheckBox;
     @FXML private TextField creditTextField;
     @FXML private RadioButton exactCreditButton;
     @FXML private CheckBox programCheckBox;
-    @FXML private ComboBox<String> programComboBox;
+    @FXML private ComboBox<College> programComboBox;
     @FXML private CheckBox mediumCheckBox;
     @FXML private ComboBox<String> mediumComboBox;
 
@@ -116,15 +114,6 @@ public class AddCourseController implements ContextAware {
             }
         });
 
-//        programComboBox.setItems(FXCollections.observableArrayList(
-//                Arrays.stream(College.values()).map(Enum::toString)
-//        ));
-
-        mediumComboBox.setItems(FXCollections.observableArrayList(
-                "English",
-                "Chinese"
-        ));
-
         creditTextField.disableProperty().bind(creditCheckBox.selectedProperty().not());
         exactCreditButton.disableProperty().bind(creditCheckBox.selectedProperty().not());
 
@@ -145,18 +134,26 @@ public class AddCourseController implements ContextAware {
         filteredList.setPredicate(row -> {
             Course c = row.getCourse();
 
-            String nameText = courseNameTextField.getText();
-            String nameChoice = courseNameComboBox.getValue();
-
-            if (nameText != null && !nameText.isBlank()) {
-                String s = nameText.toLowerCase();
+            String courseTitle = search_by_text_field.getText();
+            if (courseTitle != null && !courseTitle.isBlank()) {
+                String s = courseTitle.toLowerCase();
                 if (!c.title().toLowerCase().contains(s) && !c.course_code().toLowerCase().contains(s)) {
                     return false;
                 }
             }
 
+            String nameText = academicUnitTextField.getText();
+            String nameChoice = academicUnitComboBox.getValue();
+
+            if (nameText != null && !nameText.isBlank()) {
+                String s = nameText.toLowerCase();
+                if (!c.academic_unit().toLowerCase().contains(s) && !c.course_code().toLowerCase().contains(s)) {
+                    return false;
+                }
+            }
+
             if (nameChoice != null && !nameChoice.isBlank()) {
-                if (!c.title().equalsIgnoreCase(nameChoice)) {
+                if (!c.academic_unit().equalsIgnoreCase(nameChoice)) {
                     return false;
                 }
             }
@@ -179,9 +176,11 @@ public class AddCourseController implements ContextAware {
             }
 
             if (programCheckBox.isSelected()) {
-                String program = programComboBox.getValue();
-                if (program != null && !program.isBlank()) {
-                    if (!c.college().toString().equalsIgnoreCase(program)) return false;
+                College selectedCollege = programComboBox.getValue();
+                if (selectedCollege != null) {
+                    if (!c.college().equals(selectedCollege)) {
+                        return false;
+                    }
                 }
             }
 
@@ -197,8 +196,11 @@ public class AddCourseController implements ContextAware {
     }
 
     private void attachFilters() {
-        courseNameTextField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
-        courseNameComboBox.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        loadFilters();
+
+        search_by_text_field.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        academicUnitComboBox.valueProperty().addListener((obs, oldVal, newVal) -> applyFilters());
+        academicUnitTextField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
 
         creditCheckBox.selectedProperty().addListener((obs, oldVal, newVal) -> applyFilters());
         creditTextField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
@@ -212,31 +214,24 @@ public class AddCourseController implements ContextAware {
     }
 
     public void loadFilters() {
-        courseNameComboBox.setItems(FXCollections.observableArrayList(
-                context.getCourseRows().stream()
-                        .map(CourseRow::getCourse)
-                        .map(Course::title)
-                        .distinct()
-                        .sorted()
-                        .toList()
-        ));
+        List<String> course_titles = new ArrayList<>(context.getCourseRows().stream()
+                .map(courseRow -> courseRow.getCourse().academic_unit())
+                .distinct()
+                .sorted()
+                .toList());
+        course_titles.addFirst(null);
+
+        academicUnitComboBox.setItems(FXCollections.observableArrayList(course_titles));
 
         programComboBox.setItems(FXCollections.observableArrayList(
-                context.getCourseRows().stream()
-                        .map(CourseRow::getCourse)
-                        .map(c -> c.college().toString())
-                        .distinct()
-                        .sorted()
+                Stream.concat(Stream.of((College) null), Arrays.stream(College.values()))
                         .toList()
         ));
 
         mediumComboBox.setItems(FXCollections.observableArrayList(
-                context.getCourseRows().stream()
-                        .map(CourseRow::getCourse)
-                        .map(Course::medium)
-                        .distinct()
-                        .sorted()
-                        .toList()
+                null,
+                "English",
+                "Chinese"
         ));
     }
 
