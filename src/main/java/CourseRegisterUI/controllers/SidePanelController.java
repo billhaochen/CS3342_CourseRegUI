@@ -118,6 +118,19 @@ public class SidePanelController implements ContextAware {
         capColumn.setCellValueFactory(cell -> cell.getValue().getProperty("cap"));
         waitlistAvailColumn.setCellValueFactory(cell -> cell.getValue().getProperty("waitlist_available"));
         mediumColumn.setCellValueFactory(cell -> cell.getValue().getProperty("medium"));
+
+        courseTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                CourseRow selectedRow = courseTable.getSelectionModel().getSelectedItem();
+                if (selectedRow != null) {
+                    Course selectedCourse = selectedRow.getCourse();
+                    if (selectedCourse != null) {
+                        javafx.stage.Window owner = courseTable.getScene().getWindow();
+                        WindowController.showCourseInfoPopup(owner, selectedCourse);
+                    }
+                }
+            }
+        });
     }
 
     @FXML
