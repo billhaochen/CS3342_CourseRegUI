@@ -14,4 +14,9 @@ public record Teacher(
         System.out.println("Change this later to actual id");
         return name;
     }
+
+    public @JsonIgnore String passwordValue() {
+        System.out.println("Change this later to actual password");
+        return name;
+    }
 }

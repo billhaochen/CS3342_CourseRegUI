@@ -14,4 +14,8 @@ public record User(
     public String getID() {
         return role.idValue();
     }
+
+    public String getPassword() {
+        return role.passwordValue();
+    }
 }

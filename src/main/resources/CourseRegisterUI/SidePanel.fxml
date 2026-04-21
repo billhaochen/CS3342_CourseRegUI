@@ -22,7 +22,7 @@
         <VBox.margin>
             <Insets top="10.0" right="10.0" bottom="15.0" left="10.0"/>
         </VBox.margin>
-        <TitledPane text="Course">
+        <TitledPane text="Registered Courses">
             <TableView fx:id="courseTable" prefHeight="180.0" prefWidth="200.0">
                 <columns>
                     <TableColumn fx:id="subjectColumn" prefWidth="100" text="Subject"/>

@@ -11,7 +11,7 @@
       <Insets bottom="200.0" left="300.0" right="300.0" top="200.0" />
    </padding>
    <children>
-      <Label alignment="CENTER" text="Welcome to Our project" VBox.vgrow="ALWAYS">
+      <Label alignment="CENTER" text="Course Registration" VBox.vgrow="ALWAYS">
          <font>
             <Font size="32.0" />
          </font>

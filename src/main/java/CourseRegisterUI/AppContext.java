@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class AppContext {
     private Root courseUserRepository;
     private User currentUser;
+    private boolean isAdmin;
     private final ObservableList<CourseRow> courseRows = FXCollections.observableArrayList();
 
     private final ObservableList<Course> selectedCourses = FXCollections.observableArrayList();
@@ -76,6 +77,10 @@ public class AppContext {
     public void clearSelectedCourses() {
         selectedCourses.clear();
     }
+
+    public boolean isAdmin() { return this.isAdmin; }
+
+    public void setIsAdmin(boolean isAdmin) { this.isAdmin = isAdmin; }
 
     public FilteredList<CourseRow> getFilteredCourseRows() { return filteredCourseRows; }
 

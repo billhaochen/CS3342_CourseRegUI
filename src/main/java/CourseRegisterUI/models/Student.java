@@ -26,4 +26,8 @@ public record Student(
     public String idValue() {
         return student_id;
     }
+    public String passwordValue() {
+        return password;
+    }
+
 }

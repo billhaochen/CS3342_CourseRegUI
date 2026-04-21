@@ -24,11 +24,11 @@ public class SignInController implements ContextAware {
     @FXML private VBox rootContainer;
     @FXML private TextField nameField;
     @FXML private TextField idField;
+    @FXML private TextField passwordField;
     @FXML private Button submitButton;
     @FXML private Hyperlink signOutLink;
     @FXML private Hyperlink createAccountLink;
     @FXML private Label idWarningLabel;
-    private UserRole userRole = UserRole.STUDENT;
     private AppContext context;
     private CourseController mainController;
 
@@ -48,9 +48,10 @@ public class SignInController implements ContextAware {
         rootContainer.setOnMouseClicked(e -> rootContainer.requestFocus());
         rootContainer.getStyleClass().add("modern-dialog");
         rootContainer.setPrefWidth(300);
-        rootContainer.setPrefHeight(400);
+        rootContainer.setPrefHeight(450);
         nameField.getStyleClass().add("text-field-custom");
         idField.getStyleClass().add("text-field-custom");
+        passwordField.getStyleClass().add("text-field-custom");
         submitButton.getStyleClass().add("btn-submit");
         signOutLink.getStyleClass().add("link-ghost");
         createAccountLink.getStyleClass().add("link-ghost");
@@ -79,7 +80,8 @@ public class SignInController implements ContextAware {
     private void handleSubmit(){
         String full_name = nameField.getText();
         String id = idField.getText();
-        if (validateStudentCredentials(full_name, id)) {
+        String password = passwordField.getText();
+        if (validateStudentCredentials(full_name, id, password)) {
             context.setCurrentUser(full_name, id);
             mainController.updateUserInfo(full_name, id);
             Stage stage = (Stage) nameField.getScene().getWindow();
@@ -98,7 +100,7 @@ public class SignInController implements ContextAware {
 //    }
 
     @FXML
-    private boolean validateStudentCredentials(String student_name, String student_id) {
+    private boolean validateStudentCredentials(String student_name, String student_id, String password) {
         boolean valid = false;
         if (Objects.equals(student_name, "") || Objects.equals(student_id, "")) {
             return valid;
@@ -110,7 +112,9 @@ public class SignInController implements ContextAware {
                 && name_lookup.get().role() instanceof Student
                 && id_lookup.get().role() instanceof Student
                 && name_lookup.get().getID().equals(student_id)
-                && id_lookup.get().name().equals(student_name);
+                && id_lookup.get().name().equals(student_name)
+                && id_lookup.get().getPassword().equals(password)
+                && name_lookup.get().getPassword().equals(password);
     }
 
     @FXML
@@ -122,7 +126,9 @@ public class SignInController implements ContextAware {
 
     @FXML
     private void handleCreateNewAccount(){
-
+        Stage stage = (Stage) nameField.getScene().getWindow();
+        stage.close();
+        WindowController.showCreateAccountPopup(stage, this.context);
     }
 
 }

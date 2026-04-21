@@ -104,6 +104,10 @@ public class WindowController {
         }
     }
 
+    public static void showCreateAccountPopup(Stage stage, AppContext context) {
+        WindowController.showModal(stage, "/CourseRegisterUI/CreateAccount.fxml", "Sign In" , context);
+    }
+
     public static void requestCourseInfo(Window owner,Course course) {
         showCourseInfoPopup(owner,course);
     }

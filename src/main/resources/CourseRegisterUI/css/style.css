@@ -3,6 +3,39 @@
     -fx-success-color: #4CAF50;
     -fx-text-main: #333333;
     -fx-border-light: #dee2e6;
+    -fx-font-family: "Segoe UI";
+}
+
+.text-field, .combo-box {
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: #e5e5e5;
+    -fx-background-color: white;
+    -fx-pref-height: 38;
+}
+
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #7b4ce0;
+}
+
+.primary-button {
+    -fx-background-color: #6f3fd9;
+    -fx-text-fill: white;
+    -fx-background-radius: 16;
+    -fx-font-weight: bold;
+}
+
+.primary-button:hover {
+    -fx-background-color: #6032c6;
+}
+
+.outline-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6f3fd9;
+    -fx-border-color: #6f3fd9;
+    -fx-border-width: 1.5;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
 }
 
 .calendar-cell {
