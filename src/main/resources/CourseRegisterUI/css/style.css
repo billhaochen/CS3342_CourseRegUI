@@ -115,10 +115,6 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 15, 0, 0, 5);
 }
 
-
-
-
-
 .main-scroll .scroll-bar:vertical,
 .main-scroll .scroll-bar:horizontal {
     -fx-background-color: transparent;
@@ -185,12 +181,82 @@
     -fx-border-width: 0 1 1 0;
 }
 
-.modern-dialog { -fx-background-color: white; -fx-background-radius: 20; }
-.text-field-custom { -fx-background-radius: 10; -fx-border-color: #ddd; }
+/*.text-field-custom { -fx-background-radius: 10; -fx-border-color: #ddd; }*/
 .btn-submit { -fx-background-color: #6f42c1; -fx-text-fill: white; -fx-background-radius: 20; }
 .link-ghost { -fx-text-fill: #6f42c1; -fx-underline: false; }
 .idWarningClass {
     -fx-text-fill: #d32f2f;
     -fx-font-size: 12px;
     -fx-font-weight: bold;
+}
+
+.dialog-root {
+    -fx-background-color: #f5f5f5;
+    -fx-font-family: "Segoe UI";
+}
+
+.modern-dialog {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 15, 0, 0, 5);
+    -fx-padding: 28 36 28 36;
+}
+
+.dialog-heading {
+    -fx-font-size: 30px;
+    -fx-font-weight: normal;
+    -fx-text-fill: #222222;
+}
+
+.avatar-circle {
+    -fx-background-color: white;
+    -fx-border-color: #d9d9d9;
+    -fx-border-radius: 40;
+    -fx-background-radius: 40;
+}
+
+.required-mark {
+    -fx-text-fill: #f28c28;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.dialog-root .text-field,
+.dialog-root .password-field,
+.dialog-root .combo-box {
+    -fx-background-color: white;
+    -fx-border-color: #e5e5e5;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 8 12;
+}
+
+.dialog-root .text-field:focused,
+.dialog-root .password-field:focused,
+.dialog-root .combo-box:focused {
+    -fx-border-color: #7b4ce0;
+    -fx-border-width: 1.5;
+}
+
+.primary-button {
+    -fx-background-color: #6f3fd9;
+    -fx-text-fill: white;
+    -fx-background-radius: 16;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.primary-button:hover {
+    -fx-background-color: #6032c6;
+}
+
+.outline-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #6f3fd9;
+    -fx-border-color: #6f3fd9;
+    -fx-border-width: 1.5;
+    -fx-background-radius: 16;
+    -fx-border-radius: 16;
+    -fx-cursor: hand;
 }

@@ -15,7 +15,7 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<ScrollPane fx:id="courseListPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/25"
+<ScrollPane fx:id="courseListPane" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="CourseRegisterUI.controllers.SidePanelController">
     <VBox>
         <Button fx:id="addCourseBtn" maxWidth="Infinity" onAction="#handleAddCourseDialog" text="Add Course"/>

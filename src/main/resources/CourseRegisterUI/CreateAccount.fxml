@@ -2,122 +2,88 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/25"
-            fx:controller="CourseRegisterUI.controllers.CreateAccountController"
-            prefWidth="1024" prefHeight="640"
-            style="-fx-background-color: #f5f5f5;">
+<?import org.controlsfx.control.CheckComboBox?>
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="CourseRegisterUI.controllers.CreateAccountController"
+>
 
     <children>
-        <StackPane AnchorPane.topAnchor="0.0"
-                   AnchorPane.bottomAnchor="0.0"
-                   AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0">
+        <VBox fx:id="createAccountBox"
+              maxWidth="820"
+              prefWidth="820"
+              prefHeight="520"
+              spacing="24"
+        >
 
-            <VBox maxWidth="820" maxHeight="520"
-                  spacing="22"
-                  style="-fx-background-color: white; -fx-background-radius: 20; -fx-border-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 24, 0.15, 0, 4);">
-                <padding>
-                    <Insets top="28" right="36" bottom="28" left="36"/>
-                </padding>
+            <padding>
+                <Insets top="28" right="36" bottom="28" left="36"/>
+            </padding>
 
-                <HBox spacing="18" alignment="CENTER_LEFT">
-                    <children>
-                        <StackPane prefWidth="80" prefHeight="80"
-                                   style="-fx-background-color: white; -fx-border-color: #d9d9d9; -fx-border-radius: 40; -fx-background-radius: 40;">
-                            <Circle radius="22" stroke="#111111" strokeWidth="2" fill="transparent"/>
-                        </StackPane>
+            <HBox alignment="CENTER_LEFT" spacing="18">
+                <children>
+                    <StackPane minWidth="64" minHeight="64" prefWidth="64" prefHeight="64"
+                    >
+                        <children>
+                            <Circle radius="22" fill="TRANSPARENT" strokeWidth="2"/>
+                        </children>
+                    </StackPane>
+                    <Label text="Create an account"/>
+                </children>
+            </HBox>
 
-                        <Label text="Create an account"
-                               style="-fx-font-size: 30; -fx-text-fill: #222; -fx-font-family: 'Segoe UI';"/>
-                    </children>
-                </HBox>
+            <GridPane hgap="28" vgap="16">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
 
-                <GridPane hgap="70" vgap="16">
-                    <columnConstraints>
-                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
-                        <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
-                    </columnConstraints>
+                <children>
+                    <TextField fx:id="usernameField" promptText="Username"
+                               GridPane.rowIndex="0" GridPane.columnIndex="0"/>
 
-                    <children>
-                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                            <children>
-                                <TextField fx:id="usernameField" promptText="Username"/>
-                                <Label text="*" style="-fx-text-fill: #f28c28; -fx-font-size: 18;"/>
-                            </children>
-                        </VBox>
+                    <ComboBox fx:id="levelComboBox" promptText="Level"
+                              GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                            <children>
-                                <ComboBox fx:id="levelComboBox" promptText="Level" maxWidth="Infinity"/>
-                            </children>
-                        </VBox>
+                    <PasswordField fx:id="passwordField" promptText="Password"
+                                   GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
-                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                            <children>
-                                <TextField fx:id="passwordField" promptText="Password"/>
-                                <Label text="*" style="-fx-text-fill: #f28c28; -fx-font-size: 18;"/>
-                            </children>
-                        </VBox>
+                    <ComboBox fx:id="programComboBox" promptText="Program"
+                              GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
-                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                            <children>
-                                <ComboBox fx:id="programComboBox" promptText="Program" maxWidth="Infinity"/>
-                            </children>
-                        </VBox>
+                    <TextField fx:id="studentIdField" promptText="Student ID"
+                               GridPane.rowIndex="2" GridPane.columnIndex="0"/>
 
-                        <VBox spacing="4" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                            <children>
-                                <TextField fx:id="studentIdField" promptText="StudentID"/>
-                                <Label text="*" style="-fx-text-fill: #f28c28; -fx-font-size: 18;"/>
-                            </children>
-                        </VBox>
+                    <CheckComboBox fx:id="completedRequisitesComboBox"
+                                   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
 
-                        <VBox spacing="4" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                            <children>
-                                <ComboBox fx:id="completedRequisitesComboBox" promptText="Completed Requisites" maxWidth="Infinity"/>
-                            </children>
-                        </VBox>
+                    <ComboBox fx:id="collegeComboBox" promptText="College"
+                              GridPane.rowIndex="3" GridPane.columnIndex="0"/>
 
-                        <ComboBox fx:id="collegeComboBox"
-                                  promptText="College"
-                                  maxWidth="Infinity"
-                                  GridPane.columnIndex="0"
-                                  GridPane.rowIndex="3"/>
+                    <TextField fx:id="emailField" promptText="Email"
+                               GridPane.rowIndex="3" GridPane.columnIndex="1"/>
 
-                        <TextField fx:id="emailField"
-                                   promptText="Email"
-                                   maxWidth="Infinity"
-                                   GridPane.columnIndex="1"
-                                   GridPane.rowIndex="3"/>
+                    <ComboBox fx:id="majorComboBox" promptText="Major"
+                              GridPane.rowIndex="4" GridPane.columnIndex="0"/>
 
-                        <ComboBox fx:id="majorComboBox"
-                                  promptText="Major"
-                                  maxWidth="Infinity"
-                                  GridPane.columnIndex="0"
-                                  GridPane.rowIndex="4"/>
+                    <TextField fx:id="phoneField" promptText="Phone number"
+                               GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                </children>
+            </GridPane>
 
-                        <TextField fx:id="phoneField"
-                                   promptText="Phone number"
-                                   maxWidth="Infinity"
-                                   GridPane.columnIndex="1"
-                                   GridPane.rowIndex="4"/>
-                    </children>
-                </GridPane>
+            <Region VBox.vgrow="ALWAYS"/>
 
-                <Region VBox.vgrow="ALWAYS"/>
-
-                <HBox alignment="CENTER_RIGHT" spacing="16">
-                    <children>
-                        <Button fx:id="cancelBtn" text="Cancel" prefWidth="110" styleClass="outline-button"/>
-                        <Button fx:id="submitBtn" text="Submit" prefWidth="110" styleClass="primary-button"/>
-                    </children>
-                </HBox>
-            </VBox>
-        </StackPane>
+            <HBox alignment="CENTER_RIGHT" spacing="16">
+                <children>
+                    <Button fx:id="cancelBtn" text="Cancel"
+                            onAction="#handleCancel"/>
+                    <Button fx:id="submitBtn" text="Submit"
+                            onAction="#handleSubmit"/>
+                </children>
+            </HBox>
+        </VBox>
     </children>
-</AnchorPane>
+</StackPane>

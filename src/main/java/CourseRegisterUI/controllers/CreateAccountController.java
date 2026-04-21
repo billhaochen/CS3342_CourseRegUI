@@ -3,19 +3,28 @@ package CourseRegisterUI.controllers;
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.*;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import org.controlsfx.control.CheckComboBox;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreateAccountController implements ContextAware {
 
     @FXML
+    private VBox createAccountBox;
+
+    @FXML
     private TextField usernameField;
     @FXML
-    private TextField passwordField;
+    private PasswordField passwordField;
     @FXML
     private TextField studentIdField;
     @FXML
@@ -28,7 +37,7 @@ public class CreateAccountController implements ContextAware {
     @FXML
     private ComboBox<String> programComboBox;
     @FXML
-    private ComboBox<String> completedRequisitesComboBox;
+    private CheckComboBox<String> completedRequisitesComboBox;
     @FXML
     private ComboBox<String> collegeComboBox;
     @FXML
@@ -44,22 +53,19 @@ public class CreateAccountController implements ContextAware {
 
     @FXML
     public void initialize() {
-        // Style setup
-        setupButtons();
-
-        // Populate dropdowns
-        populateCombos();
-
+        Platform.runLater(() -> createAccountBox.requestFocus());
+        createAccountBox.setOnMouseClicked(e -> createAccountBox.requestFocus());
+        createAccountBox.getStyleClass().add("modern-dialog");
+        usernameField.getStyleClass().add("text-field-custom");
+        passwordField.getStyleClass().add("text-field-custom");
+        studentIdField.getStyleClass().add("text-field-custom");
+        phoneField.getStyleClass().add("text-field-custom");
+        emailField.getStyleClass().add("text-field-custom");
+        submitBtn.getStyleClass().add("btn-submit");
+        cancelBtn.getStyleClass().add("link-ghost");
+//        idWarningLabel.getStyleClass().add("idWarningClass");
         // Event handlers
         setupEventHandlers();
-    }
-
-    private void setupButtons() {
-        cancelBtn.getStyleClass().add("outline-button");
-        submitBtn.getStyleClass().add("primary-button");
-
-        cancelBtn.setOnAction(e -> cancelBtn.getScene().getWindow().hide());
-        submitBtn.setOnAction(e -> handleSubmit());
     }
 
     private void populateCombos() {
@@ -68,13 +74,21 @@ public class CreateAccountController implements ContextAware {
         ));
 
         collegeComboBox.setItems(FXCollections.observableArrayList(
-                "COLLEGE_OF_BUSINESS", "COLLEGE_OF_COMPUTING",
-                "COLLEGE_OF_LIFE_SCIENCES", "COLLEGE_OF_LIBERAL_ARTS"
+                Arrays.stream(College.values())
+                        .map(Enum::toString)
+                        .toList()
         ));
 
         // Dynamic population for others from AppContext
-        // programComboBox.setItems(context.getPrograms());
-        // majorComboBox.setItems(context.getMajors());
+         programComboBox.setItems(FXCollections.observableArrayList("LOCAL", "INTERNATIONAL","EXCHANGE"));
+         majorComboBox.setItems(FXCollections.observableArrayList(
+                 Arrays.stream(Major.values())
+                         .map(Enum::toString)
+                         .toList()
+         ));
+         completedRequisitesComboBox.getItems().setAll(FXCollections.observableArrayList(
+                 context.getCourseRepository().courses().stream().map(Course::title).toList()
+         ));
     }
 
     private void setupEventHandlers() {
@@ -82,6 +96,16 @@ public class CreateAccountController implements ContextAware {
         usernameField.textProperty().addListener((obs, old, text) -> validateForm());
         passwordField.textProperty().addListener((obs, old, text) -> validateForm());
         studentIdField.textProperty().addListener((obs, old, text) -> validateForm());
+        completedRequisitesComboBox.getCheckModel().getCheckedItems().addListener((javafx.collections.ListChangeListener<String>) change -> {
+            int count = completedRequisitesComboBox.getCheckModel().getCheckedItems().size();
+            if (count == 0) {
+                completedRequisitesComboBox.setTitle("Completed Courses");
+            } else {
+                completedRequisitesComboBox.setTitle(count + " course(s) selected");
+            }
+        });
+        completedRequisitesComboBox.setTitle("Completed Courses");
+        completedRequisitesComboBox.setShowCheckedCount(false);
 
         // Focus styling
         setupFieldFocus(usernameField);
@@ -139,7 +163,11 @@ public class CreateAccountController implements ContextAware {
 //        return new Student();
     }
 
+    @FXML
     private void handleSubmit() {
+        List<String> selectedCourses = List.copyOf(
+                completedRequisitesComboBox.getCheckModel().getCheckedItems()
+        );
 
         if (!this.context.isAdmin()) {
             // Execute Student Account Creation
@@ -148,7 +176,8 @@ public class CreateAccountController implements ContextAware {
             // Execute Teacher Account Creation
         }
         showSuccessDialog();
-        cancelBtn.fire();  // Close dialog
+        Stage stage = (Stage) usernameField.getScene().getWindow();
+        stage.close();
     }
 
     private boolean validateAccount(User account) {
@@ -160,11 +189,19 @@ public class CreateAccountController implements ContextAware {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
         alert.setHeaderText("Account created successfully!");
-        alert.showAndWait();
+        alert.show();
     }
 
     @Override
     public void setAppContext(AppContext appContext) {
         this.context = appContext;
+        populateCombos();
+    }
+
+    @FXML
+    private void handleCancel(){
+        // by default the user is set to signed out
+        Stage stage = (Stage) usernameField.getScene().getWindow();
+        stage.close();
     }
 }

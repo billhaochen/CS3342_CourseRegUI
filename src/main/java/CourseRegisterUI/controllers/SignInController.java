@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -126,9 +127,10 @@ public class SignInController implements ContextAware {
 
     @FXML
     private void handleCreateNewAccount(){
+        Window owner = nameField.getScene().getWindow();
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
-        WindowController.showCreateAccountPopup(stage, this.context);
+        WindowController.showCreateAccountPopup(owner, this.context);
     }
 
 }
