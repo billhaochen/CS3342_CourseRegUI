@@ -126,7 +126,7 @@ public class SidePanelController implements ContextAware {
                     Course selectedCourse = selectedRow.getCourse();
                     if (selectedCourse != null) {
                         javafx.stage.Window owner = courseTable.getScene().getWindow();
-                        WindowController.showCourseInfoPopup(owner, selectedCourse);
+                        WindowController.showCourseInfoPopup(owner, context, selectedCourse);
                     }
                 }
             }

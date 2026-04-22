@@ -67,16 +67,6 @@ public class ComponentLoader {
         }
     }
 
-    public static FXMLLoader getWeeklyCalendarLoader() {
-        URL resource = ComponentLoader.class.getResource("/CourseRegisterUI/WeeklyCalendar.fxml");
-        System.out.println("WeeklyCalendar Loader URL: " + resource);
-        if (resource == null) {
-            System.err.println("❌ WeeklyCalendar.fxml NOT FOUND");
-            throw new RuntimeException("File missing");
-        }
-        return new FXMLLoader(resource);
-    }
-
     public static void showSuccessAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Export Successful");

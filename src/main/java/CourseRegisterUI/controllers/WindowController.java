@@ -67,39 +67,48 @@ public class WindowController {
             e.printStackTrace();
         }
     }
-    public static void showCourseInfoPopup(Window owner, Course selectedCourse) {
-        try {
-            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/CourseInfo.fxml"));
-            Parent root = loader.load();
+    public static void showCourseInfoPopup(Window owner, AppContext context, Course selectedCourse) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/CourseInfo.fxml"));
+//            Parent root = loader.load();
+//
+//            CourseInfoController controller = loader.getController();
+//            controller.setCourseInfo(selectedCourse);
+//
+//            Stage popupStage = new Stage();
+//            popupStage.initOwner(owner);
+//            popupStage.initModality(Modality.NONE);
+//            popupStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
+//
+//            Scene scene = new Scene(root);
+//            scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+//            popupStage.setScene(scene);
+//
+//            popupStage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
+//                if (!isNowFocused) {
+//                    popupStage.close();
+//                }
+//            });
+//            scene.getStylesheets().add(WindowController.class.getResource("/CourseRegisterUI/css/style.css").toExternalForm());
+//            popupStage.show();
+//            BoxBlur blur = new BoxBlur(8, 8, 3);
+//            owner.getScene().getRoot().setEffect(blur);
+//            popupStage.setOnHidden(e -> owner.getScene().getRoot().setEffect(null));
+//            popupStage.setX(owner.getX() + (owner.getWidth() - popupStage.getWidth()) / 2);
+//            popupStage.setY(owner.getY() + (owner.getHeight() - popupStage.getHeight()) / 2);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-            CourseInfoController controller = loader.getController();
-            controller.setCourseInfo(selectedCourse);
+        CourseInfoController controller = WindowController.showModal(
+                owner,
+                "/CourseRegisterUI/CourseInfo.fxml",
+                "Course Information",
+                context
+        );
 
-            Stage popupStage = new Stage();
-            popupStage.initOwner(owner);
-            popupStage.initModality(Modality.NONE);
-            popupStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
-
-            Scene scene = new Scene(root);
-            scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
-            popupStage.setScene(scene);
-
-            popupStage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-                if (!isNowFocused) {
-                    popupStage.close();
-                }
-            });
-            scene.getStylesheets().add(WindowController.class.getResource("/CourseRegisterUI/css/style.css").toExternalForm());
-            popupStage.show();
-            BoxBlur blur = new BoxBlur(8, 8, 3);
-            owner.getScene().getRoot().setEffect(blur);
-            popupStage.setOnHidden(e -> owner.getScene().getRoot().setEffect(null));
-            popupStage.setX(owner.getX() + (owner.getWidth() - popupStage.getWidth()) / 2);
-            popupStage.setY(owner.getY() + (owner.getHeight() - popupStage.getHeight()) / 2);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        controller.setCourseInfo(selectedCourse);
     }
 
     public static void showCreateAccountPopup(Window owner, AppContext context) {
@@ -114,7 +123,7 @@ public class WindowController {
         );
     }
 
-    public static void requestCourseInfo(Window owner,Course course) {
-        showCourseInfoPopup(owner, course);
+    public static void requestCourseInfo(Window owner, AppContext context, Course course) {
+        showCourseInfoPopup(owner, context, course);
     }
 }

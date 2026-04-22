@@ -2,6 +2,7 @@ package CourseRegisterUI.models;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public record Course(
         String academic_unit,
@@ -27,5 +28,6 @@ public record Course(
         String room,
         Teacher instructor,
         String medium, // enum
-        String meeting_time
+        String meeting_time,
+        List<Course> prerequisites
 ) {}

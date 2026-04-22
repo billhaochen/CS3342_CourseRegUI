@@ -19,6 +19,7 @@ public class ExampleJSONBuilder {
 
     public static List<Course> buildSampleCourses() {
         List<Course> courses = new ArrayList<>();
+        List<Course> prerequisites = new ArrayList<>();
         Course c1 = new Course(
           "Accountancy",
                 "AC",
@@ -43,7 +44,8 @@ public class ExampleJSONBuilder {
                 "B4702",
                 new Teacher("Kim Tae Wook"),
                 "English",
-                "03:00 PM - 05:50 PM"
+                "03:00 PM - 05:50 PM",
+                new ArrayList<>()
         );
         Course c2 = new Course(
                 "Computer Science",
@@ -69,7 +71,8 @@ public class ExampleJSONBuilder {
                 "6606",
                 new Teacher("Liu Chen"),
                 "English",
-                "04:00 PM - 06:50 PM"
+                "04:00 PM - 06:50 PM",
+                new ArrayList<>()
         );
         Course c3 = new Course(
                 "Chemistry",
@@ -95,8 +98,10 @@ public class ExampleJSONBuilder {
                 "LT-6",
                 new Teacher("Chan Michael C."),
                 "English",
-                "09:00 AM - 10:50 AM"
+                "09:00 AM - 10:50 AM",
+                new ArrayList<>()
         );
+        prerequisites.add(c1);
         Course c4 = new Course(
                 "English",
                 "GE",
@@ -121,7 +126,8 @@ public class ExampleJSONBuilder {
                 "P1615",
                 new Teacher("TBA LC005"),
                 "English",
-                "09:00 AM - 11:50 AM"
+                "09:00 AM - 11:50 AM",
+                prerequisites
         );
         courses.add(c1);
         courses.add(c2);
