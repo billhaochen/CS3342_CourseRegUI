@@ -23,11 +23,46 @@ public record Student(
         List<Course> enrolled_courses,
         List<Course> completed_courses
 ) implements Role {
+    public Student {
+        enrolled_courses = enrolled_courses == null ? List.of() : enrolled_courses;
+        completed_courses = completed_courses == null ? List.of() : completed_courses;
+    }
+
+    public static Student factoryCreate(
+            String name,
+            String surname,
+            String firstName,
+            String studentId,
+            String studentEid,
+            String password
+    ) {
+        return new Student(
+                name,
+                surname,
+                firstName,
+                studentId,
+                studentEid,
+                password,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                List.of(),
+                List.of()
+        );
+    }
     public String idValue() {
         return student_id;
     }
     public String passwordValue() {
         return password;
+    }
+
+    public String eidValue() {
+        return student_eid;
     }
 
 }

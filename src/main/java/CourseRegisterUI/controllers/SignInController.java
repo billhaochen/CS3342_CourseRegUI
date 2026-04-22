@@ -19,6 +19,8 @@ import javafx.stage.Window;
 
 import java.util.Objects;
 import java.util.Optional;
+import static CourseRegisterUI.util.UserService.getStudentByID;
+import static CourseRegisterUI.util.UserService.getStudentByName;
 
 public class SignInController implements ContextAware {
     @FXML private Circle sign_in_graph;
@@ -84,7 +86,6 @@ public class SignInController implements ContextAware {
         String password = passwordField.getText();
         if (validateStudentCredentials(full_name, id, password)) {
             context.setCurrentUser(full_name, id);
-            mainController.updateUserInfo(full_name, id);
             Stage stage = (Stage) nameField.getScene().getWindow();
             stage.close();
         } else {
@@ -106,8 +107,8 @@ public class SignInController implements ContextAware {
         if (Objects.equals(student_name, "") || Objects.equals(student_id, "")) {
             return valid;
         }
-        Optional<User> name_lookup = JSONDeserializer.getStudentByName(this.context.getCourseRepository(), student_name);
-        Optional<User> id_lookup = JSONDeserializer.getStudentByID(this.context.getCourseRepository(), student_id);
+        Optional<User> name_lookup = getStudentByName(this.context.getCourseRepository(), student_name);
+        Optional<User> id_lookup = getStudentByID(this.context.getCourseRepository(), student_id);
         return name_lookup.isPresent()
                 && id_lookup.isPresent()
                 && name_lookup.get().role() instanceof Student

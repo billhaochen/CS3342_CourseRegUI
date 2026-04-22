@@ -42,7 +42,7 @@
                 </columnConstraints>
 
                 <children>
-                    <TextField fx:id="usernameField" promptText="Username"
+                    <TextField fx:id="nameField" promptText="Full Name"
                                GridPane.rowIndex="0" GridPane.columnIndex="0"/>
 
                     <ComboBox fx:id="levelComboBox" promptText="Level"

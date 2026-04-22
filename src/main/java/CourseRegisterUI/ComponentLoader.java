@@ -4,7 +4,9 @@ import CourseRegisterUI.controllers.WeeklyCalendarController;
 import CourseRegisterUI.util.LoadedView;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuBar;
+import javafx.scene.layout.Region;
 
 import java.net.URL;
 
@@ -73,5 +75,23 @@ public class ComponentLoader {
             throw new RuntimeException("File missing");
         }
         return new FXMLLoader(resource);
+    }
+
+    public static void showSuccessAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Export Successful");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
+    }
+
+    public static void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Export Failed");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
     }
 }

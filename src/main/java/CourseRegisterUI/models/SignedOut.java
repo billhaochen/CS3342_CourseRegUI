@@ -6,4 +6,9 @@ public record SignedOut() implements Role {
         return "";
     }
     public String passwordValue() { return "" ; }
+
+    @Override
+    public String eidValue() {
+        return "";
+    }
 }

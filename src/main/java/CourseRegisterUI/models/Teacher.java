@@ -19,4 +19,9 @@ public record Teacher(
         System.out.println("Change this later to actual password");
         return name;
     }
+
+    public @JsonIgnore String eidValue() {
+        System.out.println("Change this later to actual eid");
+        return name;
+    }
 }
