@@ -4,16 +4,17 @@ import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Course;
 import CourseRegisterUI.models.CourseRow;
+import CourseRegisterUI.util.CourseService;
 import CourseRegisterUI.util.LoadedView;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import javafx.scene.control.Label;
@@ -30,7 +31,7 @@ import java.util.Locale;
 import static CourseRegisterUI.util.CalendarService.mapDayToColumn;
 import static CourseRegisterUI.util.CalendarService.mapTimeToRow;
 
-public class CourseInfoController implements ContextAware {
+public class CourseInfoController {
     @FXML private Label courseName;
     @FXML private Label courseCode;
     @FXML private Label courseCRN;
@@ -46,15 +47,22 @@ public class CourseInfoController implements ContextAware {
     @FXML private Label weekTitle;
     @FXML private Button prevWeek, nextWeek, todayBtn;
     private StackPane selectedCell;
+    @FXML
+    private TableView<CourseRow> courseTable;
+    @FXML
+    private TableColumn<CourseRow, String> subjectColumn;
+    @FXML
+    private TableColumn<CourseRow, String> courseNumberColumn;
+    @FXML
+    private TableColumn<CourseRow, String> titleColumn;
+    @FXML
+    private TableColumn<CourseRow, String> academicUnitColumn;
+    @FXML
+    private TableColumn<CourseRow, String> courseColumn;
 
     private AppContext context;
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
     private Course course;
-
-    @Override
-    public void setAppContext(AppContext appContext) {
-        this.context = appContext;
-    }
 
     @FXML
     public void initialize() {
@@ -90,6 +98,22 @@ public class CourseInfoController implements ContextAware {
         courseLevel.setText(course.level() != null ? course.level() : "N/A");
         courseCredits.setText(course.credit() != null ? String.valueOf(course.credit()) : "0");
         courseWebEnabled.setText(course.web_enabled() != null && course.web_enabled() ? "Yes" : "No");
+        courseTable.setItems(
+                FXCollections.observableArrayList(
+                        course.prerequisites().stream()
+                                .map(CourseRow::new)
+                                .toList()
+                )
+        );
+
+        subjectColumn.setCellValueFactory(cell -> cell.getValue().getProperty("subject"));
+        courseNumberColumn.setCellValueFactory(cell -> cell.getValue().getProperty("course_code"));
+        titleColumn.setCellValueFactory(cell -> cell.getValue().getProperty("title"));
+
+        academicUnitColumn.setCellValueFactory(cell -> cell.getValue().getProperty("academic_unit"));
+        subjectColumn.setCellValueFactory(cell -> cell.getValue().getProperty("subject"));
+        courseColumn.setCellValueFactory(cell -> cell.getValue().getProperty("course_code"));
+        titleColumn.setCellValueFactory(cell -> cell.getValue().getProperty("title"));
 
         renderCourseCalendar(course);
     }

@@ -252,7 +252,7 @@ public class WeeklyCalendarController implements ContextAware {
         block.setOnMouseClicked(e -> {
             if (gridInteractive) {
                 Window owner = mainScroll.getScene().getWindow();
-                WindowController.requestCourseInfo(owner, context, course);
+                WindowController.requestCourseInfo(owner, course);
 //            cell.getStyleClass().add("calendar-cell:selected");
             }
 

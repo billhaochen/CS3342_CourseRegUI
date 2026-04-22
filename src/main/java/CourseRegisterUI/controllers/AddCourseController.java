@@ -113,7 +113,7 @@ public class AddCourseController implements ContextAware {
                     Course selectedCourse = selectedRow.getCourse();
                     if (selectedCourse != null) {
                         javafx.stage.Window owner = courseTableView.getScene().getWindow();
-                        WindowController.showCourseInfoPopup(owner, context, selectedCourse);
+                        WindowController.showCourseInfoPopup(owner, selectedCourse);
                     }
                 }
             }

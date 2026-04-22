@@ -67,7 +67,7 @@ public class WindowController {
             e.printStackTrace();
         }
     }
-    public static void showCourseInfoPopup(Window owner, AppContext context, Course selectedCourse) {
+    public static void showCourseInfoPopup(Window owner, Course selectedCourse) {
 //        try {
 //            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/CourseInfo.fxml"));
 //            Parent root = loader.load();
@@ -105,7 +105,7 @@ public class WindowController {
                 owner,
                 "/CourseRegisterUI/CourseInfo.fxml",
                 "Course Information",
-                context
+                null
         );
 
         controller.setCourseInfo(selectedCourse);
@@ -123,7 +123,7 @@ public class WindowController {
         );
     }
 
-    public static void requestCourseInfo(Window owner, AppContext context, Course course) {
-        showCourseInfoPopup(owner, context, course);
+    public static void requestCourseInfo(Window owner, Course course) {
+        showCourseInfoPopup(owner, course);
     }
 }
