@@ -331,15 +331,19 @@ public class CreateAccountController implements ContextAware {
             return;
         }
 
-        if (isFullStudentFormValid()) {
-            createFullStudent();
-        } else {
-            createBasicStudent();
+        try {
+            if (isFullStudentFormValid()) {
+                createFullStudent();
+            } else {
+                createBasicStudent();
+            }
+            showSuccessDialog();
+            Stage stage = (Stage) nameField.getScene().getWindow();
+            stage.close();
+        } catch (Exception exception) {
+//            exception.printStackTrace();
+            showErrorAlert("Incorrect format for inputted fields: Please enter your full name correctly");
         }
-
-        showSuccessDialog();
-        Stage stage = (Stage) nameField.getScene().getWindow();
-        stage.close();
     }
 
     private boolean validateAccount(User account) {
