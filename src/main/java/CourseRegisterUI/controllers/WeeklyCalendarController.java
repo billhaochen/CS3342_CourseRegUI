@@ -260,28 +260,6 @@ public class WeeklyCalendarController implements ContextAware {
         return block;
     }
 
-    public void displayCourse(Course course) {
-        clearCourseBlocks();
-        int dayCol = mapDayToColumn(course.day());
-        if (dayCol == -1) {
-            return;
-        }
-
-        int startRow = mapTimeToRow(course.start_time());
-        int endRow = mapTimeToRow(course.end_time());
-        if (startRow == -1 || endRow == -1) {
-            return;
-        }
-
-        StackPane block = createCourseBlock(course);
-        mainGrid.add(block, dayCol, startRow);
-        GridPane.setRowSpan(block, Math.max(1, endRow - startRow + 1));
-    }
-
-    public void setGridInteractive(boolean interactive) {
-        gridInteractive = interactive;
-    }
-
     private void attachListeners() {
         context.getFilteredCourseRows().addListener((javafx.collections.ListChangeListener<CourseRow>) change -> {
             renderCourses();
@@ -308,9 +286,4 @@ public class WeeklyCalendarController implements ContextAware {
         refreshCalendar();
         renderCourses();
     }
-
-    public void setInteractive(boolean b) {
-        gridInteractive = b;
-    }
-
 }
