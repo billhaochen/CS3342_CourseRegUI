@@ -3,6 +3,7 @@ package CourseRegisterUI.controllers;
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.models.Root;
+import CourseRegisterUI.models.SignedOut;
 import CourseRegisterUI.models.User;
 import CourseRegisterUI.util.LoadedView;
 import CourseRegisterUI.util.MasterJSONBuilder;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -24,7 +26,7 @@ public class CourseController {
     @FXML private BorderPane schedulePane;
     @FXML private MenuBar menuBar;
     @FXML private Circle profilePicture;
-    @FXML private Label userNameAndId;
+    @FXML private Hyperlink userNameAndId;
     private AppContext context;
 
     private LoadedView<SidePanelController> sidePanelView;
@@ -38,7 +40,7 @@ public class CourseController {
         weeklyCalendarView = ComponentLoader.loadWeeklyCalendar();
         schedulePane.setCenter(weeklyCalendarView.view());
         menuBar.getMenus().addAll(ComponentLoader.loadMenuBar().getMenus());
-        userNameAndId.setText("Not Signed In");
+        userNameAndId.getStyleClass().add("link-ghost");
     }
 
     public void setAppContext(AppContext appContext) {
@@ -74,17 +76,31 @@ public class CourseController {
 
     @FXML
     public void handleExportButton() {
-        try {
+        if (context.getCurrentUser().role() instanceof SignedOut) {
+            String errorMessage = "Failed to export JSON file: Must be Signed In";
+            showErrorAlert(errorMessage);
+        } else {
+            try {
 
 //            MasterJSONBuilder.writeLocalToMaster(MasterJSONBuilder.buildSampleMaster());
-            String result = MasterJSONBuilder.writeLocalToMaster(context.exportContext());
-            showSuccessAlert(result);
+                String result = MasterJSONBuilder.writeLocalToMaster(context.exportContext());
+                showSuccessAlert(result);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
 
-            String errorMessage = "Failed to export JSON file:\n" + e.getMessage();
-            showErrorAlert(errorMessage);
+                String errorMessage = "Failed to export JSON file:\n" + e.getMessage();
+                showErrorAlert(errorMessage);
+            }
+        }
+    }
+
+    public void handleUserInfo() {
+        Stage stage = (Stage) userNameAndId.getScene().getWindow();
+        if (context.getCurrentUser().role() instanceof SignedOut) {
+            WindowController.showModal(stage, "/CourseRegisterUI/SignInDialog.fxml", "Sign In" , context);
+        } else {
+            WindowController.showCreateAccountPopup(stage, this.context);
         }
     }
 }

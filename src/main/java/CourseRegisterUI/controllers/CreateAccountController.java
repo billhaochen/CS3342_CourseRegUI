@@ -32,7 +32,7 @@ public class CreateAccountController implements ContextAware {
     @FXML
     private TextField nameField;
     @FXML
-    private PasswordField passwordField;
+    private TextField passwordField;
     @FXML
     private TextField studentIdField;
     @FXML
@@ -96,7 +96,6 @@ public class CreateAccountController implements ContextAware {
         ));
 
 
-
         // Dynamic population for others from AppContext
         programComboBox.setItems(FXCollections.observableArrayList(null, "LOCAL", "INTERNATIONAL", "EXCHANGE"));
         majorComboBox.setItems(FXCollections.observableArrayList(
@@ -154,7 +153,40 @@ public class CreateAccountController implements ContextAware {
         return Arrays.stream(values).allMatch(Objects::nonNull);
     }
 
-    private void createStudent() {
+    private void createBasicStudent() {
+        String full_name = nameField.getText();
+        String first_name = full_name.substring(0, full_name.indexOf(" "));
+        String surname = full_name.substring(full_name.indexOf(" "));
+
+        String password = passwordField.getText();
+        String student_id = studentIdField.getText();
+//        String email = emailField.getText();
+//        String phone_number = phoneField.getText();
+//        String level = levelComboBox.getValue();
+//        List<String> completed_courses = completedRequisitesComboBox.getItems();
+//        College college = College.valueOf(collegeComboBox.getValue());
+//        Major major = Major.valueOf(majorComboBox.getValue());
+//        Program program = Program.valueOf(programComboBox.getValue());
+
+        String student_eid = UserService.assignStudentEid(context.exportContext(), full_name);
+        Student created_student = Student.factoryCreate(
+                full_name,
+                surname,
+                first_name,
+                student_id,
+                student_eid,
+                password
+        );
+
+        User new_user = new User(student_id, full_name, created_student);
+
+        context.setCurrentUser(new_user);
+        context.addNewUser(new_user);
+        validateStudentCreation();
+
+    }
+
+    private void createFullStudent() {
         String full_name = nameField.getText();
         String first_name = full_name.substring(0, full_name.indexOf(" "));
         String surname = full_name.substring(full_name.indexOf(" "));
@@ -170,45 +202,24 @@ public class CreateAccountController implements ContextAware {
         Program program = Program.valueOf(programComboBox.getValue());
 
         String student_eid = UserService.assignStudentEid(context.exportContext(), full_name);
-        Student created_student;
-        boolean hasRequiredOptionals =
-                !isBlank(email) &&
-                        !isBlank(phone_number) &&
-                        !isBlank(level) &&
-                        college != null &&
-                        major != null &&
-                        !isBlank(String.valueOf(program)) &&
-                        completed_courses != null;
+        Student created_student = new Student(
+                full_name,
+                surname,
+                first_name,
+                student_id,
+                student_eid,
+                password,
+                college,
+                "Bachelor's",
+                Status.FULL_TIME,
+                program,
+                "Main Campus",
+                LocalDate.of(2022, 1, 12),
+                LocalDate.of(2026, 4, 18),
+                new ArrayList<Course>(),
+                CourseService.coursesFromTitles(context.exportContext(), completed_courses)
 
-        if (hasRequiredOptionals) {
-            created_student = new Student(
-                    full_name,
-                    surname,
-                    first_name,
-                    student_id,
-                    student_eid,
-                    password,
-                    college,
-                    "Bachelor's",
-                    Status.FULL_TIME,
-                    program,
-                    "Main Campus",
-                    LocalDate.of(2022, 1, 12),
-                    LocalDate.of(2026, 4, 18),
-                    new ArrayList<Course>(),
-                    CourseService.coursesFromTitles(context.exportContext(), completed_courses)
-
-            );
-        } else {
-            created_student = Student.factoryCreate(
-                    full_name,
-                    surname,
-                    first_name,
-                    student_id,
-                    student_eid,
-                    password
-            );
-        }
+        );
 
         User new_user = new User(student_id, full_name, created_student);
 
@@ -218,8 +229,51 @@ public class CreateAccountController implements ContextAware {
 
     }
 
+    private boolean allNonBlank(String... values) {
+        return Arrays.stream(values).allMatch(v -> v != null && !v.isBlank());
+    }
+
+    private boolean allNonNull(Object... values) {
+        return Arrays.stream(values).allMatch(Objects::nonNull);
+    }
+
+    private boolean isNonBlank(String value) {
+        return value != null && !value.isBlank();
+    }
+
+    private boolean isNonNull(Object value) {
+        return value != null;
+    }
+
+    private boolean isNonEmpty(java.util.Collection<?> value) {
+        return value != null && !value.isEmpty();
+    }
+
+    private boolean isMinimumStudentFormValid() {
+        return allNonBlank(
+                nameField.getText(),
+                passwordField.getText(),
+                studentIdField.getText()
+        );
+    }
+
+    private boolean isFullStudentFormValid() {
+        return allNonBlank(
+                nameField.getText(),
+                passwordField.getText(),
+                studentIdField.getText(),
+                emailField.getText(),
+                phoneField.getText(),
+                levelComboBox.getValue(),
+                collegeComboBox.getValue(),
+                majorComboBox.getValue(),
+                programComboBox.getValue()
+        ) && isNonEmpty(completedRequisitesComboBox.getCheckModel().getCheckedItems());
+    }
+
     private void validateStudentCreation() {
         boolean validated = true;
+
 
         if (validated) {
             try {
@@ -239,16 +293,18 @@ public class CreateAccountController implements ContextAware {
 
     @FXML
     private void handleSubmit() {
-        List<String> selectedCourses = List.copyOf(
-                completedRequisitesComboBox.getCheckModel().getCheckedItems()
-        );
 
-        if (!this.context.isAdmin()) {
-            // Execute Student Account Creation
-            createStudent();
-        } else {
-            // Execute Teacher Account Creation
+        if (!isMinimumStudentFormValid()) {
+            showErrorAlert("Please fill in name, password, and student ID.");
+            return;
         }
+
+        if (isFullStudentFormValid()) {
+            createFullStudent();
+        } else {
+            createBasicStudent();
+        }
+
         showSuccessDialog();
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
@@ -277,5 +333,6 @@ public class CreateAccountController implements ContextAware {
         // by default the user is set to signed out
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
+//        WindowController.showModal(stage, "/CourseRegisterUI/SignInDialog.fxml", "Sign In", context);
     }
 }

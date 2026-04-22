@@ -48,7 +48,7 @@
                     <ComboBox fx:id="levelComboBox" promptText="Level"
                               GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
-                    <PasswordField fx:id="passwordField" promptText="Password"
+                    <TextField fx:id="passwordField" promptText="Password"
                                    GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
                     <ComboBox fx:id="programComboBox" promptText="Program"
@@ -64,13 +64,28 @@
                               GridPane.rowIndex="3" GridPane.columnIndex="0"/>
 
                     <TextField fx:id="emailField" promptText="Email"
-                               GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                               GridPane.rowIndex="5" GridPane.columnIndex="1"/>
 
                     <ComboBox fx:id="majorComboBox" promptText="Major"
                               GridPane.rowIndex="4" GridPane.columnIndex="0"/>
 
                     <TextField fx:id="phoneField" promptText="Phone number"
-                               GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                               GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                    <DatePicker fx:id="startDatePicker" promptText="Start date"
+                                GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <DatePicker fx:id="endDatePicker" promptText="End date"
+                                GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                    <ComboBox fx:id="degreeComboBox" promptText="Pursuing Degree"
+                              GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+
+                    <ComboBox fx:id="statusComboBox" promptText="Status"
+                              GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+
+                    <ComboBox fx:id="locationComboBox" promptText="Location"
+                              GridPane.rowIndex="7" GridPane.columnIndex="0"/>
                 </children>
             </GridPane>
 

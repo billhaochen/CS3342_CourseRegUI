@@ -29,7 +29,7 @@ public class AppContext {
 
     public AppContext() {
         this.courseUserRepository = new Root(new ArrayList<>(), new ArrayList<>());
-        this.currentUser.set(new User("", "", new SignedOut()));
+        this.currentUser.set(new User("", "Sign In", new SignedOut()));
         this.filteredCourseRows = new FilteredList<>(selectedCourseRows, null);
     }
 
