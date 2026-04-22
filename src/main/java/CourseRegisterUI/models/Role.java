@@ -10,5 +10,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 })
 public sealed interface Role permits Student, Teacher, SignedOut {
     public String idValue();
+    public String passwordValue();
+    public String eidValue();
 }
 // This is the Java equivalent of a TypeScript Student | Teacher type

@@ -149,7 +149,8 @@ public class ExampleJSONBuilder {
                 LocalDate.of(2022, 1, 12),
                 LocalDate.of(2026, 4, 18),
                 new ArrayList<Course>(),
-                courses
+                courses,
+                Major.BUSINESS_ECONOMICS
         );
         Student s2 = new Student(
                 "Jane Doe",
@@ -166,7 +167,8 @@ public class ExampleJSONBuilder {
                 LocalDate.of(2023, 1, 12),
                 LocalDate.of(2027, 4, 18),
                 courses,
-                new ArrayList<>()
+                new ArrayList<>(),
+                Major.FOOD_SAFETY_AND_TECHNOLOGY
         );
         Student s3 = new Student(
                 "Frank Ocean",
@@ -183,7 +185,8 @@ public class ExampleJSONBuilder {
                 LocalDate.of(2024, 1, 12),
                 LocalDate.of(2028, 4, 18),
                 courses,
-                new ArrayList<>()
+                new ArrayList<>(),
+                Major.ANIMATION_AND_VISUAL_EFFECTS
         );
         User u1 = new User(
                 "1",

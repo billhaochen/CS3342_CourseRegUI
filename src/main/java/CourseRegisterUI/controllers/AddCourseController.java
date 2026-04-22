@@ -61,7 +61,7 @@ public class AddCourseController implements ContextAware {
     @FXML private TextField creditTextField;
     @FXML private RadioButton exactCreditButton;
     @FXML private CheckBox programCheckBox;
-    @FXML private ComboBox<College> programComboBox;
+    @FXML private ComboBox<College> programComboBox; // TODO fix this filter
     @FXML private CheckBox mediumCheckBox;
     @FXML private ComboBox<String> mediumComboBox;
 
@@ -253,6 +253,7 @@ public class AddCourseController implements ContextAware {
                             .toList()
             );
             context.getSelectedCourseRows().addAll(selectedRows);
+            context.registerCourses();
             System.out.println("State Confirmation: Add to Schedule Clicked");
 
             Stage stage = (Stage) courseTableView.getScene().getWindow();

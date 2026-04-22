@@ -3,24 +3,37 @@ package CourseRegisterUI.controllers;
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.models.Root;
+import CourseRegisterUI.models.SignedOut;
+import CourseRegisterUI.models.Student;
+import CourseRegisterUI.models.User;
 import CourseRegisterUI.util.LoadedView;
 import CourseRegisterUI.util.MasterJSONBuilder;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static CourseRegisterUI.ComponentLoader.showErrorAlert;
+import static CourseRegisterUI.ComponentLoader.showSuccessAlert;
+
 public class CourseController {
-    @FXML private Button exportButton;
-    @FXML private ScrollPane courseListPane;
-    @FXML private BorderPane schedulePane;
-    @FXML private MenuBar menuBar;
-    @FXML private Circle profilePicture;
-    @FXML private Label userNameAndId;
+    @FXML
+    private Button exportButton;
+    @FXML
+    private ScrollPane courseListPane;
+    @FXML
+    private BorderPane schedulePane;
+    @FXML
+    private MenuBar menuBar;
+    @FXML
+    private Circle profilePicture;
+    @FXML
+    private Hyperlink userNameAndId;
     private AppContext context;
 
     private LoadedView<SidePanelController> sidePanelView;
@@ -34,7 +47,7 @@ public class CourseController {
         weeklyCalendarView = ComponentLoader.loadWeeklyCalendar();
         schedulePane.setCenter(weeklyCalendarView.view());
         menuBar.getMenus().addAll(ComponentLoader.loadMenuBar().getMenus());
-        userNameAndId.setText("Not Signed In");
+        userNameAndId.getStyleClass().add("link-ghost");
     }
 
     public void setAppContext(AppContext appContext) {
@@ -47,79 +60,56 @@ public class CourseController {
             weeklyCalendarView.controller().setAppContext(context);
             weeklyCalendarView.controller().renderCourses();
         }
+
+        context.currentUserProperty().addListener((obs, oldUser, newUser) -> {
+            if (newUser == null) {
+                userNameAndId.setText("Not Signed In");
+            } else {
+                userNameAndId.setText(newUser.name() + " | " + newUser.getID());
+            }
+        });
+
+        updateUserInfo();
 //        if (menuBarView != null) {
 //            menuBarView.controller().setAppContext(context);
 //        }
     }
 
     @FXML
-    public void updateUserInfo(String full_name, String id) {
-        userNameAndId.setText(full_name + " | " + id);
+    public void updateUserInfo() {
+        User curr_user = context.getCurrentUser();
+        userNameAndId.setText(curr_user.name() + " | " + curr_user.getID());
     }
 
     @FXML
     public void handleExportButton() {
-        try {
-
-            // Create directory with current year/month for organization
-            LocalDateTime now = LocalDateTime.now();
-            File jsonDir = new File("src/main/resources/json/");
-
-            // Create directory if it doesn't exist
-            if (!jsonDir.exists()) {
-                jsonDir.mkdirs();
-            }
-
-            // Generate detailed timestamp filename
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss-SSS");
-            String timestamp = now.format(formatter);
-            String filename = "master_export_" + timestamp + ".json";
-
-            File outputFile = new File(jsonDir, filename);
-
-            // Show a progress indicator (optional)
-            // You could show a loading dialog here if export takes time
-
-            MasterJSONBuilder.writeMasterToFile(outputFile);
-
-            // Success message with file info
-            String successMessage = String.format(
-                    "File exported successfully!\n\n" +
-                            "Filename: %s\n" +
-                            "Location: %s\n" +
-                            "Size: %d bytes\n" +
-                            "Date: %s",
-                    filename,
-                    outputFile.getAbsolutePath(),
-                    outputFile.length(),
-                    now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-            );
-
-            showSuccessAlert(successMessage);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            String errorMessage = "Failed to export JSON file:\n" + e.getMessage();
+        if (context.getCurrentUser().role() instanceof SignedOut) {
+            String errorMessage = "Failed to export JSON file: Must be Signed In";
             showErrorAlert(errorMessage);
+        } else {
+            try {
+//                MasterJSONBuilder.writeLocalToMaster(MasterJSONBuilder.buildSampleMaster());
+//                MasterJSONBuilder.generateExamplesAndMaster();
+                String result = MasterJSONBuilder.writeLocalToMaster(context.exportContext());
+                showSuccessAlert(result);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+                String errorMessage = "Failed to export JSON file:\n" + e.getMessage();
+                showErrorAlert(errorMessage);
+            }
         }
     }
 
-    private void showSuccessAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Export Successful");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.showAndWait();
-    }
-
-    private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Export Failed");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        alert.showAndWait();
+    public void handleUserInfo() {
+        Stage stage = (Stage) userNameAndId.getScene().getWindow();
+        if (context.getCurrentUser().role() instanceof SignedOut) {
+            WindowController.showModal(stage, "/CourseRegisterUI/SignInDialog.fxml", "Sign In", context);
+        } else if (context.getCurrentUser().role() instanceof Student) {
+            WindowController.showStudentInfoDialog(stage, this.context);
+        } else {
+            System.out.println("not implemented yet");
+        }
     }
 }

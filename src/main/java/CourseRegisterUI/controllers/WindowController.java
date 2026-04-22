@@ -14,8 +14,6 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 public class WindowController {
-    private static final String CSS_PATH = "/CourseRegisterUI/css/style.css";
-
     public static <T> T showModal(
             Window owner,
             String fxmlPath,
@@ -104,7 +102,19 @@ public class WindowController {
         }
     }
 
+    public static void showCreateAccountPopup(Window owner, AppContext context) {
+        WindowController.showModal(owner, "/CourseRegisterUI/CreateAccount.fxml", "Sign In" , context);
+    }
+    public static void showStudentInfoDialog(Window owner, AppContext context) {
+        WindowController.showModal(
+                owner,
+                "/CourseRegisterUI/StudentInfo.fxml",
+                "Student Information",
+                context
+        );
+    }
+
     public static void requestCourseInfo(Window owner,Course course) {
-        showCourseInfoPopup(owner,course);
+        showCourseInfoPopup(owner, course);
     }
 }

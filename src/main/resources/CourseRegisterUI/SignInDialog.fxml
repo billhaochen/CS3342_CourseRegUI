@@ -16,7 +16,6 @@
       maxWidth="-Infinity"
       minHeight="-Infinity"
       minWidth="-Infinity"
-      xmlns="http://javafx.com/javafx/25"
       xmlns:fx="http://javafx.com/fxml/1"
       focusTraversable="true"
       fx:controller="CourseRegisterUI.controllers.SignInController">
@@ -25,23 +24,28 @@
          <Insets/>
       </VBox.margin>
       <padding>
-         <Insets bottom="20.0" top="20.0"/>
+         <Insets bottom="15.0" top="15.0"/>
       </padding>
       <Circle fx:id="sign_in_graph" fill="DODGERBLUE" radius="40.0" stroke="BLACK" strokeType="INSIDE"/>
    </StackPane>
    <Label text="Sign In">
       <font>
-         <Font size="34.0"/>
+         <Font size="30.0"/>
       </font>
    </Label>
    <TextField fx:id="nameField" promptText="Name">
       <VBox.margin>
-         <Insets bottom="10.0" left="50.0" right="50.0" top="30.0"/>
+         <Insets bottom="10.0" left="50.0" right="50.0" top="20.0"/>
       </VBox.margin>
    </TextField>
    <TextField fx:id="idField" layoutX="40.0" layoutY="174.0" promptText="Student ID">
       <VBox.margin>
-         <Insets bottom="30.0" left="50.0" right="50.0" top="15.0"/>
+         <Insets bottom="10.0" left="50.0" right="50.0" top="5.0"/>
+      </VBox.margin>
+   </TextField>
+   <TextField fx:id="passwordField" layoutX="40.0" layoutY="174.0" promptText="Password">
+      <VBox.margin>
+         <Insets bottom="30.0" left="50.0" right="50.0" top="5.0"/>
       </VBox.margin>
    </TextField>
    <Label fx:id="idWarningLabel" textFill="red" visible="false" managed="false">
