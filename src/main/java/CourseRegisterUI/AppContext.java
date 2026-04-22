@@ -111,7 +111,8 @@ public class AppContext {
                     student.start_date(),
                     student.end_date(),
                     updatedCourses,
-                    student.completed_courses()
+                    student.completed_courses(),
+                    student.major()
             );
 
             User updatedUser = new User(

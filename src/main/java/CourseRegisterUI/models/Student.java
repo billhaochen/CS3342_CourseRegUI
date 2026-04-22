@@ -21,7 +21,8 @@ public record Student(
         LocalDate start_date,
         LocalDate end_date,
         List<Course> enrolled_courses,
-        List<Course> completed_courses
+        List<Course> completed_courses,
+        Major major
 ) implements Role {
     public Student {
         enrolled_courses = enrolled_courses == null ? List.of() : enrolled_courses;
@@ -51,7 +52,8 @@ public record Student(
                 null,
                 null,
                 List.of(),
-                List.of()
+                List.of(),
+                null
         );
     }
     public String idValue() {

@@ -101,36 +101,11 @@
       },
       "medium" : "English",
       "meeting_time" : "09:00 AM - 10:50 AM"
-    }, {
-      "academic_unit" : "English",
-      "subject" : "GE",
-      "course_code" : "2402",
-      "title" : "English for Business Communication",
-      "college" : "COLLEGE_OF_LIBERAL_ARTS",
-      "crn" : "10091",
-      "section" : "T01",
-      "credit" : 3,
-      "campus" : "Main Campus",
-      "web_enabled" : true,
-      "level" : "B",
-      "availability" : 25,
-      "cap" : 25,
-      "waitlist_available" : false,
-      "start_date" : [ 2026, 6, 8 ],
-      "end_date" : [ 2026, 7, 25 ],
-      "start_time" : "09:00",
-      "end_time" : "11:50",
-      "day" : "R",
-      "building" : "YEUNG",
-      "room" : "P1615",
-      "instructor" : {
-        "@type" : "teacher",
-        "name" : "TBA LC005"
-      },
-      "medium" : "English",
-      "meeting_time" : "09:00 AM - 11:50 AM"
-    } ]
-  }
+    } ],
+    "major" : "BUSINESS_ECONOMICS"
+  },
+  "password" : "password1",
+  "eid" : "johndoe3"
 }, {
   "id" : "S23456789",
   "name" : "Jane Doe",
@@ -233,37 +208,12 @@
       },
       "medium" : "English",
       "meeting_time" : "09:00 AM - 10:50 AM"
-    }, {
-      "academic_unit" : "English",
-      "subject" : "GE",
-      "course_code" : "2402",
-      "title" : "English for Business Communication",
-      "college" : "COLLEGE_OF_LIBERAL_ARTS",
-      "crn" : "10091",
-      "section" : "T01",
-      "credit" : 3,
-      "campus" : "Main Campus",
-      "web_enabled" : true,
-      "level" : "B",
-      "availability" : 25,
-      "cap" : 25,
-      "waitlist_available" : false,
-      "start_date" : [ 2026, 6, 8 ],
-      "end_date" : [ 2026, 7, 25 ],
-      "start_time" : "09:00",
-      "end_time" : "11:50",
-      "day" : "R",
-      "building" : "YEUNG",
-      "room" : "P1615",
-      "instructor" : {
-        "@type" : "teacher",
-        "name" : "TBA LC005"
-      },
-      "medium" : "English",
-      "meeting_time" : "09:00 AM - 11:50 AM"
     } ],
-    "completed_courses" : [ ]
-  }
+    "completed_courses" : [ ],
+    "major" : "FOOD_SAFETY_AND_TECHNOLOGY"
+  },
+  "password" : "password2",
+  "eid" : "janedoe4"
 }, {
   "id" : "S34567890",
   "name" : "Frank Ocean",
@@ -366,35 +316,10 @@
       },
       "medium" : "English",
       "meeting_time" : "09:00 AM - 10:50 AM"
-    }, {
-      "academic_unit" : "English",
-      "subject" : "GE",
-      "course_code" : "2402",
-      "title" : "English for Business Communication",
-      "college" : "COLLEGE_OF_LIBERAL_ARTS",
-      "crn" : "10091",
-      "section" : "T01",
-      "credit" : 3,
-      "campus" : "Main Campus",
-      "web_enabled" : true,
-      "level" : "B",
-      "availability" : 25,
-      "cap" : 25,
-      "waitlist_available" : false,
-      "start_date" : [ 2026, 6, 8 ],
-      "end_date" : [ 2026, 7, 25 ],
-      "start_time" : "09:00",
-      "end_time" : "11:50",
-      "day" : "R",
-      "building" : "YEUNG",
-      "room" : "P1615",
-      "instructor" : {
-        "@type" : "teacher",
-        "name" : "TBA LC005"
-      },
-      "medium" : "English",
-      "meeting_time" : "09:00 AM - 11:50 AM"
     } ],
-    "completed_courses" : [ ]
-  }
+    "completed_courses" : [ ],
+    "major" : "ANIMATION_AND_VISUAL_EFFECTS"
+  },
+  "password" : "password3",
+  "eid" : "frankocean5"
 } ]

@@ -52,6 +52,17 @@ public class CreateAccountController implements ContextAware {
     private ComboBox<String> majorComboBox;
 
     @FXML
+    private DatePicker startDatePicker;
+    @FXML
+    private DatePicker endDatePicker;
+    @FXML
+    private ComboBox<String> degreeComboBox;
+    @FXML
+    private ComboBox<String> statusComboBox;
+    @FXML
+    private ComboBox<String> locationComboBox;
+
+    @FXML
     private Button cancelBtn;
     @FXML
     private Button submitBtn;
@@ -87,6 +98,12 @@ public class CreateAccountController implements ContextAware {
                 .toList());
         majors.addFirst(null);
 
+        List<String> statuses = new ArrayList<>(Arrays.stream(Status.values())
+                .map(Enum::toString)
+                .toList());
+        majors.addFirst(null);
+
+
         levelComboBox.setItems(FXCollections.observableArrayList(
                 null, "Freshman", "Sophomore", "Junior", "Senior"
         ));
@@ -95,7 +112,6 @@ public class CreateAccountController implements ContextAware {
                 colleges
         ));
 
-
         // Dynamic population for others from AppContext
         programComboBox.setItems(FXCollections.observableArrayList(null, "LOCAL", "INTERNATIONAL", "EXCHANGE"));
         majorComboBox.setItems(FXCollections.observableArrayList(
@@ -103,6 +119,16 @@ public class CreateAccountController implements ContextAware {
         ));
         completedRequisitesComboBox.getItems().setAll(FXCollections.observableArrayList(
                 context.getCourseRepository().courses().stream().map(Course::title).toList()
+        ));
+
+        degreeComboBox.setItems(FXCollections.observableArrayList(
+                null, "Bachelor's Degree", "Associate Degree", "Master's Degree", "PhD", "Doctorate"
+        ));
+        statusComboBox.setItems(FXCollections.observableArrayList(
+                statuses
+        ));
+        locationComboBox.setItems(FXCollections.observableArrayList(
+                null, "Main Campus", "Satellite Campus"
         ));
     }
 
@@ -200,6 +226,11 @@ public class CreateAccountController implements ContextAware {
         College college = College.valueOf(collegeComboBox.getValue());
         Major major = Major.valueOf(majorComboBox.getValue());
         Program program = Program.valueOf(programComboBox.getValue());
+        String location = locationComboBox.getValue();
+        Status status = Status.valueOf(statusComboBox.getValue());
+        String degree = degreeComboBox.getValue();
+        LocalDate start = startDatePicker.getValue();
+        LocalDate end = endDatePicker.getValue();
 
         String student_eid = UserService.assignStudentEid(context.exportContext(), full_name);
         Student created_student = new Student(
@@ -210,14 +241,15 @@ public class CreateAccountController implements ContextAware {
                 student_eid,
                 password,
                 college,
-                "Bachelor's",
-                Status.FULL_TIME,
+                degree,
+                status,
                 program,
-                "Main Campus",
-                LocalDate.of(2022, 1, 12),
-                LocalDate.of(2026, 4, 18),
+                location,
+                start,
+                end,
                 new ArrayList<Course>(),
-                CourseService.coursesFromTitles(context.exportContext(), completed_courses)
+                CourseService.coursesFromTitles(context.exportContext(), completed_courses),
+                major
 
         );
 

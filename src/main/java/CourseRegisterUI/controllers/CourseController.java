@@ -4,6 +4,7 @@ import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.models.Root;
 import CourseRegisterUI.models.SignedOut;
+import CourseRegisterUI.models.Student;
 import CourseRegisterUI.models.User;
 import CourseRegisterUI.util.LoadedView;
 import CourseRegisterUI.util.MasterJSONBuilder;
@@ -21,12 +22,18 @@ import static CourseRegisterUI.ComponentLoader.showErrorAlert;
 import static CourseRegisterUI.ComponentLoader.showSuccessAlert;
 
 public class CourseController {
-    @FXML private Button exportButton;
-    @FXML private ScrollPane courseListPane;
-    @FXML private BorderPane schedulePane;
-    @FXML private MenuBar menuBar;
-    @FXML private Circle profilePicture;
-    @FXML private Hyperlink userNameAndId;
+    @FXML
+    private Button exportButton;
+    @FXML
+    private ScrollPane courseListPane;
+    @FXML
+    private BorderPane schedulePane;
+    @FXML
+    private MenuBar menuBar;
+    @FXML
+    private Circle profilePicture;
+    @FXML
+    private Hyperlink userNameAndId;
     private AppContext context;
 
     private LoadedView<SidePanelController> sidePanelView;
@@ -81,8 +88,8 @@ public class CourseController {
             showErrorAlert(errorMessage);
         } else {
             try {
-
-//            MasterJSONBuilder.writeLocalToMaster(MasterJSONBuilder.buildSampleMaster());
+//                MasterJSONBuilder.writeLocalToMaster(MasterJSONBuilder.buildSampleMaster());
+//                MasterJSONBuilder.generateExamplesAndMaster();
                 String result = MasterJSONBuilder.writeLocalToMaster(context.exportContext());
                 showSuccessAlert(result);
 
@@ -98,9 +105,11 @@ public class CourseController {
     public void handleUserInfo() {
         Stage stage = (Stage) userNameAndId.getScene().getWindow();
         if (context.getCurrentUser().role() instanceof SignedOut) {
-            WindowController.showModal(stage, "/CourseRegisterUI/SignInDialog.fxml", "Sign In" , context);
+            WindowController.showModal(stage, "/CourseRegisterUI/SignInDialog.fxml", "Sign In", context);
+        } else if (context.getCurrentUser().role() instanceof Student) {
+            WindowController.showStudentInfoDialog(stage, this.context);
         } else {
-            WindowController.showCreateAccountPopup(stage, this.context);
+            System.out.println("not implemented yet");
         }
     }
 }
