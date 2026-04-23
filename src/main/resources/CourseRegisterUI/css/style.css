@@ -283,3 +283,35 @@
     -fx-font-size: 14px;
     -fx-text-fill: #1f2430;
 }
+
+
+/*.teacher-root {*/
+/*    -fx-background-color: white;*/
+/*}*/
+
+/*.teacher-name-label {*/
+/*    -fx-font-size: 24px;*/
+/*    -fx-font-weight: 500;*/
+/*}*/
+
+/*.link-button {*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-text-fill: #6c63c9;*/
+/*    -fx-border-color: transparent;*/
+/*}*/
+
+/*.icon-button {*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-font-size: 16px;*/
+/*}*/
+
+/*.search-field {*/
+/*    -fx-background-radius: 0;*/
+/*    -fx-border-radius: 0;*/
+/*    -fx-pref-height: 34px;*/
+/*}*/
+
+/*.course-table {*/
+/*    -fx-background-color: white;*/
+/*    -fx-border-color: #d9d9d9;*/
+/*}*/

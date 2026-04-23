@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="CourseRegisterUI.controllers.AdminLandingController"
+            prefWidth="1100.0"
+            prefHeight="700.0"
+            styleClass="teacher-root">
+
+    <top>
+        <VBox spacing="18.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="24.0" right="28.0" bottom="18.0" left="28.0"/>
+            </padding>
+
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="14.0">
+                <children>
+                    <Circle radius="18.0" styleClass="profile-circle"/>
+
+                    <Label fx:id="teacherNameLabel"
+                           text="Dr. John Doe | 40401231"
+                           styleClass="teacher-name-label"/>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Button fx:id="calendarButton"
+                            text="🗓"
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+
+                    <Button fx:id="viewAsStudentButton"
+                            text="View as Student"
+                            styleClass="link-button"/>
+                </children>
+            </HBox>
+
+            <!-- Toolbar -->
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <children>
+                    <Button fx:id="filterButton"
+                            text="⏷"
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+
+                    <Button fx:id="visibilityButton"
+                            text="◉"
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+
+                    <Button fx:id="editButton"
+                            text="✎"
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <TextField fx:id="searchField"
+                               promptText="Search"
+                               prefWidth="260.0"
+                               styleClass="search-field"/>
+
+                    <Button fx:id="uploadButton"
+                            text="⇪"
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+                </children>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="0.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets right="28.0" bottom="24.0" left="28.0"/>
+            </padding>
+
+            <TableView fx:id="courseTable"
+                       VBox.vgrow="ALWAYS"
+                       columnResizePolicy="CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS"
+                       styleClass="course-table">
+
+                <columns>
+                    <TableColumn fx:id="bookmarkColumn" text="" prefWidth="45.0"/>
+                    <TableColumn fx:id="academicUnitColumn" text="Academic Unit" prefWidth="120.0"/>
+                    <TableColumn fx:id="subjectColumn" text="Subject" prefWidth="90.0"/>
+                    <TableColumn fx:id="courseColumn" text="Course" prefWidth="90.0"/>
+                    <TableColumn fx:id="titleColumn" text="Title" prefWidth="170.0"/>
+                    <TableColumn fx:id="creditColumn" text="Credit" prefWidth="70.0"/>
+                    <TableColumn fx:id="webColumn" text="Web" prefWidth="60.0"/>
+                    <TableColumn fx:id="levelColumn" text="Level" prefWidth="80.0"/>
+                    <TableColumn fx:id="availColumn" text="Avail" prefWidth="70.0"/>
+                    <TableColumn fx:id="capColumn" text="Cap" prefWidth="60.0"/>
+                    <TableColumn fx:id="waitlistColumn" text="Waitlist" prefWidth="80.0"/>
+                    <TableColumn fx:id="mediumColumn" text="Medium" prefWidth="100.0"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+</BorderPane>

@@ -29,5 +29,6 @@ public record Course(
         Teacher instructor,
         String medium, // enum
         String meeting_time,
-        List<Course> prerequisites
+        List<Course> prerequisites,
+        List<User> waitlist
 ) {}

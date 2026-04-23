@@ -42,7 +42,6 @@ public class CourseInfoController {
     @FXML private Label courseWebEnabled;
     @FXML private ScrollPane mainScroll;
     @FXML private GridPane courseCalendarGrid;  // Single grid!
-    private boolean gridInteractive = false;
 
     @FXML private Label weekTitle;
     @FXML private Button prevWeek, nextWeek, todayBtn;
@@ -60,7 +59,11 @@ public class CourseInfoController {
     @FXML
     private TableColumn<CourseRow, String> courseColumn;
 
-    private AppContext context;
+    @FXML
+    private Button joinWaitlistButton;
+    @FXML
+    private Button unregisterButton;
+
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
     private Course course;
 
@@ -78,6 +81,8 @@ public class CourseInfoController {
             courseCalendarGrid.setPrefHeight(500);  // Minimum visible height
             mainScroll.requestLayout();
         });
+        joinWaitlistButton.getStyleClass().add("btn-submit");
+        unregisterButton.getStyleClass().add("link-ghost");
     }
 
     public void setCourseInfo(Course course) {

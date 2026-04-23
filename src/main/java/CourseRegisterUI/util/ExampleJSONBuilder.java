@@ -45,6 +45,7 @@ public class ExampleJSONBuilder {
                 new Teacher("Kim Tae Wook"),
                 "English",
                 "03:00 PM - 05:50 PM",
+                new ArrayList<>(),
                 new ArrayList<>()
         );
         Course c2 = new Course(
@@ -72,6 +73,7 @@ public class ExampleJSONBuilder {
                 new Teacher("Liu Chen"),
                 "English",
                 "04:00 PM - 06:50 PM",
+                new ArrayList<>(),
                 new ArrayList<>()
         );
         Course c3 = new Course(
@@ -99,6 +101,7 @@ public class ExampleJSONBuilder {
                 new Teacher("Chan Michael C."),
                 "English",
                 "09:00 AM - 10:50 AM",
+                new ArrayList<>(),
                 new ArrayList<>()
         );
         prerequisites.add(c1);
@@ -127,7 +130,8 @@ public class ExampleJSONBuilder {
                 new Teacher("TBA LC005"),
                 "English",
                 "09:00 AM - 11:50 AM",
-                prerequisites
+                prerequisites,
+                new ArrayList<>()
         );
         courses.add(c1);
         courses.add(c2);
