@@ -162,7 +162,7 @@ public class AppContext {
                     course1.prerequisites(),
                     updatedWaitlist
             );
-            HashMap<String, List<User>> changedUsers = removeCourseFromUsers(course1);
+            HashMap<String, List<User>> changedUsers = removeCourseFromUsers(this.users, course1);
 
             Student student = (Student) getCurrentUser().role();
             student.waitlisted_courses().add(course);
@@ -180,8 +180,8 @@ public class AppContext {
     }
 
     // I need this to return the dict of students affected to add back the course to the correct users
-    private HashMap<String, List<User>> removeCourseFromUsers(Course course) {
-        List<User> enrolledStudents = this.users.stream().filter(user -> {
+    private HashMap<String, List<User>> removeCourseFromUsers(List<User> userList, Course course) {
+        List<User> enrolledStudents = userList.stream().filter(user -> {
             if (user.role() instanceof Student) {
                 Student student = (Student) user.role();
                 return CourseService.courseInCourses(student.enrolled_courses(), course);
@@ -190,7 +190,7 @@ public class AppContext {
             }
         }).toList();
 
-        List<User> completedStudents = this.users.stream().filter(user -> {
+        List<User> completedStudents = userList.stream().filter(user -> {
             if (user.role() instanceof Student) {
                 Student student = (Student) user.role();
                 return CourseService.courseInCourses(student.completed_courses(), course);
@@ -199,7 +199,7 @@ public class AppContext {
             }
         }).toList();
 
-        List<User> waitlistedStudents = this.users.stream().filter(user -> {
+        List<User> waitlistedStudents = userList.stream().filter(user -> {
             if (user.role() instanceof Student) {
                 Student student = (Student) user.role();
                 return CourseService.courseInCourses(student.waitlisted_courses(), course);
@@ -276,6 +276,18 @@ public class AppContext {
 
     public void addNewUser(User user) {
         users.add(user);
+    }
+
+    public void unregisterCourse(Course course) {
+        if (getCurrentUser().role() instanceof Student) {
+            setCurrentUser(removeCourseFromUser(getCurrentUser(), course));
+        }
+        removeCourseFromSchedule(course);
+    }
+
+    private void removeCourseFromSchedule(Course course) {
+        CourseRow courseToBeRemoved = new CourseRow(course);
+        selectedCourseRows.setAll(selectedCourseRows.stream().filter(courseRow -> !CourseService.equalCourses(courseRow.getCourse(), courseToBeRemoved.getCourse())).toList());
     }
 
     public Root exportContext() {

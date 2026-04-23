@@ -19,6 +19,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
@@ -330,7 +331,6 @@ public class CourseInfoController implements ContextAware {
 
     @FXML
     private void handleJoinWaitlist() {
-
         if (!course.waitlist_available()) {
             showConflict("This course does not have a waitlist");
         } else if (context.getCurrentUser().role() instanceof SignedOut) {
@@ -366,7 +366,10 @@ public class CourseInfoController implements ContextAware {
 
     @FXML
     private void handleRemoveCourse() {
-
+        context.unregisterCourse(course);
+        showSuccessAlert("Successfully removed course");
+        Stage stage = (Stage) courseLevel.getScene().getWindow();
+        stage.close();
     }
 
     @Override
