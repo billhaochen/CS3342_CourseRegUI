@@ -2,17 +2,17 @@ package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ComponentLoader;
-import CourseRegisterUI.models.Root;
-import CourseRegisterUI.models.SignedOut;
-import CourseRegisterUI.models.Student;
-import CourseRegisterUI.models.User;
+import CourseRegisterUI.ContextAware;
+import CourseRegisterUI.models.*;
 import CourseRegisterUI.util.LoadedView;
 import CourseRegisterUI.util.MasterJSONBuilder;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ import java.time.format.DateTimeFormatter;
 import static CourseRegisterUI.ComponentLoader.showErrorAlert;
 import static CourseRegisterUI.ComponentLoader.showSuccessAlert;
 
-public class CourseController {
+public class CourseController implements ContextAware, MainController {
     @FXML
     private Button exportButton;
     @FXML
@@ -34,6 +34,10 @@ public class CourseController {
     private Circle profilePicture;
     @FXML
     private Hyperlink userNameAndId;
+    @FXML
+    private Button adminBackButton;
+    @FXML
+    private VBox contentBox;
     private AppContext context;
 
     private LoadedView<SidePanelController> sidePanelView;
@@ -48,6 +52,7 @@ public class CourseController {
         schedulePane.setCenter(weeklyCalendarView.view());
         menuBar.getMenus().addAll(ComponentLoader.loadMenuBar().getMenus());
         userNameAndId.getStyleClass().add("link-ghost");
+        adminBackButton.setVisible(false);
     }
 
     public void setAppContext(AppContext appContext) {
@@ -70,9 +75,10 @@ public class CourseController {
         });
 
         updateUserInfo();
-//        if (menuBarView != null) {
-//            menuBarView.controller().setAppContext(context);
-//        }
+
+        if (context.getRootUserType().equals(RootUserType.ADMIN)) {
+            adminBackButton.setVisible(true);
+        }
     }
 
     @FXML
@@ -102,6 +108,7 @@ public class CourseController {
         }
     }
 
+    @FXML
     public void handleUserInfo() {
         Stage stage = (Stage) userNameAndId.getScene().getWindow();
         if (context.getCurrentUser().role() instanceof SignedOut) {
@@ -111,5 +118,22 @@ public class CourseController {
         } else {
             System.out.println("not implemented yet");
         }
+    }
+
+    private void slideOutAndNavigate(Runnable nextAction) {
+
+        TranslateTransition slideOut = new TranslateTransition(Duration.seconds(0.5), contentBox);
+        slideOut.setByX(-800);
+
+        slideOut.setOnFinished(e -> nextAction.run());
+        slideOut.play();
+    }
+
+    @FXML
+    public void handleBackButton() {
+        slideOutAndNavigate(() -> {
+            Stage stage = (Stage) contentBox.getScene().getWindow();
+            WindowController.switchToAdminMainView(stage, context);
+        });
     }
 }

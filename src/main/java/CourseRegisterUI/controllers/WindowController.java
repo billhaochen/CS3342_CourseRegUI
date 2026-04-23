@@ -1,10 +1,8 @@
 package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.AppContext;
-import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Course;
-import CourseRegisterUI.models.Root;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -49,11 +47,30 @@ public class WindowController {
         }
     }
 
-    public static void switchToMainView(Stage stage, AppContext context) {
+    public static void switchToStudentMainView(Stage stage, AppContext context) {
         try {
             FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/Main.fxml"));
             Parent root = loader.load();
             CourseController mainController = loader.getController();
+            mainController.setAppContext(context);
+            if (stage.getScene() != null) {
+                stage.getScene().setRoot(root);
+            } else {
+                Scene scene = new Scene(root, 800, 600);
+                stage.setScene(scene);
+            }
+            SignInController controller =  WindowController.showModal(stage, "/CourseRegisterUI/SignInDialog.fxml", "Sign In" , context);
+            controller.setMainController(mainController);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void switchToAdminMainView(Stage stage, AppContext context) {
+        try {
+            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/AdminMainPage.fxml"));
+            Parent root = loader.load();
+            AdminCourseController mainController = loader.getController();
             mainController.setAppContext(context);
             if (stage.getScene() != null) {
                 stage.getScene().setRoot(root);

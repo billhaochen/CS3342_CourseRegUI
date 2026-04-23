@@ -366,15 +366,24 @@ public class CourseInfoController implements ContextAware {
 
     @FXML
     private void handleRemoveCourse() {
-        try {
-            context.unregisterCourse(course);
-            showSuccessAlert("Successfully removed course");
-            Stage stage = (Stage) courseLevel.getScene().getWindow();
-            stage.close();
-            String result = MasterJSONBuilder.writeLocalToMaster(context.exportContext());
-        } catch (IOException exception) {
-            showConflict("Failed to remove course");
+        if (!(context.getCurrentUser().role() instanceof SignedOut)) {
+            if (context.getCurrentUser().role() instanceof Teacher) {
+                try {
+                    context.unregisterCourse(course);
+                    showSuccessAlert("Successfully removed course");
+                    Stage stage = (Stage) courseLevel.getScene().getWindow();
+                    stage.close();
+                    String result = MasterJSONBuilder.writeLocalToMaster(context.exportContext());
+                } catch (IOException exception) {
+                    showConflict("Failed to remove course");
+                }
+            } else {
+                showConflict("Teachers don't have a schedule");
+            }
+        } else {
+            showConflict("Sign in first");
         }
+
     }
 
     @Override

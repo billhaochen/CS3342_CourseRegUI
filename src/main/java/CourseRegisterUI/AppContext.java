@@ -24,11 +24,13 @@ public class AppContext {
     private final ObservableList<Course> selectedCourses = FXCollections.observableArrayList();
     private final ObservableList<CourseRow> selectedCourseRows = FXCollections.observableArrayList();
     private final FilteredList<CourseRow> filteredCourseRows;
+    private RootUserType rootUserType;
 
     public AppContext() {
         this.courseUserRepository = new Root(new ArrayList<>(), new ArrayList<>());
         this.currentUser.set(new User("", "Sign In", new SignedOut()));
         this.filteredCourseRows = new FilteredList<>(selectedCourseRows, null);
+        this.rootUserType = RootUserType.SIGNED_OUT;
     }
 
     public void loadInitialData() {
@@ -316,6 +318,14 @@ public class AppContext {
 
     public FilteredList<CourseRow> getFilteredCourseRows() {
         return filteredCourseRows;
+    }
+
+    public void setRootUserType(RootUserType type) {
+        this.rootUserType = type;
+    }
+
+    public RootUserType getRootUserType() {
+        return rootUserType;
     }
 
 }

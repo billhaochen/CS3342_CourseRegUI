@@ -42,6 +42,26 @@ public class UserService {
 
     }
 
+    public static Optional<User> getAdminByName(Root root, String admin_name) {
+        // This is the Java equivalent of the TypeScript approach for filtering by a predicate
+        // Will have to implement ternary operators/null handling later when invoking this function
+        List<User> admins = root.users().stream().filter(s -> s.role() instanceof Teacher).toList();
+
+        return admins.stream()
+                .filter(admin_user -> ((Teacher) admin_user.role()).name().equals(admin_name))
+                .findFirst();
+    }
+
+    public static Optional<User> getAdminByID(Root root, String admin_id) {
+        // This is the Java equivalent of the TypeScript approach for filtering by a predicate
+        // Will have to implement ternary operators/null handling later when invoking this function
+        List<User> admins = root.users().stream().filter(s -> s.role() instanceof Teacher).toList();
+        return admins.stream()
+                .filter(admin_user -> ((Teacher) admin_user.role()).idValue().equals(admin_id))
+                .findFirst();
+
+    }
+
     public static List<Course> getCoursesFromStudent(User student) {
         List<Course> resulting_courses = new ArrayList<>();
         if (student.role() instanceof Student) {

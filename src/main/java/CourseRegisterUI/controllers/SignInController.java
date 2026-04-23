@@ -2,10 +2,9 @@ package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ContextAware;
-import CourseRegisterUI.models.Root;
-import CourseRegisterUI.models.Student;
-import CourseRegisterUI.models.User;
+import CourseRegisterUI.models.*;
 import CourseRegisterUI.util.JSONDeserializer;
+import com.sun.tools.javac.Main;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,8 +18,8 @@ import javafx.stage.Window;
 
 import java.util.Objects;
 import java.util.Optional;
-import static CourseRegisterUI.util.UserService.getStudentByID;
-import static CourseRegisterUI.util.UserService.getStudentByName;
+
+import static CourseRegisterUI.util.UserService.*;
 
 public class SignInController implements ContextAware {
     @FXML private Circle sign_in_graph;
@@ -33,7 +32,7 @@ public class SignInController implements ContextAware {
     @FXML private Hyperlink createAccountLink;
     @FXML private Label idWarningLabel;
     private AppContext context;
-    private CourseController mainController;
+    private MainController mainController;
 
     @Override
     public void setAppContext(AppContext appContext) {
@@ -61,7 +60,7 @@ public class SignInController implements ContextAware {
         idWarningLabel.getStyleClass().add("idWarningClass");
     }
 
-    public void setMainController(CourseController mainController) {
+    public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 
@@ -84,13 +83,25 @@ public class SignInController implements ContextAware {
         String full_name = nameField.getText();
         String id = idField.getText();
         String password = passwordField.getText();
-        if (validateStudentCredentials(full_name, id, password)) {
-            context.setCurrentUser(full_name, id);
-            Stage stage = (Stage) nameField.getScene().getWindow();
-            stage.close();
-        } else {
-            displayWarning();
+
+        if (context.getRootUserType().equals(RootUserType.STUDENT)) {
+            if (validateStudentCredentials(full_name, id, password)) {
+                context.setCurrentUser(full_name, id);
+                Stage stage = (Stage) nameField.getScene().getWindow();
+                stage.close();
+            } else {
+                displayWarning();
+            }
+        } else if(context.getRootUserType().equals(RootUserType.ADMIN)) {
+            if (validateAdminCredentials(full_name, id, password)) {
+                context.setCurrentUser(full_name, id);
+                Stage stage = (Stage) nameField.getScene().getWindow();
+                stage.close();
+            } else {
+                displayWarning();
+            }
         }
+
     }
 
     // don't delete this, it might be super helpful later
@@ -101,7 +112,7 @@ public class SignInController implements ContextAware {
 //        a.ifPresent(av -> b.ifPresent(bv -> action.accept(av, bv)));
 //    }
 
-    @FXML
+
     private boolean validateStudentCredentials(String student_name, String student_id, String password) {
         boolean valid = false;
         if (Objects.equals(student_name, "") || Objects.equals(student_id, "")) {
@@ -115,6 +126,23 @@ public class SignInController implements ContextAware {
                 && id_lookup.get().role() instanceof Student
                 && name_lookup.get().getID().equals(student_id)
                 && id_lookup.get().name().equals(student_name)
+                && id_lookup.get().getPassword().equals(password)
+                && name_lookup.get().getPassword().equals(password);
+    }
+
+    private boolean validateAdminCredentials(String admin_name, String admin_id, String password) {
+        boolean valid = false;
+        if (Objects.equals(admin_name, "") || Objects.equals(admin_id, "")) {
+            return valid;
+        }
+        Optional<User> name_lookup = getAdminByName(this.context.getCourseRepository(), admin_name);
+        Optional<User> id_lookup = getAdminByID(this.context.getCourseRepository(), admin_id);
+        return name_lookup.isPresent()
+                && id_lookup.isPresent()
+                && name_lookup.get().role() instanceof Teacher
+                && id_lookup.get().role() instanceof Teacher
+                && name_lookup.get().getID().equals(admin_id)
+                && id_lookup.get().name().equals(admin_name)
                 && id_lookup.get().getPassword().equals(password)
                 && name_lookup.get().getPassword().equals(password);
     }
