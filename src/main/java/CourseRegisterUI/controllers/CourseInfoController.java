@@ -1,11 +1,12 @@
 package CourseRegisterUI.controllers;
+
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.ContextAware;
-import CourseRegisterUI.models.Course;
-import CourseRegisterUI.models.CourseRow;
+import CourseRegisterUI.models.*;
 import CourseRegisterUI.util.CourseService;
 import CourseRegisterUI.util.LoadedView;
+import CourseRegisterUI.util.MasterJSONBuilder;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,20 +32,32 @@ import java.util.Locale;
 import static CourseRegisterUI.util.CalendarService.mapDayToColumn;
 import static CourseRegisterUI.util.CalendarService.mapTimeToRow;
 
-public class CourseInfoController {
-    @FXML private Label courseName;
-    @FXML private Label courseCode;
-    @FXML private Label courseCRN;
-    @FXML private Label professorName;
-    @FXML private Label departmentName;
-    @FXML private Label courseLevel;
-    @FXML private Label courseCredits;
-    @FXML private Label courseWebEnabled;
-    @FXML private ScrollPane mainScroll;
-    @FXML private GridPane courseCalendarGrid;  // Single grid!
+public class CourseInfoController implements ContextAware {
+    @FXML
+    private Label courseName;
+    @FXML
+    private Label courseCode;
+    @FXML
+    private Label courseCRN;
+    @FXML
+    private Label professorName;
+    @FXML
+    private Label departmentName;
+    @FXML
+    private Label courseLevel;
+    @FXML
+    private Label courseCredits;
+    @FXML
+    private Label courseWebEnabled;
+    @FXML
+    private ScrollPane mainScroll;
+    @FXML
+    private GridPane courseCalendarGrid;  // Single grid!
 
-    @FXML private Label weekTitle;
-    @FXML private Button prevWeek, nextWeek, todayBtn;
+    @FXML
+    private Label weekTitle;
+    @FXML
+    private Button prevWeek, nextWeek, todayBtn;
     private StackPane selectedCell;
     @FXML
     private TableView<CourseRow> courseTable;
@@ -66,6 +79,7 @@ public class CourseInfoController {
 
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
     private Course course;
+    private AppContext context;
 
     @FXML
     public void initialize() {
@@ -213,6 +227,7 @@ public class CourseInfoController {
             grid.add(cell, col, row);
         }
     }
+
     private void clearCourseBlocks() {
         courseCalendarGrid.getChildren().removeIf(node ->
                 node.getStyleClass().contains("course-block"));
@@ -292,5 +307,70 @@ public class CourseInfoController {
         weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
         refreshCourseCalendar();
         renderCourseCalendar(course);
+    }
+
+    @FXML
+    private void showConflict(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Schedule Conflict");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private boolean takenConflicts() {
+        if (context.getCurrentUser().role() instanceof Student) {
+            List<Course> already_taken = ((Student) context.getCurrentUser().role()).completed_courses();
+            List<Course> enrolled = ((Student) context.getCurrentUser().role()).enrolled_courses();
+            List<Course> waitlisted = ((Student) context.getCurrentUser().role()).waitlisted_courses();
+            return CourseService.courseInCourses(waitlisted, course) || CourseService.courseInCourses(already_taken, course) || CourseService.courseInCourses(enrolled, course);
+        }
+        return false;
+    }
+
+    @FXML
+    private void handleJoinWaitlist() {
+
+        if (!course.waitlist_available()) {
+            showConflict("This course does not have a waitlist");
+        } else if (context.getCurrentUser().role() instanceof SignedOut) {
+            showConflict("You must sign in first");
+        } else if (takenConflicts()) {
+            showConflict("You can't hold a course you have already taken, enrolled, or already waitlisted");
+        } else {
+            if (context.getCurrentUser().role() instanceof Student) {
+                if (context.addUserToWaitlist(course)) {
+                    try {
+                        String result = MasterJSONBuilder.writeLocalToMaster(context.exportContext());
+                        showSuccessAlert("Successfully registered for waitlist");
+                    } catch (IOException exception) {
+                        showConflict("Was able to register for waitlist but unable to save changes");
+                    }
+                } else {
+                    showConflict("Failed to register for the waitlist");
+                }
+            } else {
+                showConflict("Only students can register for waitlists");
+            }
+        }
+    }
+
+    public static void showSuccessAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Register for Waitlist");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void handleRemoveCourse() {
+
+    }
+
+    @Override
+    public void setAppContext(AppContext appContext) {
+        this.context = appContext;
     }
 }

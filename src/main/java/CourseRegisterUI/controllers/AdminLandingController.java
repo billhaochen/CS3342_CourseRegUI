@@ -1,5 +1,9 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.models.CourseRow;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+
 public class AdminLandingController {
     @FXML private Label teacherNameLabel;
 
@@ -14,7 +18,8 @@ public class AdminLandingController {
 
     @FXML private TableView<CourseRow> courseTable;
 
-    @FXML private TableColumn<CourseRow, String> bookmarkColumn;
+    @FXML
+    private TableColumn<CourseRow, String> bookmarkColumn;
     @FXML private TableColumn<CourseRow, String> academicUnitColumn;
     @FXML private TableColumn<CourseRow, String> subjectColumn;
     @FXML private TableColumn<CourseRow, String> courseColumn;

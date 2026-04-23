@@ -113,7 +113,7 @@ public class AddCourseController implements ContextAware {
                     Course selectedCourse = selectedRow.getCourse();
                     if (selectedCourse != null) {
                         javafx.stage.Window owner = courseTableView.getScene().getWindow();
-                        WindowController.showCourseInfoPopup(owner, selectedCourse);
+                        WindowController.showCourseInfoPopup(owner, context, selectedCourse);
                     }
                 }
             }
@@ -280,6 +280,10 @@ public class AddCourseController implements ContextAware {
                 .anyMatch(course -> !completedCourses.containsAll(course.prerequisites()));
     }
 
+    private boolean availabilityConflict(List<Course> courses) {
+        return courses.stream().map(Course::availability).anyMatch(avail -> avail == 0);
+    }
+
     private boolean validateCourses(ObservableList<CourseRow> rows) {
         List<Course> addedCourses = rows.stream()
                 .map(CourseRow::getCourse)
@@ -292,6 +296,11 @@ public class AddCourseController implements ContextAware {
 
         if (prerequisiteConflicts(context.getCurrentUser(), addedCourses)) {
             showConflict("You do not have the required pre-requisites");
+            return false;
+        }
+
+        if(availabilityConflict(addedCourses)) {
+            showConflict("There are no more slots left in the selected section");
             return false;
         }
 

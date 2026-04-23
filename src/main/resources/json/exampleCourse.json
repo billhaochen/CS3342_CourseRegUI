@@ -12,7 +12,7 @@
   "level" : "B",
   "availability" : 4,
   "cap" : 20,
-  "waitlist_available" : false,
+  "waitlist_available" : true,
   "start_date" : [ 2026, 1, 12 ],
   "end_date" : [ 2026, 4, 18 ],
   "start_time" : "15:00",
@@ -26,7 +26,8 @@
   },
   "medium" : "English",
   "meeting_time" : "03:00 PM - 05:50 PM",
-  "prerequisites" : [ ]
+  "prerequisites" : [ ],
+  "waitlist" : [ ]
 }, {
   "academic_unit" : "Computer Science",
   "subject" : "CS",
@@ -41,7 +42,7 @@
   "level" : "B",
   "availability" : 0,
   "cap" : 120,
-  "waitlist_available" : false,
+  "waitlist_available" : true,
   "start_date" : [ 2026, 1, 12 ],
   "end_date" : [ 2026, 4, 18 ],
   "start_time" : "16:00",
@@ -55,7 +56,8 @@
   },
   "medium" : "English",
   "meeting_time" : "04:00 PM - 06:50 PM",
-  "prerequisites" : [ ]
+  "prerequisites" : [ ],
+  "waitlist" : [ ]
 }, {
   "academic_unit" : "Chemistry",
   "subject" : "CHEM",
@@ -84,7 +86,8 @@
   },
   "medium" : "English",
   "meeting_time" : "09:00 AM - 10:50 AM",
-  "prerequisites" : [ ]
+  "prerequisites" : [ ],
+  "waitlist" : [ ]
 }, {
   "academic_unit" : "English",
   "subject" : "GE",
@@ -127,7 +130,7 @@
     "level" : "B",
     "availability" : 4,
     "cap" : 20,
-    "waitlist_available" : false,
+    "waitlist_available" : true,
     "start_date" : [ 2026, 1, 12 ],
     "end_date" : [ 2026, 4, 18 ],
     "start_time" : "15:00",
@@ -141,6 +144,8 @@
     },
     "medium" : "English",
     "meeting_time" : "03:00 PM - 05:50 PM",
-    "prerequisites" : [ ]
-  } ]
+    "prerequisites" : [ ],
+    "waitlist" : [ ]
+  } ],
+  "waitlist" : [ ]
 } ]

@@ -30,5 +30,9 @@ public record Course(
         String medium, // enum
         String meeting_time,
         List<Course> prerequisites,
-        List<User> waitlist
-) {}
+        List<String> waitlist
+) {
+    public void setWaitlist(List<String> users) {
+        this.waitlist.addAll(users);
+    }
+}

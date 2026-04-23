@@ -222,7 +222,7 @@ public class CreateAccountController implements ContextAware {
         String email = emailField.getText();
         String phone_number = phoneField.getText();
         String level = levelComboBox.getValue();
-        List<String> completed_courses = completedRequisitesComboBox.getItems();
+        List<String> completed_courses = completedRequisitesComboBox.getCheckModel().getCheckedItems();
         College college = College.valueOf(collegeComboBox.getValue());
         Major major = Major.valueOf(majorComboBox.getValue());
         Program program = Program.valueOf(programComboBox.getValue());
@@ -249,7 +249,8 @@ public class CreateAccountController implements ContextAware {
                 end,
                 new ArrayList<Course>(),
                 CourseService.coursesFromTitles(context.exportContext(), completed_courses),
-                major
+                major,
+                new ArrayList<Course>()
 
         );
 

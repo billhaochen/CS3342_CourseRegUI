@@ -22,7 +22,8 @@ public record Student(
         LocalDate end_date,
         List<Course> enrolled_courses,
         List<Course> completed_courses,
-        Major major
+        Major major,
+        List<Course> waitlisted_courses
 ) implements Role {
     public Student {
         enrolled_courses = enrolled_courses == null ? List.of() : enrolled_courses;
@@ -53,7 +54,8 @@ public record Student(
                 null,
                 List.of(),
                 List.of(),
-                null
+                null,
+                List.of()
         );
     }
     public String idValue() {
@@ -67,4 +69,13 @@ public record Student(
         return student_eid;
     }
 
+    public void setEnrolled_courses(List<Course> courses) {
+        this.enrolled_courses.clear();
+        this.enrolled_courses.addAll(courses);
+    }
+
+    public void setCompleted_courses(List<Course> courses) {
+        this.completed_courses.clear();
+        this.completed_courses.addAll(courses);
+    }
 }

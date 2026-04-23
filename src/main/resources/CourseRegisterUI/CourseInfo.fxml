@@ -111,8 +111,8 @@
                                 </TitledPane>
                             </panes>
                         </Accordion>
-                        <Button fx:id="joinWaitlistButton" prefWidth="177.0" text="Join Waitlist"/>
-                        <Button fx:id="unregisterButton" prefWidth="177.0" text="Remove Course"/>
+                        <Button fx:id="joinWaitlistButton" prefWidth="177.0" text="Join Waitlist" onAction="#handleJoinWaitlist"/>
+                        <Button fx:id="unregisterButton" prefWidth="177.0" text="Remove Course" onAction="#handleRemoveCourse"/>
                     </children>
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
