@@ -9,8 +9,8 @@ public record Teacher(
         String name
 ) implements Role {
 
-    @JsonIgnore // So Jackson doesn't write a new ID field in here
-    public String idValue() {
+     // So Jackson doesn't write a new ID field in here
+    public @JsonIgnore String idValue() {
         System.out.println("Change this later to actual id");
         return name;
     }
