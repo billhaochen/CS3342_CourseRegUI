@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
@@ -66,6 +67,24 @@ public class CreateAccountController implements ContextAware {
     private Button cancelBtn;
     @FXML
     private Button submitBtn;
+    @FXML
+    private GridPane studentForm;
+    @FXML
+    private GridPane adminForm;
+
+    @FXML
+    private TextField adminNameField;
+    @FXML
+    private TextField adminPasswordField;
+    @FXML
+    private TextField adminIdField;
+    @FXML
+    private TextField adminEmailField;
+    @FXML
+    private TextField adminPhoneField;
+    @FXML
+    private ComboBox<String> titleComboBox;
+
 
     private AppContext context;
     private CourseController mainController;
@@ -129,6 +148,10 @@ public class CreateAccountController implements ContextAware {
         ));
         locationComboBox.setItems(FXCollections.observableArrayList(
                 null, "Main Campus", "Satellite Campus"
+        ));
+
+        titleComboBox.setItems(FXCollections.observableArrayList(
+                null, "Prof.", "Dr."
         ));
     }
 
@@ -363,6 +386,12 @@ public class CreateAccountController implements ContextAware {
     public void setAppContext(AppContext appContext) {
         this.context = appContext;
         populateCombos();
+        if (context.getRootUserType().equals(RootUserType.STUDENT)) {
+            studentForm.setVisible(true);
+        } else if (context.getRootUserType().equals(RootUserType.ADMIN)) {
+            studentForm.setVisible(false);
+            adminForm.setVisible(true);
+        }
     }
 
     @FXML

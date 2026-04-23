@@ -35,7 +35,7 @@
                 </children>
             </HBox>
 
-            <GridPane hgap="28" vgap="16">
+            <GridPane fx:id="studentForm" hgap="28" vgap="16">
                 <columnConstraints>
                     <ColumnConstraints percentWidth="50"/>
                     <ColumnConstraints percentWidth="50"/>
@@ -49,7 +49,7 @@
                               GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                     <TextField fx:id="passwordField" promptText="Password"
-                                   GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"/>
 
                     <ComboBox fx:id="programComboBox" promptText="Program"
                               GridPane.rowIndex="1" GridPane.columnIndex="1"/>
@@ -86,6 +86,34 @@
 
                     <ComboBox fx:id="locationComboBox" promptText="Location"
                               GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                </children>
+            </GridPane>
+
+            <GridPane fx:id="adminForm" hgap="28" vgap="16">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="50"/>
+                    <ColumnConstraints percentWidth="50"/>
+                </columnConstraints>
+
+                <children>
+                    <TextField fx:id="adminNameField" promptText="Full Name"
+                               GridPane.rowIndex="0" GridPane.columnIndex="0"
+                    />
+
+                    <ComboBox fx:id="titleComboBox" promptText="Title"
+                              GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <TextField fx:id="adminPasswordField" promptText="Password"
+                               GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+                    <TextField fx:id="adminIdField" promptText="Student ID"
+                               GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+
+                    <TextField fx:id="adminEmailField" promptText="Email"
+                               GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                    <TextField fx:id="adminPhoneField" promptText="Phone number"
+                               GridPane.rowIndex="6" GridPane.columnIndex="1"/>
                 </children>
             </GridPane>
 
