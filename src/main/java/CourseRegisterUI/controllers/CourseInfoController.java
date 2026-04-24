@@ -387,6 +387,8 @@ public class CourseInfoController implements ContextAware {
         this.context = appContext;
         if (context.getRootUserType().equals(RootUserType.ADMIN)) {
             editButton.setVisible(true);
+            unregisterButton.setVisible(false);
+            joinWaitlistButton.setVisible(false);
         }
     }
 
