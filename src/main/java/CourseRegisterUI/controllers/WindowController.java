@@ -112,6 +112,15 @@ public class WindowController {
         );
     }
 
+    public static void showAdminInfoDialog(Window owner, AppContext context) {
+        WindowController.showModal(
+                owner,
+                "/CourseRegisterUI/AdminInfo.fxml",
+                "Admin Information",
+                context
+        );
+    }
+
     public static void requestCourseInfo(Window owner, AppContext context, Course course) {
         showCourseInfoPopup(owner, context, course);
     }

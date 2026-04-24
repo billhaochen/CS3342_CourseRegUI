@@ -116,7 +116,7 @@ public class CourseController implements ContextAware, MainController {
         } else if (context.getCurrentUser().role() instanceof Student) {
             WindowController.showStudentInfoDialog(stage, this.context);
         } else {
-            System.out.println("not implemented yet");
+            WindowController.showAdminInfoDialog(stage, this.context);
         }
     }
 

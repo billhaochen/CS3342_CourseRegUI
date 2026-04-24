@@ -37,46 +37,23 @@
                 <Label text="Full Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="field-label"/>
                 <Label fx:id="fullNameLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="field-value"/>
 
-                <Label text="First Name:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="firstNameLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="field-value"/>
+                <Label text="Title:" GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="field-label"/>
+                <Label fx:id="titleLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="field-value"/>
 
-                <Label text="Surname:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="surnameLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="field-value"/>
+                <Label text="Email:" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="field-label"/>
+                <Label fx:id="emailLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="field-value"/>
 
-                <Label text="Student ID:" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="studentIdLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="field-value"/>
+                <Label text="Admin ID:" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="field-label"/>
+                <Label fx:id="idLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="field-value"/>
 
-                <Label text="Student EID:" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="studentEidLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="field-value"/>
+                <Label text="Phone Number:" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="field-label"/>
+                <Label fx:id="phoneLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="field-value"/>
 
-                <Label text="College:" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="collegeLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="field-value"/>
+                <Label text="Eid:" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="field-label"/>
+                <Label fx:id="eidLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="field-value"/>
 
-                <Label text="Degree:" GridPane.rowIndex="6" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="degreeLabel" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="field-value"/>
-
-                <Label text="Status:" GridPane.rowIndex="7" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="statusLabel" GridPane.rowIndex="7" GridPane.columnIndex="1" styleClass="field-value"/>
-
-                <Label text="Program:" GridPane.rowIndex="8" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="programLabel" GridPane.rowIndex="8" GridPane.columnIndex="1" styleClass="field-value"/>
-
-                <Label text="Location:" GridPane.rowIndex="9" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="locationLabel" GridPane.rowIndex="9" GridPane.columnIndex="1" styleClass="field-value"/>
-
-                <Label text="Start Date:" GridPane.rowIndex="10" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="startDateLabel" GridPane.rowIndex="10" GridPane.columnIndex="1" styleClass="field-value"/>
-
-                <Label text="End Date:" GridPane.rowIndex="11" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="endDateLabel" GridPane.rowIndex="11" GridPane.columnIndex="1" styleClass="field-value"/>
-
-                <Label text="Enrolled Courses:" GridPane.rowIndex="12" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="enrolledCoursesLabel" wrapText="true" GridPane.rowIndex="12" GridPane.columnIndex="1" styleClass="field-value"/>
-
-                <Label text="Completed Courses:" GridPane.rowIndex="13" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="completedCoursesLabel" wrapText="true" GridPane.rowIndex="13" GridPane.columnIndex="1" styleClass="field-value"/>
-                <Label text="Waitlisted Courses:" GridPane.rowIndex="14" GridPane.columnIndex="0" styleClass="field-label"/>
-                <Label fx:id="waitlistedCoursesLabel" wrapText="true" GridPane.rowIndex="14" GridPane.columnIndex="1" styleClass="field-value"/>
+                <Label text="Teaching Courses:" GridPane.rowIndex="6" GridPane.columnIndex="0" styleClass="field-label"/>
+                <Label fx:id="coursesLabel" wrapText="true" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="field-value"/>
             </children>
         </GridPane>
 
