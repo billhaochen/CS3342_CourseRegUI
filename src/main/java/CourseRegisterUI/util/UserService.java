@@ -22,6 +22,20 @@ public class UserService {
         }
     }
 
+    public static String assignAdminEid(Root root, String full_name) {
+        List<User> admins = root.users().stream().filter(s -> s.role() instanceof Admin).toList();
+        List<User> existing_admins_with_name = admins.stream()
+                .filter(admin_user -> ((Admin) admin_user.role()).name().equals(full_name)).toList();
+
+        if (!existing_admins_with_name.isEmpty()) {
+            String last_eid = existing_admins_with_name.getLast().getEID();
+            int new_eid = Integer.parseInt(last_eid + 1);
+            return full_name.toLowerCase().replace(" ", "") + new_eid;
+        } else {
+            return full_name.toLowerCase().replace(" ", "") + "1";
+        }
+    }
+
     public static Optional<User> getStudentByName(Root root, String full_student_name) {
         // This is the Java equivalent of the TypeScript approach for filtering by a predicate
         // Will have to implement ternary operators/null handling later when invoking this function
@@ -45,19 +59,19 @@ public class UserService {
     public static Optional<User> getAdminByName(Root root, String admin_name) {
         // This is the Java equivalent of the TypeScript approach for filtering by a predicate
         // Will have to implement ternary operators/null handling later when invoking this function
-        List<User> admins = root.users().stream().filter(s -> s.role() instanceof Teacher).toList();
+        List<User> admins = root.users().stream().filter(s -> s.role() instanceof Admin).toList();
 
         return admins.stream()
-                .filter(admin_user -> ((Teacher) admin_user.role()).name().equals(admin_name))
+                .filter(admin_user -> ((Admin) admin_user.role()).name().equals(admin_name))
                 .findFirst();
     }
 
     public static Optional<User> getAdminByID(Root root, String admin_id) {
         // This is the Java equivalent of the TypeScript approach for filtering by a predicate
         // Will have to implement ternary operators/null handling later when invoking this function
-        List<User> admins = root.users().stream().filter(s -> s.role() instanceof Teacher).toList();
+        List<User> admins = root.users().stream().filter(s -> s.role() instanceof Admin).toList();
         return admins.stream()
-                .filter(admin_user -> ((Teacher) admin_user.role()).idValue().equals(admin_id))
+                .filter(admin_user -> ((Admin) admin_user.role()).idValue().equals(admin_id))
                 .findFirst();
 
     }

@@ -1,6 +1,5 @@
 package CourseRegisterUI.util;
 
-import CourseRegisterUI.AppContext;
 import CourseRegisterUI.models.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -20,7 +19,7 @@ public class MasterJSONBuilder {
         // Sample courses
         List<Course> exampleCourses = ExampleJSONBuilder.buildSampleCourses();
         // Sample students
-        List<User> exampleStudents = ExampleJSONBuilder.buildSampleStudents();
+        List<User> exampleStudents = ExampleJSONBuilder.buildSampleUsers();
 
         return new Root(
                 exampleStudents,
@@ -29,7 +28,7 @@ public class MasterJSONBuilder {
     }
 
     public static void writeMasterToFile(File file, Root root) throws IOException {
-        mapper.registerSubtypes(Student.class, Teacher.class);
+        mapper.registerSubtypes(Student.class, Admin.class);
         mapper.writeValue(file, root);
     }
 
@@ -81,9 +80,9 @@ public class MasterJSONBuilder {
         }
 
         File jsonDir2 = new File("src/main/resources/json/");
-        File outputFile2 = new File(jsonDir2, "exampleStudent.json");
+        File outputFile2 = new File(jsonDir2, "exampleUser.json");
         try {
-            ExampleJSONBuilder.writeExampleStudentFile(outputFile2);
+            ExampleJSONBuilder.writeExampleUserFile(outputFile2);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

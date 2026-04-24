@@ -34,7 +34,7 @@ public class AppContext {
     }
 
     public void loadInitialData() {
-        String latest_sample_file = "src/main/resources/json/master_export_2026-04-14_12-53-17-378.json";
+        String latest_sample_file = "src/main/resources/json/master_export_2026-04-24_06-15-55-439.json";
         File latest_created_master = JSONDeserializer.findLatestMasterExportFile();
         this.courseUserRepository = JSONDeserializer.JSONToRoot(latest_sample_file);
         if (latest_created_master != null) {
@@ -158,7 +158,7 @@ public class AppContext {
                     course1.day(),
                     course1.building(),
                     course1.room(),
-                    course1.instructor(),
+                    course1.instructor_id(),
                     course1.medium(),
                     course1.meeting_time(),
                     course1.prerequisites(),

@@ -3,8 +3,6 @@ package CourseRegisterUI.controllers;
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.*;
-import CourseRegisterUI.util.JSONDeserializer;
-import com.sun.tools.javac.Main;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -139,8 +137,8 @@ public class SignInController implements ContextAware {
         Optional<User> id_lookup = getAdminByID(this.context.getCourseRepository(), admin_id);
         return name_lookup.isPresent()
                 && id_lookup.isPresent()
-                && name_lookup.get().role() instanceof Teacher
-                && id_lookup.get().role() instanceof Teacher
+                && name_lookup.get().role() instanceof Admin
+                && id_lookup.get().role() instanceof Admin
                 && name_lookup.get().getID().equals(admin_id)
                 && id_lookup.get().name().equals(admin_name)
                 && id_lookup.get().getPassword().equals(password)

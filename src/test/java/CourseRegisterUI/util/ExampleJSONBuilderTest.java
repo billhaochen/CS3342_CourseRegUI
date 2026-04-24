@@ -27,7 +27,7 @@ class ExampleJSONBuilderTest {
 
     @Test
     void buildSampleStudents_returnsExpectedUsers() {
-        List<User> users = ExampleJSONBuilder.buildSampleStudents();
+        List<User> users = ExampleJSONBuilder.buildSampleUsers();
 
         assertEquals(3, users.size());
         assertTrue(users.stream().allMatch(u -> u.role() instanceof Student));
@@ -49,7 +49,7 @@ class ExampleJSONBuilderTest {
     void writeExampleStudentFile_writesReadableJson(@TempDir Path tempDir) {
         File file = tempDir.resolve("exampleStudent.json").toFile();
 
-        assertDoesNotThrow(() -> ExampleJSONBuilder.writeExampleStudentFile(file));
+        assertDoesNotThrow(() -> ExampleJSONBuilder.writeExampleUserFile(file));
         assertTrue(file.exists());
         assertTrue(file.length() > 0);
     }

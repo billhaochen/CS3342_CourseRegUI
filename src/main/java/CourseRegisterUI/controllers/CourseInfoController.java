@@ -1,26 +1,20 @@
 package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.AppContext;
-import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.*;
 import CourseRegisterUI.util.CourseService;
-import CourseRegisterUI.util.LoadedView;
 import CourseRegisterUI.util.MasterJSONBuilder;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
 import java.io.IOException;
 import java.time.DayOfWeek;
@@ -108,8 +102,8 @@ public class CourseInfoController implements ContextAware {
         courseCode.setText(course.course_code() != null ? course.course_code() : "Unknown Code");
         courseCRN.setText(course.crn() != null ? course.crn() : "N/A");
 
-        if (course.instructor() != null) {
-            professorName.setText(course.instructor().idValue());
+        if (course.instructor_id() != null) {
+            professorName.setText(course.instructor_id());
         } else {
             professorName.setText("TBD");
         }
@@ -367,7 +361,7 @@ public class CourseInfoController implements ContextAware {
     @FXML
     private void handleRemoveCourse() {
         if (!(context.getCurrentUser().role() instanceof SignedOut)) {
-            if (context.getCurrentUser().role() instanceof Teacher) {
+            if (context.getCurrentUser().role() instanceof Admin) {
                 try {
                     context.unregisterCourse(course);
                     showSuccessAlert("Successfully removed course");

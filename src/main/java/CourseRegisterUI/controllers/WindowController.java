@@ -3,6 +3,7 @@ package CourseRegisterUI.controllers;
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Course;
+import CourseRegisterUI.models.RootUserType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -95,7 +96,12 @@ public class WindowController {
     }
 
     public static void showCreateAccountPopup(Window owner, AppContext context) {
-        WindowController.showModal(owner, "/CourseRegisterUI/CreateAccount.fxml", "Sign In" , context);
+        if (context.getRootUserType().equals(RootUserType.STUDENT)) {
+            WindowController.showModal(owner, "/CourseRegisterUI/CreateAccount.fxml", "Sign In" , context);
+        } else {
+            WindowController.showModal(owner, "/CourseRegisterUI/CreateAdminAccount.fxml", "Sign In" , context);
+        }
+
     }
     public static void showStudentInfoDialog(Window owner, AppContext context) {
         WindowController.showModal(

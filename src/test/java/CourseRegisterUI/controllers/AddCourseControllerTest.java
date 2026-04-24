@@ -277,7 +277,8 @@ class AddCourseControllerTest {
                 null,
                 List.of(),
                 List.of(completedCourses),
-                null
+                null,
+                List.of()
         );
         return new User(student.student_id(), student.name(), student);
     }
@@ -313,7 +314,7 @@ class AddCourseControllerTest {
                 day,
                 "Building",
                 "101",
-                new Teacher("Prof X"),
+                new Admin("Prof X"),
                 "English",
                 day + " " + startTime + "-" + endTime,
                 prerequisites,

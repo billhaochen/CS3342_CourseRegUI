@@ -1,8 +1,8 @@
 package CourseRegisterUI.controllers;
 
+import CourseRegisterUI.models.Admin;
 import CourseRegisterUI.models.College;
 import CourseRegisterUI.models.Course;
-import CourseRegisterUI.models.Teacher;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -50,7 +50,7 @@ class CourseInfoControllerTest {
     @Test
     void setCourseInfo_populatesLabelsForCompleteCourse() throws Exception {
         Course prerequisite = course("MATH1010", "Calculus I", null, false, 3, List.of());
-        Course course = course("CS2200", "Software Engineering", new Teacher("Prof X"), true, 4, List.of(prerequisite));
+        Course course = course("CS2200", "Software Engineering", new Admin("Prof X"), true, 4, List.of(prerequisite));
 
         controller.setCourseInfo(course);
 
@@ -118,7 +118,7 @@ class CourseInfoControllerTest {
         assertEquals("unchanged", label("courseName").getText());
     }
 
-    private Course course(String code, String title, Teacher teacher, boolean webEnabled, Integer credits, List<Course> prerequisites) {
+    private Course course(String code, String title, Admin admin, boolean webEnabled, Integer credits, List<Course> prerequisites) {
         return new Course(
                 "CS",
                 "CS",
@@ -141,7 +141,7 @@ class CourseInfoControllerTest {
                 "Mon",
                 "Building",
                 "101",
-                teacher,
+                admin,
                 "English",
                 "Mon 09:00-10:00",
                 prerequisites,

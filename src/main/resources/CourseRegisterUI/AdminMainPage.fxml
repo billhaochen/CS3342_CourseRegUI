@@ -23,7 +23,7 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml/1"
             fx:id="contentBox"
             fx:controller="CourseRegisterUI.controllers.AdminCourseController"
-            styleClass="teacher-root">
+            styleClass="admin-root">
 
     <top>
         <VBox spacing="18.0" BorderPane.alignment="CENTER">

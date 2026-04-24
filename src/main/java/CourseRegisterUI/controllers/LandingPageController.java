@@ -35,7 +35,7 @@ public class LandingPageController {
     }
 
     @FXML
-    private void handleTeacherPage(){
+    private void handleAdminPage(){
         slideOutAndNavigate(() -> {
             context.setRootUserType(RootUserType.ADMIN);
             Stage stage = (Stage) contentBox.getScene().getWindow();

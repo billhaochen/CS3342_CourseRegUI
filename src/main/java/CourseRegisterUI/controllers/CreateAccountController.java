@@ -26,7 +26,6 @@ import static CourseRegisterUI.ComponentLoader.showErrorAlert;
 import static CourseRegisterUI.ComponentLoader.showSuccessAlert;
 
 public class CreateAccountController implements ContextAware {
-
     @FXML
     private VBox createAccountBox;
 
@@ -67,24 +66,6 @@ public class CreateAccountController implements ContextAware {
     private Button cancelBtn;
     @FXML
     private Button submitBtn;
-    @FXML
-    private GridPane studentForm;
-    @FXML
-    private GridPane adminForm;
-
-    @FXML
-    private TextField adminNameField;
-    @FXML
-    private TextField adminPasswordField;
-    @FXML
-    private TextField adminIdField;
-    @FXML
-    private TextField adminEmailField;
-    @FXML
-    private TextField adminPhoneField;
-    @FXML
-    private ComboBox<String> titleComboBox;
-
 
     private AppContext context;
     private CourseController mainController;
@@ -148,10 +129,6 @@ public class CreateAccountController implements ContextAware {
         ));
         locationComboBox.setItems(FXCollections.observableArrayList(
                 null, "Main Campus", "Satellite Campus"
-        ));
-
-        titleComboBox.setItems(FXCollections.observableArrayList(
-                null, "Prof.", "Dr."
         ));
     }
 
@@ -386,12 +363,6 @@ public class CreateAccountController implements ContextAware {
     public void setAppContext(AppContext appContext) {
         this.context = appContext;
         populateCombos();
-        if (context.getRootUserType().equals(RootUserType.STUDENT)) {
-            studentForm.setVisible(true);
-        } else if (context.getRootUserType().equals(RootUserType.ADMIN)) {
-            studentForm.setVisible(false);
-            adminForm.setVisible(true);
-        }
     }
 
     @FXML
@@ -399,6 +370,5 @@ public class CreateAccountController implements ContextAware {
         // by default the user is set to signed out
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
-//        WindowController.showModal(stage, "/CourseRegisterUI/SignInDialog.fxml", "Sign In", context);
     }
 }

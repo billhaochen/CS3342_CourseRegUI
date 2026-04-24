@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 public class ExampleJSONBuilder {
@@ -42,7 +42,7 @@ public class ExampleJSONBuilder {
                 "R",
                 "YEUNG",
                 "B4702",
-                new Teacher("Kim Tae Wook"),
+                "A1",
                 "English",
                 "03:00 PM - 05:50 PM",
                 new ArrayList<>(),
@@ -70,7 +70,7 @@ public class ExampleJSONBuilder {
                 "T",
                 "LI",
                 "6606",
-                new Teacher("Liu Chen"),
+                "A2",
                 "English",
                 "04:00 PM - 06:50 PM",
                 new ArrayList<>(),
@@ -98,7 +98,7 @@ public class ExampleJSONBuilder {
                 "R",
                 "YEUNG",
                 "LT-6",
-                new Teacher("Chan Michael C."),
+                "A3",
                 "English",
                 "09:00 AM - 10:50 AM",
                 new ArrayList<>(),
@@ -127,7 +127,7 @@ public class ExampleJSONBuilder {
                 "R",
                 "YEUNG",
                 "P1615",
-                new Teacher("TBA LC005"),
+                "A4",
                 "English",
                 "09:00 AM - 11:50 AM",
                 prerequisites,
@@ -140,10 +140,22 @@ public class ExampleJSONBuilder {
         return courses;
     }
 
-    public static List<User> buildSampleStudents() {
+    public static List<User> buildSampleUsers() {
         List<User> users = new ArrayList<User>();
         List<Course> courses = buildSampleCourses();
         courses.removeLast();
+
+        Admin a1 = new Admin(
+                "Kim Tae Wook",
+                "password1",
+                "A1",
+                "ktw@gmail.com",
+                "612378191",
+                "Dr.",
+                "kimtaewook1",
+                new ArrayList<>(Collections.singleton(courses.getFirst().title()))
+        );
+
         Student s1 = new Student(
                 "John Doe",
                 "Doe",
@@ -216,20 +228,26 @@ public class ExampleJSONBuilder {
                 "Frank Ocean",
                 s3
         );
+        User u4 = new User(
+                "4",
+                "Kim Tae Wook",
+                a1
+        );
 
         users.add(u1);
         users.add(u2);
         users.add(u3);
+        users.add(u4);
         return users;
     }
 
     public static void writeExampleCourseFile(File file) throws IOException {
-        mapper.registerSubtypes(Student.class, Teacher.class);
+        mapper.registerSubtypes(Student.class, Admin.class);
         mapper.writeValue(file, buildSampleCourses());
     }
 
-    public static void writeExampleStudentFile(File file) throws IOException {
-        mapper.registerSubtypes(Student.class, Teacher.class);
-        mapper.writeValue(file, buildSampleStudents());
+    public static void writeExampleUserFile(File file) throws IOException {
+        mapper.registerSubtypes(Student.class, Admin.class);
+        mapper.writeValue(file, buildSampleUsers());
     }
 }

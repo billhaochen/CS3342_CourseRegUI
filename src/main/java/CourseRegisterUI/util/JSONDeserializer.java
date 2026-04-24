@@ -27,6 +27,47 @@ public class JSONDeserializer {
                 .max(java.util.Comparator.comparing(File::getName))
                 .orElse(null);
     }
+
+    public static List<User> JSONToUser(String filePath) {
+        List<User> users = new ArrayList<>();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+            JsonNode root = objectMapper.readTree(new File(filePath));
+            JsonNode usersNode = root.path("users");
+
+            List<User> read_users = objectMapper.convertValue(
+                    usersNode,
+                    new TypeReference<List<User>>() {
+                    }
+            );
+            users.addAll(read_users);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public static List<Course> JSONToCourse(String filePath) {
+        List<Course> courses = new ArrayList<>();
+        try {
+            ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
+            JsonNode root = objectMapper.readTree(new File(filePath));
+            JsonNode coursesNode = root.path("courses");
+            List<Course> read_courses = objectMapper.convertValue(
+                    coursesNode,
+                    new TypeReference<List<Course>>() {
+                    }
+            );
+            courses.addAll(read_courses);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return courses;
+    }
+
     public static Root JSONToRoot(String filePath) {
         List<User> users = new ArrayList<>();
         List<Course> courses = new ArrayList<>();

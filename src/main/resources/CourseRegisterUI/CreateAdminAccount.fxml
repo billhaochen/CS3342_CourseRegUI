@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import org.controlsfx.control.CheckComboBox?>
+
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="CourseRegisterUI.controllers.CreateAdminAccountController">
+
+    <children>
+        <VBox fx:id="createAccountBox"
+              maxWidth="820"
+              prefWidth="820"
+              prefHeight="520"
+              spacing="24">
+
+            <padding>
+                <Insets top="28" right="36" bottom="28" left="36"/>
+            </padding>
+
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="18">
+                <children>
+                    <StackPane minWidth="64"
+                               minHeight="64"
+                               prefWidth="64"
+                               prefHeight="64">
+                        <children>
+                            <Circle radius="22"
+                                    fill="TRANSPARENT"
+                                    strokeWidth="2"/>
+                        </children>
+                    </StackPane>
+                    <Label text="Create an account"/>
+                </children>
+            </HBox>
+
+            <!-- Forms stacked in the same spot -->
+            <StackPane>
+                <children>
+
+                    <!-- Student form -->
+                    <GridPane hgap="28" vgap="16">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="50"/>
+                            <ColumnConstraints percentWidth="50"/>
+                        </columnConstraints>
+                        <children>
+                            <TextField fx:id="nameField"
+                                       promptText="Full Name"
+                                       GridPane.rowIndex="0"
+                                       GridPane.columnIndex="0"/>
+
+                            <ComboBox fx:id="titleComboBox"
+                                      promptText="Title"
+                                      GridPane.rowIndex="0"
+                                      GridPane.columnIndex="1"/>
+
+                            <TextField fx:id="passwordField"
+                                       promptText="Password"
+                                       GridPane.rowIndex="1"
+                                       GridPane.columnIndex="0"/>
+
+                            <TextField fx:id="idField"
+                                       promptText="Admin ID"
+                                       GridPane.rowIndex="2"
+                                       GridPane.columnIndex="0"/>
+
+                            <TextField fx:id="emailField"
+                                       promptText="Email"
+                                       GridPane.rowIndex="1"
+                                       GridPane.columnIndex="1"/>
+
+                            <TextField fx:id="phoneField"
+                                       promptText="Phone number"
+                                       GridPane.rowIndex="2"
+                                       GridPane.columnIndex="1"/>
+                        </children>
+                    </GridPane>
+
+                    <!-- Admin form (same position, initially hidden if you want) -->
+                </children>
+            </StackPane>
+
+
+            <!-- Spacer -->
+            <Region VBox.vgrow="ALWAYS"/>
+
+            <!-- Buttons -->
+            <HBox alignment="CENTER_RIGHT" spacing="16">
+                <children>
+                    <Button fx:id="cancelBtn"
+                            text="Cancel"
+                            onAction="#handleCancel"/>
+                    <Button fx:id="submitBtn"
+                            text="Submit"
+                            onAction="#handleSubmit"/>
+                </children>
+            </HBox>
+
+        </VBox>
+    </children>
+</StackPane>
