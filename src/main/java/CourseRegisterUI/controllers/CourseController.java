@@ -14,10 +14,6 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import static CourseRegisterUI.ComponentLoader.showErrorAlert;
 import static CourseRegisterUI.ComponentLoader.showSuccessAlert;
 
@@ -42,7 +38,6 @@ public class CourseController implements ContextAware, MainController {
 
     private LoadedView<SidePanelController> sidePanelView;
     private LoadedView<WeeklyCalendarController> weeklyCalendarView;
-//    private LoadedView<MenuBarController> menuBarView;
 
     @FXML
     public void initialize() {
