@@ -4,6 +4,7 @@ import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.*;
 import javafx.animation.TranslateTransition;
+import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,15 +14,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class AdminCourseController implements ContextAware, MainController {
-    @FXML private Label teacherNameLabel;
-
-    @FXML private Button calendarButton;
-    @FXML private Button viewAsStudentButton;
-    @FXML private Button filterButton;
-    @FXML private Button visibilityButton;
-    @FXML private Button editButton;
-    @FXML private Button uploadButton;
-
     @FXML private TextField searchField;
 
     @FXML private TableView<CourseRow> courseTable;
@@ -61,13 +53,12 @@ public class AdminCourseController implements ContextAware, MainController {
 
     @FXML private Hyperlink userNameAndId;
     @FXML private BorderPane contentBox;
-
     private AppContext context;
+    private FilteredList<CourseRow> filteredList;
 
     @FXML
     public void initialize() {
         userNameAndId.getStyleClass().add("link-ghost");
-
         academicUnitColumn.setCellValueFactory(cell -> cell.getValue().getProperty("academic_unit"));
         subjectColumn.setCellValueFactory(cell -> cell.getValue().getProperty("subject"));
         courseColumn.setCellValueFactory(cell -> cell.getValue().getProperty("course_code"));
@@ -98,6 +89,21 @@ public class AdminCourseController implements ContextAware, MainController {
         });
     }
 
+    private void applyFilters() {
+        filteredList.setPredicate(row -> {
+            Course c = row.getCourse();
+
+            String courseTitle = searchField.getText();
+            if (courseTitle != null && !courseTitle.isBlank()) {
+                String s = courseTitle.toLowerCase();
+                if (!c.title().toLowerCase().contains(s) && !c.course_code().toLowerCase().contains(s)) {
+                    return false;
+                }
+            }
+            return true;
+        });
+    }
+
     @Override
     public void setAppContext(AppContext appContext) {
         this.context = appContext;
@@ -110,7 +116,14 @@ public class AdminCourseController implements ContextAware, MainController {
                 userNameAndId.setText(newUser.name() + " | " + newUser.getID());
             }
         });
+        filteredList = new FilteredList<>(context.getCourseRows(), p -> true);
+        courseTableView.setItems(filteredList);
 
+        SortedList<CourseRow> sortedData = new SortedList<>(filteredList);
+        sortedData.comparatorProperty().bind(courseTableView.comparatorProperty());
+        courseTableView.setItems(sortedData);
+
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> applyFilters());
         updateUserInfo();
     }
 
