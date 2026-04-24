@@ -30,7 +30,6 @@ class ExampleJSONBuilderTest {
         List<User> users = ExampleJSONBuilder.buildSampleUsers();
 
         assertEquals(4, users.size());
-//        assertTrue(users.stream().allMatch(u -> u.role() instanceof Student));
         assertEquals("John Doe", users.get(0).name());
         assertEquals("Jane Doe", users.get(1).name());
         assertEquals("Frank Ocean", users.get(2).name());
