@@ -17,6 +17,7 @@ import javafx.stage.Window;
 import java.util.Objects;
 import java.util.Optional;
 
+import static CourseRegisterUI.util.AuthenticationService.*;
 import static CourseRegisterUI.util.UserService.*;
 
 public class SignInController implements ContextAware {
@@ -83,7 +84,7 @@ public class SignInController implements ContextAware {
         String password = passwordField.getText();
 
         if (context.getRootUserType().equals(RootUserType.STUDENT)) {
-            if (validateStudentCredentials(full_name, id, password)) {
+            if (validateStudentCredentials(this.context.getCourseRepository(), full_name, id, password)) {
                 context.setCurrentUser(full_name, id);
                 Stage stage = (Stage) nameField.getScene().getWindow();
                 stage.close();
@@ -91,7 +92,7 @@ public class SignInController implements ContextAware {
                 displayWarning();
             }
         } else if(context.getRootUserType().equals(RootUserType.ADMIN)) {
-            if (validateAdminCredentials(full_name, id, password)) {
+            if (validateAdminCredentials(this.context.getCourseRepository(), full_name, id, password)) {
                 context.setCurrentUser(full_name, id);
                 Stage stage = (Stage) nameField.getScene().getWindow();
                 stage.close();
@@ -100,49 +101,6 @@ public class SignInController implements ContextAware {
             }
         }
 
-    }
-
-    // don't delete this, it might be super helpful later
-//    public static <A, B> void ifBothPresent(
-//            Optional<A> a,
-//            Optional<B> b,
-//            BiConsumer<A, B> action) {
-//        a.ifPresent(av -> b.ifPresent(bv -> action.accept(av, bv)));
-//    }
-
-
-    private boolean validateStudentCredentials(String student_name, String student_id, String password) {
-        boolean valid = false;
-        if (Objects.equals(student_name, "") || Objects.equals(student_id, "")) {
-            return valid;
-        }
-        Optional<User> name_lookup = getStudentByName(this.context.getCourseRepository(), student_name);
-        Optional<User> id_lookup = getStudentByID(this.context.getCourseRepository(), student_id);
-        return name_lookup.isPresent()
-                && id_lookup.isPresent()
-                && name_lookup.get().role() instanceof Student
-                && id_lookup.get().role() instanceof Student
-                && name_lookup.get().getID().equals(student_id)
-                && id_lookup.get().name().equals(student_name)
-                && id_lookup.get().getPassword().equals(password)
-                && name_lookup.get().getPassword().equals(password);
-    }
-
-    private boolean validateAdminCredentials(String admin_name, String admin_id, String password) {
-        boolean valid = false;
-        if (Objects.equals(admin_name, "") || Objects.equals(admin_id, "")) {
-            return valid;
-        }
-        Optional<User> name_lookup = getAdminByName(this.context.getCourseRepository(), admin_name);
-        Optional<User> id_lookup = getAdminByID(this.context.getCourseRepository(), admin_id);
-        return name_lookup.isPresent()
-                && id_lookup.isPresent()
-                && name_lookup.get().role() instanceof Admin
-                && id_lookup.get().role() instanceof Admin
-                && name_lookup.get().getID().equals(admin_id)
-                && id_lookup.get().name().equals(admin_name)
-                && id_lookup.get().getPassword().equals(password)
-                && name_lookup.get().getPassword().equals(password);
     }
 
     @FXML
