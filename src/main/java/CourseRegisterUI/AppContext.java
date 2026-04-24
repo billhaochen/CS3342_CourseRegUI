@@ -31,10 +31,21 @@ public class AppContext {
         this.currentUser.set(new User("", "Sign In", new SignedOut()));
         this.filteredCourseRows = new FilteredList<>(selectedCourseRows, null);
         this.rootUserType = RootUserType.SIGNED_OUT;
+
+        master_list_courses.addListener((javafx.collections.ListChangeListener<Course>) change -> {
+            syncCourseRowsWithMaster();
+        });
+    }
+
+    private void syncCourseRowsWithMaster() {
+        courseRows.clear();
+        for (Course c : master_list_courses) {
+            courseRows.add(new CourseRow(c));
+        }
     }
 
     public void loadInitialData() {
-        String latest_sample_file = "src/main/resources/json/master_export_2026-04-24_06-15-55-439.json";
+        String latest_sample_file = "src/main/resources/json/master_export_2026-04-24_09-11-12-388.json";
         File latest_created_master = JSONDeserializer.findLatestMasterExportFile();
         this.courseUserRepository = JSONDeserializer.JSONToRoot(latest_sample_file);
         if (latest_created_master != null) {
@@ -43,12 +54,19 @@ public class AppContext {
             }
         }
 
+        // Clear existing lists to avoid accumulation on repeated calls
+        master_list_courses.clear();
+        users.clear();
+        selectedCourses.clear();
+        selectedCourseRows.clear();
 
-        courseRows.setAll(CourseService.loadCourseRowsFromRoot(this.courseUserRepository));
+        // Add courses ONCE; listener will rebuild courseRows
+        master_list_courses.addAll(courseUserRepository.courses());
+
+        // User-related lists
         selectedCourses.setAll(CourseService.loadCoursesForStudent(getCurrentUser()));
         selectedCourseRows.setAll(CourseService.loadCourseRowsForStudent(getCurrentUser()));
         users.addAll(courseUserRepository.users());
-        master_list_courses.addAll(courseUserRepository.courses());
     }
 
     public ObservableList<CourseRow> getCourseRows() {
@@ -129,6 +147,34 @@ public class AppContext {
         }
     }
 
+    private HashMap<String, List<Course>> removeCourseFromCourses(List<Course> courses, Course course) {
+        List<Course> courseWithCourse = courses.stream().filter(course1 -> CourseService.courseInCourses(course1.prerequisites(), course)).toList();
+        List<Course> updatedCourses = courseWithCourse.stream().map(course1 -> {
+            List<Course> newPrerequisites = CourseService.removeCourseFromCourses(course1.prerequisites(), course);
+            course1.setPrerequisites(newPrerequisites);
+            return course1;
+        }).toList();
+
+        HashMap<String, List<Course>> result = new HashMap<>();
+        result.put("ToBeRemoved", courseWithCourse);
+        result.put("UpdatedCourses", updatedCourses);
+        return result;
+    }
+
+    public void updateCourse(Course originalCourse, Course newCourse) {
+        HashMap<String, List<User>> changedUsers = removeCourseFromUsers(this.users, originalCourse);
+        HashMap<String, List<Course>> changedCoursesWithPrerequisites = removeCourseFromCourses(this.master_list_courses, originalCourse);
+        addCourseToUsers(changedUsers, newCourse);
+        this.master_list_courses.removeAll(changedCoursesWithPrerequisites.get("ToBeRemoved"));
+        this.master_list_courses.addAll(changedCoursesWithPrerequisites.get("UpdatedCourses"));
+        this.master_list_courses.remove(originalCourse);
+        this.master_list_courses.add(newCourse);
+    }
+
+    public void createCourse(Course course) {
+        this.master_list_courses.add(course);
+    }
+
     public boolean addUserToWaitlist(Course course) {
         List<Course> matchingCourse = this.courseUserRepository.courses().stream().filter(course1 -> course1.equals(course)).toList();
         if (matchingCourse.size() == 1) {
@@ -187,7 +233,7 @@ public class AppContext {
             if (user.role() instanceof Student) {
                 Student student = (Student) user.role();
                 return CourseService.courseInCourses(student.enrolled_courses(), course);
-            }  else {
+            } else {
                 return false;
             }
         }).toList();
@@ -210,40 +256,67 @@ public class AppContext {
             }
         }).toList();
 
+        List<User> admins = userList.stream().filter(user -> {
+            if (user.role() instanceof Admin) {
+                Admin admin = (Admin) user.role();
+                return CourseService.courseInCourses(admin.courses(), course);
+            } else {
+                return false;
+            }
+        }).toList();
+
         List<User> updatedEnrolledStudents = enrolledStudents.stream().map(user -> removeCourseFromUser(user, course)).toList();
         List<User> updatedCompletedStudents = completedStudents.stream().map(user -> removeCourseFromUser(user, course)).toList();
         List<User> updatedWaitlistedStudents = waitlistedStudents.stream().map(user -> removeCourseFromUser(user, course)).toList();
+        List<User> updatedAdmin = admins.stream().map(user -> removeCourseFromUser(user, course)).toList();
+
 
         this.users.removeAll(enrolledStudents);
         this.users.removeAll(completedStudents);
         this.users.removeAll(waitlistedStudents);
+        this.users.removeAll(admins);
 
         this.users.addAll(updatedEnrolledStudents);
         this.users.addAll(updatedCompletedStudents);
         this.users.addAll(updatedWaitlistedStudents);
+        this.users.addAll(updatedAdmin);
 
         HashMap<String, List<User>> result = new HashMap<>();
         result.put("Enrolled", updatedEnrolledStudents);
-        result.put("Completed", completedStudents);
-        result.put("Waitlisted", waitlistedStudents);
+        result.put("Completed", updatedCompletedStudents);
+        result.put("Waitlisted", updatedWaitlistedStudents);
+        result.put("Admin", updatedAdmin);
 
         return result;
     }
 
     private User removeCourseFromUser(User user, Course course) {
-        Student student = (Student) user.role();
-        List<Course> updatedEnrolled = new ArrayList<>(student.enrolled_courses());
-        List<Course> updatedCompleted = new ArrayList<>(student.completed_courses());
-        List<Course> filteredEnrolled = CourseService.removeCourseFromCourses(updatedEnrolled, course);
-        List<Course> filteredCompleted = CourseService.removeCourseFromCourses(updatedCompleted, course);
-        updatedEnrolled.clear();
-        updatedEnrolled.addAll(filteredEnrolled);
-        updatedCompleted.clear();
-        updatedCompleted.addAll(filteredCompleted);
-        student.setEnrolled_courses(updatedEnrolled);
-        student.setCompleted_courses(updatedCompleted);
 
-        return new User(user.getID(), user.name(), student);
+        if (user.role() instanceof Student) {
+            Student student = (Student) user.role();
+            List<Course> updatedEnrolled = new ArrayList<>(student.enrolled_courses());
+            List<Course> updatedCompleted = new ArrayList<>(student.completed_courses());
+            List<Course> filteredEnrolled = CourseService.removeCourseFromCourses(updatedEnrolled, course);
+            List<Course> filteredCompleted = CourseService.removeCourseFromCourses(updatedCompleted, course);
+            updatedEnrolled.clear();
+            updatedEnrolled.addAll(filteredEnrolled);
+            updatedCompleted.clear();
+            updatedCompleted.addAll(filteredCompleted);
+            student.setEnrolled_courses(updatedEnrolled);
+            student.setCompleted_courses(updatedCompleted);
+
+            return new User(user.getID(), user.name(), student);
+        } else if (user.role() instanceof Admin) {
+            Admin admin = (Admin) user.role();
+            List<Course> updatedCourses = new ArrayList<>(admin.courses());
+            List<Course> filteredCourses = CourseService.removeCourseFromCourses(updatedCourses, course);
+            updatedCourses.clear();
+            updatedCourses.addAll(filteredCourses);
+            admin.setCourses(updatedCourses);
+            return new User(user.getID(), user.name(), admin);
+        } else {
+            return new User(user.getID(), user.name(), new SignedOut());
+        }
     }
 
     private void addCourseToUsers(HashMap<String, List<User>> userMap, Course course) {
@@ -265,15 +338,23 @@ public class AppContext {
             return new User(user.getID(), user.name(), student);
         }).toList();
 
+        List<User> updatedAdmin = userMap.get("Admin").stream().map(user -> {
+            Admin admin = (Admin) user.role();
+            admin.courses().add(course);
+            return new User(user.getID(), user.name(), admin);
+        }).toList();
+
         List<User> allStudents = new ArrayList<>();
         allStudents.addAll(userMap.get("Enrolled"));
         allStudents.addAll(userMap.get("Completed"));
         allStudents.addAll(userMap.get("Waitlisted"));
+        allStudents.addAll(userMap.get("Admin"));
 
         this.users.removeAll(allStudents);
         this.users.addAll(updatedEnrolledStudents);
         this.users.addAll(updatedCompletedStudents);
         this.users.addAll(updatedWaitlistedStudents);
+        this.users.addAll(updatedAdmin);
     }
 
     public void addNewUser(User user) {

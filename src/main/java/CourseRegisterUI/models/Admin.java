@@ -15,7 +15,7 @@ public record Admin(
         String phone,
         String title,
         String eid,
-        List<String> courses
+        List<Course> courses
 
 ) implements Role {
 
@@ -30,5 +30,10 @@ public record Admin(
 
     public String eidValue() {
         return eid;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses.clear();
+        this.courses.addAll(courses);
     }
 }

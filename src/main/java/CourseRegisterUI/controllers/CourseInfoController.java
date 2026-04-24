@@ -66,6 +66,8 @@ public class CourseInfoController implements ContextAware {
     private TableColumn<CourseRow, String> academicUnitColumn;
     @FXML
     private TableColumn<CourseRow, String> courseColumn;
+    @FXML
+    private Hyperlink editButton;
 
     @FXML
     private Button joinWaitlistButton;
@@ -383,5 +385,16 @@ public class CourseInfoController implements ContextAware {
     @Override
     public void setAppContext(AppContext appContext) {
         this.context = appContext;
+        if (context.getRootUserType().equals(RootUserType.ADMIN)) {
+            editButton.setVisible(true);
+            unregisterButton.setVisible(false);
+            joinWaitlistButton.setVisible(false);
+        }
+    }
+
+    @FXML
+    public void handleEdit() {
+        Stage stage = (Stage) courseName.getScene().getWindow();
+        WindowController.showCourseEditInfoPopup(stage, context, course);
     }
 }

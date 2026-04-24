@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.DatePicker?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="CourseRegisterUI.controllers.CourseEditDialogController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <!-- Scrollable form -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS">
+                <content>
+                    <GridPane hgap="10" vgap="8">
+                        <padding>
+                            <Insets top="10" right="10" bottom="10" left="10"/>
+                        </padding>
+
+                        <!-- Row 0 -->
+                        <Label text="Academic Unit:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="academicUnitField" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Subject:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                        <TextField fx:id="subjectField" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                        <!-- Row 1 -->
+                        <Label text="Course Code:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="courseCodeField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Title:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                        <TextField fx:id="titleField" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                        <!-- Row 2 -->
+                        <Label text="College:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <ChoiceBox fx:id="collegeChoiceBox" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="CRN:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                        <TextField fx:id="crnField" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+
+                        <!-- Row 3 -->
+                        <Label text="Section:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextField fx:id="sectionField" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                        <Label text="Credit:" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                        <TextField fx:id="creditField" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+
+                        <!-- Row 4 -->
+                        <Label text="Campus:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <ChoiceBox fx:id="campusChoiceBox" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                        <Label text="Web Enabled:" GridPane.rowIndex="4" GridPane.columnIndex="2"/>
+                        <CheckBox fx:id="webEnabledCheckBox" GridPane.rowIndex="4" GridPane.columnIndex="3"/>
+
+                        <!-- Row 5 -->
+                        <Label text="Level:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                        <ChoiceBox fx:id="levelChoiceBox" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                        <Label text="Availability:" GridPane.rowIndex="5" GridPane.columnIndex="2"/>
+                        <TextField fx:id="availabilityField" GridPane.rowIndex="5" GridPane.columnIndex="3"/>
+
+                        <!-- Row 6 -->
+                        <Label text="Cap:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                        <TextField fx:id="capField" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                        <Label text="Waitlist Available:" GridPane.rowIndex="6" GridPane.columnIndex="2"/>
+                        <CheckBox fx:id="waitlistAvailableCheckBox" GridPane.rowIndex="6" GridPane.columnIndex="3"/>
+
+                        <!-- Row 7 -->
+                        <Label text="Start Date:" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                        <DatePicker fx:id="startDatePicker" GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                        <Label text="End Date:" GridPane.rowIndex="7" GridPane.columnIndex="2"/>
+                        <DatePicker fx:id="endDatePicker" GridPane.rowIndex="7" GridPane.columnIndex="3"/>
+
+                        <!-- Row 8 -->
+                        <Label text="Start Time (HH:MM):" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                        <TextField fx:id="startTimeField" GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+
+                        <Label text="End Time (HH:MM):" GridPane.rowIndex="8" GridPane.columnIndex="2"/>
+                        <TextField fx:id="endTimeField" GridPane.rowIndex="8" GridPane.columnIndex="3"/>
+
+                        <!-- Row 9 -->
+                        <Label text="Day:" GridPane.rowIndex="9" GridPane.columnIndex="0"/>
+                        <TextField fx:id="dayField" GridPane.rowIndex="9" GridPane.columnIndex="1"/>
+
+                        <Label text="Building:" GridPane.rowIndex="9" GridPane.columnIndex="2"/>
+                        <ChoiceBox fx:id="buildingChoiceBox" GridPane.rowIndex="9" GridPane.columnIndex="3"/>
+
+                        <!-- Row 10 -->
+                        <Label text="Room:" GridPane.rowIndex="10" GridPane.columnIndex="0"/>
+                        <TextField fx:id="roomField" GridPane.rowIndex="10" GridPane.columnIndex="1"/>
+
+                        <Label text="Instructor ID:" GridPane.rowIndex="10" GridPane.columnIndex="2"/>
+                        <TextField fx:id="instructorIdField" GridPane.rowIndex="10" GridPane.columnIndex="3"/>
+
+                        <!-- Row 11 -->
+                        <Label text="Medium:" GridPane.rowIndex="11" GridPane.columnIndex="0"/>
+                        <ChoiceBox fx:id="mediumChoiceBox" GridPane.rowIndex="11" GridPane.columnIndex="1"/>
+
+                        <Label text="Meeting Time (raw):" GridPane.rowIndex="11" GridPane.columnIndex="2"/>
+                        <TextField fx:id="meetingTimeField" GridPane.rowIndex="11" GridPane.columnIndex="3"/>
+
+                        <!-- Row 12: prerequisites and waitlist as text -->
+                        <Label text="Prerequisites (CRNs or codes, comma-separated):"
+                               GridPane.rowIndex="12" GridPane.columnIndex="0"/>
+                        <TextArea fx:id="prerequisitesArea" prefRowCount="2"
+                                  GridPane.rowIndex="12" GridPane.columnIndex="1"
+                                  GridPane.columnSpan="3"/>
+
+                        <Label text="Waitlist (user IDs, comma-separated):"
+                               GridPane.rowIndex="13" GridPane.columnIndex="0"/>
+                        <TextArea fx:id="waitlistArea" prefRowCount="2"
+                                  GridPane.rowIndex="13" GridPane.columnIndex="1"
+                                  GridPane.columnSpan="3"/>
+                        <!-- all your Label/TextField/etc. rows exactly as you have them -->
+                    </GridPane>
+                </content>
+            </ScrollPane>
+
+            <!-- Buttons bar -->
+            <HBox spacing="10" alignment="CENTER_RIGHT">
+                <Button fx:id="okButton" text="Save" onAction="#handleOk"/>
+                <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancel"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

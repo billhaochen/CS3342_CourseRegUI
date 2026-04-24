@@ -41,7 +41,24 @@ public class AdminInfoDialogController implements ContextAware {
         eidLabel.setText(safe(admin.eidValue()));
         emailLabel.setText(admin.email());
         phoneLabel.setText(safe(admin.phone()));
-        coursesLabel.setText(admin.courses().toString());
+        coursesLabel.setText(formatCourses(admin.courses()));
+    }
+
+    private String formatCourses(List<Course> courses) {
+        if (courses == null || courses.isEmpty()) {
+            return "-";
+        }
+
+        return courses.stream()
+                .map(course -> {
+                    if (course == null) return "-";
+                    try {
+                        return course.title();
+                    } catch (Exception e) {
+                        return course.toString();
+                    }
+                })
+                .collect(Collectors.joining(", "));
     }
 
     private String safe(String value) {
