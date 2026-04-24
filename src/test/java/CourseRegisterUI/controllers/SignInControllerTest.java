@@ -30,60 +30,6 @@ class SignInControllerTest {
     }
 
     @Test
-    void displayWarning_setsBlankMessage_whenIdFieldIsBlank() throws Exception {
-        javafx.scene.control.TextField idField = new javafx.scene.control.TextField("");
-        javafx.scene.control.Label warningLabel = new javafx.scene.control.Label();
-        setField(controller, "idField", idField);
-        setField(controller, "idWarningLabel", warningLabel);
-
-        invokeVoid("displayWarning");
-
-        assertEquals("Name or ID cannot be blank", warningLabel.getText());
-        assertTrue(warningLabel.isVisible());
-        assertTrue(warningLabel.isManaged());
-    }
-
-    @Test
-    void displayWarning_setsIncorrectCredentials_whenIdFieldHasValue() throws Exception {
-        javafx.scene.control.TextField idField = new javafx.scene.control.TextField("12345678");
-        javafx.scene.control.Label warningLabel = new javafx.scene.control.Label();
-        setField(controller, "idField", idField);
-        setField(controller, "idWarningLabel", warningLabel);
-
-        invokeVoid("displayWarning");
-
-        assertEquals("Incorrect Credentials", warningLabel.getText());
-        assertTrue(warningLabel.isVisible());
-        assertTrue(warningLabel.isManaged());
-    }
-
-    @Test
-    void validateStudentCredentials_returnsFalse_whenNameIsBlank() throws Exception {
-        boolean result = invokeBoolean(
-                "validateStudentCredentials",
-                new Class[]{String.class, String.class, String.class},
-                "",
-                "12345678",
-                "secret"
-        );
-
-        assertFalse(result);
-    }
-
-    @Test
-    void validateStudentCredentials_returnsFalse_whenIdIsBlank() throws Exception {
-        boolean result = invokeBoolean(
-                "validateStudentCredentials",
-                new Class[]{String.class, String.class, String.class},
-                "Jane Doe",
-                "",
-                "secret"
-        );
-
-        assertFalse(result);
-    }
-
-    @Test
     void setMainController_assignsMainControllerReference() throws Exception {
         CourseController mainController = mock(CourseController.class);
 

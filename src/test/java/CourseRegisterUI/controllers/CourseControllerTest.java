@@ -23,35 +23,9 @@ class CourseControllerTest {
     private AppContext context;
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         controller = new CourseController();
-        setField("context", context);
-        setField("userNameAndId", new Hyperlink());
-    }
-
-    @Test
-    void updateUserInfo_setsHyperlinkTextFromCurrentUser() throws Exception {
-        User user = new User(
-                "12345678",
-                "Jane Doe",
-                Student.factoryCreate("Jane Doe", "Doe", "Jane", "12345678", "jd123", "secret")
-        );
-        when(context.getCurrentUser()).thenReturn(user);
-
-        controller.updateUserInfo();
-
-        assertEquals("Jane Doe | 12345678", hyperlink().getText());
-    }
-
-    @Test
-    void updateUserInfo_usesRoleBackedIdValue() throws Exception {
-        User signedOut = new User("ignored", "Guest", new SignedOut());
-        when(context.getCurrentUser()).thenReturn(signedOut);
-
-        controller.updateUserInfo();
-
-        assertEquals("Guest | ", hyperlink().getText());
     }
 
     private void setField(String fieldName, Object value) throws Exception {

@@ -314,7 +314,7 @@ class AddCourseControllerTest {
                 day,
                 "Building",
                 "101",
-                new Admin("Prof X"),
+                "A1",
                 "English",
                 day + " " + startTime + "-" + endTime,
                 prerequisites,

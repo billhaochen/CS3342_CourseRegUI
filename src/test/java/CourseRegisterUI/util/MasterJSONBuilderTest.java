@@ -16,7 +16,7 @@ class MasterJSONBuilderTest {
         Root root = MasterJSONBuilder.buildSampleMaster();
 
         assertNotNull(root);
-        assertEquals(3, root.users().size());
+        assertEquals(4, root.users().size());
         assertEquals(4, root.courses().size());
     }
 

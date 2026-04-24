@@ -41,7 +41,8 @@ class CourseServiceTest {
                 LocalDate.of(2028, 1, 1),
                 List.of(enrolled),
                 List.of(),
-                null
+                null,
+                List.of()
         );
         User user = new User("1", "Jane Doe", student);
 
@@ -70,7 +71,8 @@ class CourseServiceTest {
                 LocalDate.of(2028, 1, 1),
                 List.of(enrolled),
                 List.of(),
-                null
+                null,
+                List.of()
         );
         User user = new User("1", "Jane Doe", student);
 
