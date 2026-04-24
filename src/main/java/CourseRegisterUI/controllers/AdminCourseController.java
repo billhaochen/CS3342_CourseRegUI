@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class AdminCourseController implements ContextAware, MainController {
+    @FXML private Button createCourseBtn;
     @FXML private TextField searchField;
 
     @FXML private TableView<CourseRow> courseTable;
@@ -59,6 +60,7 @@ public class AdminCourseController implements ContextAware, MainController {
     @FXML
     public void initialize() {
         userNameAndId.getStyleClass().add("link-ghost");
+        createCourseBtn.getStyleClass().add("btn-submit");
         academicUnitColumn.setCellValueFactory(cell -> cell.getValue().getProperty("academic_unit"));
         subjectColumn.setCellValueFactory(cell -> cell.getValue().getProperty("subject"));
         courseColumn.setCellValueFactory(cell -> cell.getValue().getProperty("course_code"));
@@ -160,5 +162,11 @@ public class AdminCourseController implements ContextAware, MainController {
         } else {
             WindowController.showAdminInfoDialog(stage, this.context);
         }
+    }
+
+    @FXML
+    public void handleAddCourseDialog() {
+        Stage stage = (Stage) userNameAndId.getScene().getWindow();
+        WindowController.showCourseCreatePopup(stage, context);
     }
 }

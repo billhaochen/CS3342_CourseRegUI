@@ -31,10 +31,21 @@ public class AppContext {
         this.currentUser.set(new User("", "Sign In", new SignedOut()));
         this.filteredCourseRows = new FilteredList<>(selectedCourseRows, null);
         this.rootUserType = RootUserType.SIGNED_OUT;
+
+        master_list_courses.addListener((javafx.collections.ListChangeListener<Course>) change -> {
+            syncCourseRowsWithMaster();
+        });
+    }
+
+    private void syncCourseRowsWithMaster() {
+        courseRows.clear();
+        for (Course c : master_list_courses) {
+            courseRows.add(new CourseRow(c));
+        }
     }
 
     public void loadInitialData() {
-        String latest_sample_file = "src/main/resources/json/master_export_2026-04-24_08-38-00-147.json";
+        String latest_sample_file = "src/main/resources/json/master_export_2026-04-24_09-11-12-388.json";
         File latest_created_master = JSONDeserializer.findLatestMasterExportFile();
         this.courseUserRepository = JSONDeserializer.JSONToRoot(latest_sample_file);
         if (latest_created_master != null) {
@@ -43,12 +54,19 @@ public class AppContext {
             }
         }
 
+        // Clear existing lists to avoid accumulation on repeated calls
+        master_list_courses.clear();
+        users.clear();
+        selectedCourses.clear();
+        selectedCourseRows.clear();
 
-        courseRows.setAll(CourseService.loadCourseRowsFromRoot(this.courseUserRepository));
+        // Add courses ONCE; listener will rebuild courseRows
+        master_list_courses.addAll(courseUserRepository.courses());
+
+        // User-related lists
         selectedCourses.setAll(CourseService.loadCoursesForStudent(getCurrentUser()));
         selectedCourseRows.setAll(CourseService.loadCourseRowsForStudent(getCurrentUser()));
         users.addAll(courseUserRepository.users());
-        master_list_courses.addAll(courseUserRepository.courses());
     }
 
     public ObservableList<CourseRow> getCourseRows() {
@@ -151,6 +169,10 @@ public class AppContext {
         this.master_list_courses.addAll(changedCoursesWithPrerequisites.get("UpdatedCourses"));
         this.master_list_courses.remove(originalCourse);
         this.master_list_courses.add(newCourse);
+    }
+
+    public void createCourse(Course course) {
+        this.master_list_courses.add(course);
     }
 
     public boolean addUserToWaitlist(Course course) {

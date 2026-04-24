@@ -10,22 +10,54 @@ public class CourseRow {
 
     public CourseRow(Course c) {
         this.course = c;
-        properties.put("academic_unit", new SimpleStringProperty(c.academic_unit()));
-        properties.put("subject", new SimpleStringProperty(c.subject()));
-        properties.put("course_code", new SimpleStringProperty(c.course_code()));
-        properties.put("title", new SimpleStringProperty(c.title()));
-        properties.put("credit", new SimpleIntegerProperty(c.credit()));
-        properties.put("web_enabled", new SimpleBooleanProperty(c.web_enabled()));
-        properties.put("level", new SimpleStringProperty(c.level()));
-        properties.put("availability", new SimpleIntegerProperty(c.availability()));
-        properties.put("cap", new SimpleIntegerProperty(c.cap()));
-        properties.put("waitlist_available", new SimpleBooleanProperty(c.waitlist_available()));
-        properties.put("medium", new SimpleStringProperty(c.medium()));
-        properties.put("meeting_time", new SimpleStringProperty(c.meeting_time()));
-        properties.put("day", new SimpleStringProperty(c.day()));
-        properties.put("crn", new SimpleStringProperty(c.crn()));
-        properties.put("section", new SimpleStringProperty(c.section()));
-//        properties.put("instructor_id", new SimpleObjectProperty<Teacher>(c.instructor_id()));
+
+        String academicUnit = c.academic_unit();
+        String subject = c.subject();
+        String courseCode = c.course_code();
+        String title = c.title();
+        Integer credit = c.credit();
+        Boolean webEnabled = c.web_enabled();
+        String level = c.level();
+        Integer availability = c.availability();
+        Integer cap = c.cap();
+        Boolean waitlistAvailable = c.waitlist_available();
+        String medium = c.medium();
+        String meetingTime = c.meeting_time();
+        String day = c.day();
+        String crn = c.crn();
+        String section = c.section();
+
+        properties.put("academic_unit",
+                new SimpleStringProperty(academicUnit == null ? "" : academicUnit));
+        properties.put("subject",
+                new SimpleStringProperty(subject == null ? "" : subject));
+        properties.put("course_code",
+                new SimpleStringProperty(courseCode == null ? "" : courseCode));
+        properties.put("title",
+                new SimpleStringProperty(title == null ? "" : title));
+
+        properties.put("credit",
+                new SimpleIntegerProperty(credit == null ? 0 : credit));
+        properties.put("web_enabled",
+                new SimpleBooleanProperty(webEnabled != null && webEnabled));
+        properties.put("level",
+                new SimpleStringProperty(level == null ? "" : level));
+        properties.put("availability",
+                new SimpleIntegerProperty(availability == null ? 0 : availability));
+        properties.put("cap",
+                new SimpleIntegerProperty(cap == null ? 0 : cap));
+        properties.put("waitlist_available",
+                new SimpleBooleanProperty(waitlistAvailable != null && waitlistAvailable));
+        properties.put("medium",
+                new SimpleStringProperty(medium == null ? "" : medium));
+        properties.put("meeting_time",
+                new SimpleStringProperty(meetingTime == null ? "" : meetingTime));
+        properties.put("day",
+                new SimpleStringProperty(day == null ? "" : day));
+        properties.put("crn",
+                new SimpleStringProperty(crn == null ? "" : crn));
+        properties.put("section",
+                new SimpleStringProperty(section == null ? "" : section));
     }
     @SuppressWarnings("unchecked")
     public <T> Property<T> getProperty(String name) {

@@ -320,25 +320,29 @@ public class AddCourseController implements ContextAware {
 
     @FXML
     public void handleAddToSchedule() {
-        ObservableList<CourseRow> selectedRows =
-                courseTableView.getSelectionModel().getSelectedItems();
+        try {
+            ObservableList<CourseRow> selectedRows =
+                    courseTableView.getSelectionModel().getSelectedItems();
 
-        ObservableList<CourseRow> proposedRows = FXCollections.observableArrayList();
-        proposedRows.addAll(selectedRows);
-        proposedRows.addAll(context.getSelectedCourseRows());
+            ObservableList<CourseRow> proposedRows = FXCollections.observableArrayList();
+            proposedRows.addAll(selectedRows);
+            proposedRows.addAll(context.getSelectedCourseRows());
 
-        if (validateCourses(proposedRows)) {
-            context.getSelectedCourses().addAll(
-                    selectedRows.stream()
-                            .map(CourseRow::getCourse)
-                            .toList()
-            );
-            context.getSelectedCourseRows().addAll(selectedRows);
-            context.registerCourses();
-            System.out.println("State Confirmation: Add to Schedule Clicked");
+            if (validateCourses(proposedRows)) {
+                context.getSelectedCourses().addAll(
+                        selectedRows.stream()
+                                .map(CourseRow::getCourse)
+                                .toList()
+                );
+                context.getSelectedCourseRows().addAll(selectedRows);
+                context.registerCourses();
+                System.out.println("State Confirmation: Add to Schedule Clicked");
 
-            Stage stage = (Stage) courseTableView.getScene().getWindow();
-            stage.close();
+                Stage stage = (Stage) courseTableView.getScene().getWindow();
+                stage.close();
+            }
+        } catch (Exception e) {
+            showConflict("Error with adding courses to the schedule: Check the course data");
         }
     }
 

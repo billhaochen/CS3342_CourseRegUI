@@ -16,8 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CourseEditDialogController implements ContextAware {
-
+public class CourseCreateController implements ContextAware {
     @FXML private Button cancelButton;
     @FXML private Button okButton;
     @FXML private TextField academicUnitField;
@@ -48,8 +47,7 @@ public class CourseEditDialogController implements ContextAware {
     @FXML private TextArea waitlistArea;
 
     private AppContext context;
-    private Course originalCourse;
-    private Course editedCourse;
+    private Course course;
 
     @FXML
     private void initialize() {
@@ -65,53 +63,12 @@ public class CourseEditDialogController implements ContextAware {
         cancelButton.getStyleClass().add("link-ghost");
     }
 
-    public void setCourse(Course course) {
-        this.originalCourse = course;
-
-        if (course == null) {
-            return;
-        }
-
-        academicUnitField.setText(course.academic_unit());
-        subjectField.setText(course.subject());
-        courseCodeField.setText(course.course_code());
-        titleField.setText(course.title());
-        collegeChoiceBox.setValue(course.college());
-        crnField.setText(course.crn());
-        sectionField.setText(course.section());
-        creditField.setText(course.credit() == null ? "" : course.credit().toString());
-        campusChoiceBox.setValue(course.campus());
-        webEnabledCheckBox.setSelected(Boolean.TRUE.equals(course.web_enabled()));
-        levelChoiceBox.setValue(course.level());
-        availabilityField.setText(course.availability() == null ? "" : course.availability().toString());
-        capField.setText(course.cap() == null ? "" : course.cap().toString());
-        waitlistAvailableCheckBox.setSelected(Boolean.TRUE.equals(course.waitlist_available()));
-        startDatePicker.setValue(course.start_date());
-        endDatePicker.setValue(course.end_date());
-        startTimeField.setText(course.start_time());
-        endTimeField.setText(course.end_time());
-        dayField.setText(course.day());
-        buildingChoiceBox.setValue(course.building());
-        roomField.setText(course.room());
-        instructorIdField.setText(course.instructor_id());
-        mediumChoiceBox.setValue(course.medium());
-        meetingTimeField.setText(course.meeting_time());
-
-        // prerequisites as whatever string representation you want
-        if (course.prerequisites() != null && !course.prerequisites().isEmpty()) {
-            String prereqText = course.prerequisites().stream()
-                    .map(Course::course_code) // or crn(), or title(), whatever you use
-                    .collect(Collectors.joining(", "));
-            prerequisitesArea.setText(prereqText);
-        }
-
-        if (course.waitlist() != null && !course.waitlist().isEmpty()) {
-            waitlistArea.setText(String.join(", ", course.waitlist()));
-        }
-    }
+    // --------------------------
+    // Builders
+    // --------------------------
 
     /**
-     * Call this from your dialog result converter after OK is pressed.
+     * Full builder that uses all fields.
      */
     public Course buildEditedCourse() {
         String academicUnit = academicUnitField.getText();
@@ -145,7 +102,7 @@ public class CourseEditDialogController implements ContextAware {
 
         List<String> waitlist = parseCommaSeparated(waitlistArea.getText());
 
-        editedCourse = new Course(
+        course = new Course(
                 academicUnit,
                 subject,
                 courseCode,
@@ -174,8 +131,53 @@ public class CourseEditDialogController implements ContextAware {
                 waitlist
         );
 
-        return editedCourse;
+        return course;
     }
+
+    /**
+     * Minimal builder using only the important fields, with defaults for the rest.
+     */
+    public Course buildMinimalCourse() {
+        String error = validateImportantFields();
+        if (error != null) {
+            throw new IllegalArgumentException(error);
+        }
+
+        String academicUnit = academicUnitField.getText();
+        String subject = subjectField.getText();
+        String courseCode = courseCodeField.getText();
+        String title = titleField.getText();
+        College college = collegeChoiceBox.getValue();
+        Integer credit = parseIntegerOrNull(creditField.getText());
+        String campus = campusChoiceBox.getValue();
+        String level = levelChoiceBox.getValue();
+        String day = dayField.getText();
+        String startTime = startTimeField.getText();
+        String endTime = endTimeField.getText();
+        LocalDate startDate = startDatePicker.getValue();
+        LocalDate endDate = endDatePicker.getValue();
+
+        course = Course.factoryMinimal(
+                academicUnit,
+                subject,
+                courseCode,
+                title,
+                college,
+                credit,
+                campus,
+                level,
+                startDate,
+                endDate,
+                startTime,
+                endTime,
+                day
+        );
+        return course;
+    }
+
+    // --------------------------
+    // Validation helpers
+    // --------------------------
 
     private Integer parseIntegerOrNull(String text) {
         if (text == null || text.isBlank()) return null;
@@ -194,14 +196,62 @@ public class CourseEditDialogController implements ContextAware {
                 .collect(Collectors.toList());
     }
 
-    public Course getEditedCourse() {
-        return editedCourse;
+    private boolean isBlank(String s) {
+        return s == null || s.isBlank();
+    }
+
+    /**
+     * Validates the minimal set of fields that must be present.
+     * Returns null if everything is OK, otherwise a human-readable error.
+     */
+    private String validateImportantFields() {
+        if (isBlank(titleField.getText())) {
+            return "Title is required.";
+        }
+        if (isBlank(courseCodeField.getText())) {
+            return "Course code is required.";
+        }
+        if (collegeChoiceBox.getValue() == null) {
+            return "College is required.";
+        }
+        Integer credit = parseIntegerOrNull(creditField.getText());
+        if (credit == null) {
+            return "Credit must be a valid integer.";
+        }
+        if (isBlank(campusChoiceBox.getValue())) {
+            return "Campus is required.";
+        }
+        if (isBlank(levelChoiceBox.getValue())) {
+            return "Level is required.";
+        }
+        if (isBlank(dayField.getText())) {
+            return "Day is required.";
+        }
+        if (isBlank(startTimeField.getText()) || isBlank(endTimeField.getText())) {
+            return "Start time and end time are required.";
+        }
+        if (startDatePicker.getValue() == null || endDatePicker.getValue() == null) {
+            return "Start date and end date are required.";
+        }
+        return null; // all good
+    }
+
+    // --------------------------
+    // Accessors / Context
+    // --------------------------
+
+    public Course getCourse() {
+        return course;
     }
 
     @Override
     public void setAppContext(AppContext appContext) {
         this.context = appContext;
     }
+
+    // --------------------------
+    // UI handlers
+    // --------------------------
 
     @FXML
     private void handleCancel() {
@@ -212,16 +262,18 @@ public class CourseEditDialogController implements ContextAware {
     private void showSuccessDialog() {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Success");
-        alert.setHeaderText("Successfully Edited Course");
-        alert.show();
+        alert.setHeaderText("Successfully Created Course");
+        Stage owner = (Stage) crnField.getScene().getWindow();
+        alert.initOwner(owner);
+        alert.showAndWait();
     }
 
     @FXML
-    private void showConflict() {
+    private void showConflict(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Schedule Conflict");
+        alert.setTitle("Course Error");
         alert.setHeaderText(null);
-        alert.setContentText("Error editing course");
+        alert.setContentText(message);
         Stage owner = (Stage) crnField.getScene().getWindow();
         alert.initOwner(owner);
         alert.showAndWait();
@@ -230,14 +282,29 @@ public class CourseEditDialogController implements ContextAware {
     @FXML
     private void handleOk() {
         try {
-            Course new_course = buildEditedCourse();
-            context.updateCourse(originalCourse, new_course);
+            // Decide which builder to use:
+            // If all important fields are present AND the advanced fields are mostly empty,
+            // you could use minimal; otherwise use full. For now, we try minimal first.
+            Course new_course;
+            String importantError = validateImportantFields();
+            if (importantError == null) {
+                // Important fields satisfied: build minimal course
+                new_course = buildMinimalCourse();
+            } else {
+                // Fall back to full builder to preserve all inputs
+                new_course = buildEditedCourse();
+            }
+
+            context.createCourse(new_course);
             MasterJSONBuilder.writeLocalToMaster(context.exportContext());
             showSuccessDialog();
             Stage stage = (Stage) crnField.getScene().getWindow();
             stage.close();
+        } catch (IllegalArgumentException ex) {
+            // From validateImportantFields() / buildMinimalCourse()
+            showConflict(ex.getMessage());
         } catch (IOException e) {
-            showConflict();
+            showConflict("Error saving course: " + e.getMessage());
         }
     }
 }

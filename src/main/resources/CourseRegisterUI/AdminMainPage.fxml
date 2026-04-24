@@ -68,32 +68,13 @@
             <!-- Toolbar -->
             <HBox alignment="CENTER_LEFT" spacing="12.0">
                 <children>
-                    <Button fx:id="filterButton"
-                            text=""
-                            mnemonicParsing="false"
-                            styleClass="icon-button"/>
-
-                    <Button fx:id="visibilityButton"
-                            text=""
-                            mnemonicParsing="false"
-                            styleClass="icon-button"/>
-
-                    <Button fx:id="editButton"
-                            text=""
-                            mnemonicParsing="false"
-                            styleClass="icon-button"/>
-
-                    <Region HBox.hgrow="ALWAYS"/>
-
+                    <Button fx:id="createCourseBtn" maxWidth="Infinity" onAction="#handleAddCourseDialog" text="Create a Course"/>
+                    <Pane HBox.hgrow="ALWAYS"/>
+                    <!-- Right-aligned search field -->
                     <TextField fx:id="searchField"
                                promptText="Search"
                                prefWidth="260.0"
                                styleClass="search-field"/>
-
-                    <Button fx:id="uploadButton"
-                            text=""
-                            mnemonicParsing="false"
-                            styleClass="icon-button"/>
                 </children>
             </HBox>
         </VBox>

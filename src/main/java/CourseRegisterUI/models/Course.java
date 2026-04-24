@@ -1,6 +1,7 @@
 package CourseRegisterUI.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public record Course(
@@ -38,5 +39,58 @@ public record Course(
     public void setPrerequisites(List<Course> courses) {
         this.prerequisites.clear();
         this.prerequisites.addAll(courses);
+    }
+
+    // in Course.java
+    public static Course factoryMinimal(
+            String academicUnit,
+            String subject,
+            String courseCode,
+            String title,
+            College college,
+            Integer credit,
+            String campus,
+            String level,
+            LocalDate startDate,
+            LocalDate endDate,
+            String startTime,
+            String endTime,
+            String day
+    ) {
+        return new Course(
+                academicUnit,
+                subject,
+                courseCode,
+                title,
+                college,
+                /* crn        */ null,
+                /* section    */ null,
+                credit,
+                campus,
+                /* webEnabled */ Boolean.TRUE,
+                level,
+                /* availability       */ null,
+                /* cap                */ null,
+                /* waitlistAvailable  */ Boolean.FALSE,
+                startDate,
+                endDate,
+                startTime,
+                endTime,
+                day,
+                /* building    */ null,
+                /* room        */ null,
+                /* instructorId*/ null,
+                /* medium      */ "English",
+                /* meetingTime */ buildMeetingTime(startTime, endTime, day),
+                /* prerequisites */ new ArrayList<>(),
+                /* waitlist      */ new ArrayList<>()
+        );
+    }
+
+    private static String buildMeetingTime(String startTime, String endTime, String day) {
+        if (startTime == null || endTime == null || day == null) {
+            return "";
+        }
+        return day + " " + startTime + "-" + endTime;
     }
 }
