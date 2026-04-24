@@ -95,6 +95,16 @@ public class WindowController {
         controller.setCourseInfo(selectedCourse);
     }
 
+    public static void showCourseEditInfoPopup(Window owner, AppContext context, Course selectedCourse) {
+        CourseEditDialogController controller = WindowController.showModal(
+                owner,
+                "/CourseRegisterUI/CourseEditInfo.fxml",
+                "Course Information",
+                context
+        );
+        controller.setCourse(selectedCourse);
+    }
+
     public static void showCreateAccountPopup(Window owner, AppContext context) {
         if (context.getRootUserType().equals(RootUserType.STUDENT)) {
             WindowController.showModal(owner, "/CourseRegisterUI/CreateAccount.fxml", "Sign In" , context);

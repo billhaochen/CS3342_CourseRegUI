@@ -32,6 +32,11 @@ public record Course(
         List<String> waitlist
 ) {
     public void setWaitlist(List<String> users) {
+        this.waitlist.clear();
         this.waitlist.addAll(users);
+    }
+    public void setPrerequisites(List<Course> courses) {
+        this.prerequisites.clear();
+        this.prerequisites.addAll(courses);
     }
 }

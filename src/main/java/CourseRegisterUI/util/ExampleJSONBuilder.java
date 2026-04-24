@@ -153,7 +153,7 @@ public class ExampleJSONBuilder {
                 "612378191",
                 "Dr.",
                 "kimtaewook1",
-                new ArrayList<>(Collections.singleton(courses.getFirst().title()))
+                new ArrayList<>(Collections.singleton(courses.getFirst()))
         );
 
         Student s1 = new Student(
