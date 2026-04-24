@@ -25,7 +25,7 @@ public class CourseRow {
         properties.put("day", new SimpleStringProperty(c.day()));
         properties.put("crn", new SimpleStringProperty(c.crn()));
         properties.put("section", new SimpleStringProperty(c.section()));
-//        properties.put("instructor", new SimpleObjectProperty<Teacher>(c.instructor()));
+//        properties.put("instructor_id", new SimpleObjectProperty<Teacher>(c.instructor_id()));
     }
     @SuppressWarnings("unchecked")
     public <T> Property<T> getProperty(String name) {

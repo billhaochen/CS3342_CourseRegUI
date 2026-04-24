@@ -4,6 +4,7 @@ module CourseRegisterUI {
     requires com.fasterxml.jackson.databind;
     requires com.fasterxml.jackson.datatype.jsr310;
     requires org.controlsfx.controls;
+    requires jdk.compiler;
 
 
     opens CourseRegisterUI to javafx.fxml;

@@ -1,7 +1,7 @@
 package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.AppContext;
-import CourseRegisterUI.models.Root;
+import CourseRegisterUI.models.RootUserType;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -12,10 +12,10 @@ import javafx.util.Duration;
 public class LandingPageController {
     @FXML
     private VBox contentBox;
-    private AppContext appContext;
+    private AppContext context;
 
     public void setAppContext(AppContext appContext) {
-        this.appContext = appContext;
+        this.context = appContext;
     }
 
     @FXML
@@ -28,14 +28,19 @@ public class LandingPageController {
     @FXML
     private void handleStudentPage(){
         slideOutAndNavigate(() -> {
+            context.setRootUserType(RootUserType.STUDENT);
             Stage stage = (Stage) contentBox.getScene().getWindow();
-            WindowController.switchToMainView(stage, this.appContext);
+            WindowController.switchToStudentMainView(stage, context);
         });
     }
 
     @FXML
-    private void handleTeacherPage(){
-
+    private void handleAdminPage(){
+        slideOutAndNavigate(() -> {
+            context.setRootUserType(RootUserType.ADMIN);
+            Stage stage = (Stage) contentBox.getScene().getWindow();
+            WindowController.switchToAdminMainView(stage, context);
+        });
     }
     private void slideOutAndNavigate(Runnable nextAction) {
 

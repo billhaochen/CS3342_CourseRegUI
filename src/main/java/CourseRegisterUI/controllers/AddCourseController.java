@@ -2,10 +2,7 @@ package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.AppContext;
 import CourseRegisterUI.ContextAware;
-import CourseRegisterUI.models.College;
-import CourseRegisterUI.models.Course;
-import CourseRegisterUI.models.CourseRow;
-import CourseRegisterUI.util.CourseService;
+import CourseRegisterUI.models.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -14,9 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 
@@ -54,16 +49,26 @@ public class AddCourseController implements ContextAware {
     @FXML
     private TableColumn<CourseRow, String> meetingColumn;
 
-    @FXML private ComboBox<String> academicUnitComboBox;
-    @FXML private TextField academicUnitTextField;
-    @FXML private TextField search_by_text_field;
-    @FXML private CheckBox creditCheckBox;
-    @FXML private TextField creditTextField;
-    @FXML private RadioButton exactCreditButton;
-    @FXML private CheckBox programCheckBox;
-    @FXML private ComboBox<College> programComboBox; // TODO fix this filter
-    @FXML private CheckBox mediumCheckBox;
-    @FXML private ComboBox<String> mediumComboBox;
+    @FXML
+    private ComboBox<String> academicUnitComboBox;
+    @FXML
+    private TextField academicUnitTextField;
+    @FXML
+    private TextField search_by_text_field;
+    @FXML
+    private CheckBox creditCheckBox;
+    @FXML
+    private TextField creditTextField;
+    @FXML
+    private RadioButton exactCreditButton;
+    @FXML
+    private CheckBox programCheckBox;
+    @FXML
+    private ComboBox<College> programComboBox; // TODO fix this filter
+    @FXML
+    private CheckBox mediumCheckBox;
+    @FXML
+    private ComboBox<String> mediumComboBox;
 
     private AppContext context;
     private FilteredList<CourseRow> filteredList;
@@ -108,7 +113,7 @@ public class AddCourseController implements ContextAware {
                     Course selectedCourse = selectedRow.getCourse();
                     if (selectedCourse != null) {
                         javafx.stage.Window owner = courseTableView.getScene().getWindow();
-                        WindowController.showCourseInfoPopup(owner, selectedCourse);
+                        WindowController.showCourseInfoPopup(owner, context, selectedCourse);
                     }
                 }
             }
@@ -122,11 +127,11 @@ public class AddCourseController implements ContextAware {
     }
 
     @FXML
-    private void showConflict() {
+    private void showConflict(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Schedule Conflict");
         alert.setHeaderText(null);
-        alert.setContentText("One or more selected courses overlap.");
+        alert.setContentText(message);
         alert.showAndWait();
     }
 
@@ -235,6 +240,82 @@ public class AddCourseController implements ContextAware {
         ));
     }
 
+    /**
+     * this is going to assume that every course here is in the same semester for now
+     *
+     * @param a
+     * @param b
+     * @return
+     */
+    private boolean timeConflicts(Course a, Course b) {
+        boolean dateOverlap = !a.end_date().isBefore(b.start_date())
+                && !b.end_date().isBefore(a.start_date());
+
+        boolean sameDay = a.day() != null && a.day().equals(b.day());
+
+        boolean timeOverlap = a.start_time().compareTo(b.end_time()) < 0
+                && b.start_time().compareTo(a.end_time()) < 0;
+
+        return dateOverlap && sameDay && timeOverlap;
+    }
+
+    private boolean takenConflicts(User user, List<Course> courses) {
+        if (user.role() instanceof Student) {
+            List<Course> already_taken = ((Student) user.role()).completed_courses();
+            return courses.stream().anyMatch(already_taken::contains);
+        }
+        return false;
+    }
+
+    private boolean prerequisiteConflicts(User user, List<Course> courses) {
+        if (!(user.role() instanceof Student student)) {
+            return false;
+        }
+
+        // Making sure each set of courses of a pre-requisite is a subset of the completed courses
+        // Then map this function over the list of courses a user wants to add
+        Set<Course> completedCourses = new HashSet<>(student.completed_courses());
+
+        return courses.stream()
+                .anyMatch(course -> !completedCourses.containsAll(course.prerequisites()));
+    }
+
+    private boolean availabilityConflict(List<Course> courses) {
+        return courses.stream().map(Course::availability).anyMatch(avail -> avail == 0);
+    }
+
+    private boolean validateCourses(ObservableList<CourseRow> rows) {
+        List<Course> addedCourses = rows.stream()
+                .map(CourseRow::getCourse)
+                .toList();
+
+        if (takenConflicts(context.getCurrentUser(), addedCourses)) {
+            showConflict("You have already taken one of these courses");
+            return false;
+        }
+
+        if (prerequisiteConflicts(context.getCurrentUser(), addedCourses)) {
+            showConflict("You do not have the required pre-requisites");
+            return false;
+        }
+
+        if(availabilityConflict(addedCourses)) {
+            showConflict("There are no more slots left in the selected section");
+            return false;
+        }
+
+        for (int i = 0; i < addedCourses.size(); i++) {
+            for (int j = i + 1; j < addedCourses.size(); j++) {
+                if (timeConflicts(addedCourses.get(i), addedCourses.get(j))) {
+                    showConflict("Two or more of these courses have a time conflict");
+                    return false;
+                }
+            }
+        }
+
+        // TODO account for other validation like program and pre-requisite validation
+        return true;
+    }
 
 
     @FXML
@@ -246,7 +327,7 @@ public class AddCourseController implements ContextAware {
         proposedRows.addAll(selectedRows);
         proposedRows.addAll(context.getSelectedCourseRows());
 
-        if (CourseService.validateCourses(proposedRows)) {
+        if (validateCourses(proposedRows)) {
             context.getSelectedCourses().addAll(
                     selectedRows.stream()
                             .map(CourseRow::getCourse)
@@ -258,8 +339,6 @@ public class AddCourseController implements ContextAware {
 
             Stage stage = (Stage) courseTableView.getScene().getWindow();
             stage.close();
-        } else {
-            showConflict();
         }
     }
 

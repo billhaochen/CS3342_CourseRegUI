@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="contentBox"
+            fx:controller="CourseRegisterUI.controllers.AdminCourseController"
+            styleClass="admin-root">
+
+    <top>
+        <VBox spacing="18.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="24.0" right="28.0" bottom="18.0" left="28.0"/>
+            </padding>
+
+            <!-- Header -->
+            <HBox alignment="CENTER_LEFT" spacing="14.0">
+                <children>
+                    <Circle radius="18.0" styleClass="profile-circle"/>
+
+                    <Hyperlink fx:id="userNameAndId" HBox.hgrow="ALWAYS" maxWidth="Infinity" contentDisplay="CENTER"
+                               text="Sign In"
+                               onAction="#handleUserInfo">
+                        <HBox.margin>
+                            <Insets bottom="8.0" right="8.0" top="8.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font name="System Bold" size="14.0"/>
+                        </font>
+                        <padding>
+                            <Insets top="6.0"/>
+                        </padding>
+                    </Hyperlink>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <Button fx:id="calendarButton"
+                            text=""
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+
+                    <Button fx:id="viewAsStudentButton"
+                            text="View as Student"
+                            styleClass="link-button"
+                            onAction="#handleViewStudent"
+                    />
+                </children>
+            </HBox>
+
+            <!-- Toolbar -->
+            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                <children>
+                    <Button fx:id="filterButton"
+                            text=""
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+
+                    <Button fx:id="visibilityButton"
+                            text=""
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+
+                    <Button fx:id="editButton"
+                            text=""
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <TextField fx:id="searchField"
+                               promptText="Search"
+                               prefWidth="260.0"
+                               styleClass="search-field"/>
+
+                    <Button fx:id="uploadButton"
+                            text=""
+                            mnemonicParsing="false"
+                            styleClass="icon-button"/>
+                </children>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <VBox spacing="0.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets right="28.0" bottom="24.0" left="28.0"/>
+            </padding>
+            <ScrollPane>
+                <TableView fx:id="courseTableView" VBox.vgrow="ALWAYS"
+                           styleClass="course-table">
+                    <columns>
+                        <TableColumn fx:id="academicUnitColumn" prefWidth="150.0" text="Academic Unit"/>
+                        <TableColumn fx:id="subjectColumn" text="Subject"/>
+                        <TableColumn fx:id="courseColumn" prefWidth="60.0" text="Course"/>
+                        <TableColumn fx:id="titleColumn" prefWidth="200.0" text="Title"/>
+                        <TableColumn fx:id="sectionColumn" prefWidth="60.0" text="Section"/>
+                        <TableColumn fx:id="creditColumn" prefWidth="60.0" text="Credit"/>
+                        <TableColumn fx:id="crnColumn" prefWidth="60.0" text="CRN"/>
+                        <TableColumn fx:id="dayColumn" prefWidth="60.0" text="Day"/>
+                        <TableColumn fx:id="meetingColumn" prefWidth="200.0" text="Meeting_Time"/>
+                        <TableColumn fx:id="webColumn" prefWidth="75.0" text="Web"/>
+                        <TableColumn fx:id="levelColumn" prefWidth="60.0" text="Level"/>
+                        <TableColumn fx:id="availabilityColumn" prefWidth="60.0" text="Avail"/>
+                        <TableColumn fx:id="capColumn" prefWidth="60.0" text="Cap"/>
+                        <TableColumn fx:id="waitlistAvailColumn" prefWidth="75.0" text="Waitlist"/>
+                        <TableColumn fx:id="mediumColumn" prefWidth="75.0" text="Medium"/>
+                    </columns>
+                </TableView>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>

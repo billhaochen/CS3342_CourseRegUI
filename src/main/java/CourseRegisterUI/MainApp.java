@@ -1,12 +1,20 @@
 package CourseRegisterUI;
 
 import CourseRegisterUI.controllers.LandingPageController;
+import CourseRegisterUI.models.Course;
+import CourseRegisterUI.models.Root;
+import CourseRegisterUI.models.User;
+import CourseRegisterUI.util.ExampleJSONBuilder;
+import CourseRegisterUI.util.JSONDeserializer;
 import CourseRegisterUI.util.MasterJSONBuilder;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.List;
 
 public class MainApp extends Application {
 

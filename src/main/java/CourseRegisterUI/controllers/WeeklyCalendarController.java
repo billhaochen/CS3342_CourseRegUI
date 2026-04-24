@@ -24,19 +24,27 @@ import java.time.format.TextStyle;
 import java.util.List;
 import java.util.Locale;
 
+import static CourseRegisterUI.util.CalendarService.mapDayToColumn;
+import static CourseRegisterUI.util.CalendarService.mapTimeToRow;
+
 
 public class WeeklyCalendarController implements ContextAware {
-    @FXML private ScrollPane mainScroll;
-    @FXML private GridPane mainGrid;  // Single grid!
-    @FXML private Label weekTitle;
-    @FXML private Button prevWeek, nextWeek, todayBtn;
+    @FXML
+    private ScrollPane mainScroll;
+    @FXML
+    private GridPane mainGrid;  // Single grid!
+    @FXML
+    private Label weekTitle;
+    @FXML
+    private Button prevWeek, nextWeek, todayBtn;
 
     private AppContext context;
     private LocalDate weekStart = LocalDate.now().with(DayOfWeek.MONDAY);
     private boolean gridInteractive = true;
     private StackPane selectedCell;
 
-    @FXML public void initialize() {
+    @FXML
+    public void initialize() {
         mainScroll.getStyleClass().add("main-scroll");
         mainScroll.setFitToWidth(true);
         mainScroll.setPannable(true);  // Smooth scroll with mouse drag
@@ -74,7 +82,7 @@ public class WeeklyCalendarController implements ContextAware {
 
         String[] times = {"8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19"};
         for (int row = 1; row <= times.length; row++) {
-            addTimeRow(row, times[row-1]);
+            addTimeRow(row, times[row - 1]);
         }
 
         // CRITICAL: Set explicit size so ScrollPane works
@@ -226,28 +234,6 @@ public class WeeklyCalendarController implements ContextAware {
         }
     }
 
-    private int mapDayToColumn(String day) {
-        if (day == null) return -1;
-
-        return switch (day.toUpperCase()) {
-            case "M" -> 1;
-            case "T" -> 2;
-            case "W" -> 3;
-            case "R" -> 4;
-            case "F" -> 5;
-            case "S" -> 6;
-            case "U" -> 7;
-            default -> -1;
-        };
-    }
-
-    private int mapTimeToRow(String time) {
-        if (time == null || time.isBlank()) return -1;
-
-        java.time.LocalTime localTime = java.time.LocalTime.parse(time);
-        return localTime.getHour() - 8 + 1;
-    }
-
     private StackPane createCourseBlock(Course course) {
         StackPane block = new StackPane();
         block.getStyleClass().add("course-block");
@@ -264,9 +250,9 @@ public class WeeklyCalendarController implements ContextAware {
 
         block.getChildren().add(label);
         block.setOnMouseClicked(e -> {
-            if(gridInteractive){
+            if (gridInteractive) {
                 Window owner = mainScroll.getScene().getWindow();
-                WindowController.requestCourseInfo(owner,course);
+                WindowController.requestCourseInfo(owner, context, course);
 //            cell.getStyleClass().add("calendar-cell:selected");
             }
 
@@ -300,9 +286,4 @@ public class WeeklyCalendarController implements ContextAware {
         refreshCalendar();
         renderCourses();
     }
-
-    public void setInteractive(boolean b) {
-        gridInteractive = b;
-    }
-
 }

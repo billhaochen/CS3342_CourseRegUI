@@ -75,6 +75,8 @@
 
                 <Label text="Completed Courses:" GridPane.rowIndex="13" GridPane.columnIndex="0" styleClass="field-label"/>
                 <Label fx:id="completedCoursesLabel" wrapText="true" GridPane.rowIndex="13" GridPane.columnIndex="1" styleClass="field-value"/>
+                <Label text="Waitlisted Courses:" GridPane.rowIndex="14" GridPane.columnIndex="0" styleClass="field-label"/>
+                <Label fx:id="waitlistedCoursesLabel" wrapText="true" GridPane.rowIndex="14" GridPane.columnIndex="1" styleClass="field-value"/>
             </children>
         </GridPane>
 

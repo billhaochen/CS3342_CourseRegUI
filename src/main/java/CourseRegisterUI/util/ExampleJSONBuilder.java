@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collections;
 import java.util.List;
 
 public class ExampleJSONBuilder {
@@ -19,6 +19,7 @@ public class ExampleJSONBuilder {
 
     public static List<Course> buildSampleCourses() {
         List<Course> courses = new ArrayList<>();
+        List<Course> prerequisites = new ArrayList<>();
         Course c1 = new Course(
           "Accountancy",
                 "AC",
@@ -33,7 +34,7 @@ public class ExampleJSONBuilder {
                 "B",
                 4,
                 20,
-                Boolean.FALSE,
+                Boolean.TRUE,
                 LocalDate.of(2026, 1, 12),
                 LocalDate.of(2026, 4, 18),
                 "15:00",
@@ -41,9 +42,11 @@ public class ExampleJSONBuilder {
                 "R",
                 "YEUNG",
                 "B4702",
-                new Teacher("Kim Tae Wook"),
+                "A1",
                 "English",
-                "03:00 PM - 05:50 PM"
+                "03:00 PM - 05:50 PM",
+                new ArrayList<>(),
+                new ArrayList<>()
         );
         Course c2 = new Course(
                 "Computer Science",
@@ -59,7 +62,7 @@ public class ExampleJSONBuilder {
                 "B",
                 0,
                 120,
-                Boolean.FALSE,
+                Boolean.TRUE,
                 LocalDate.of(2026, 1, 12),
                 LocalDate.of(2026, 4, 18),
                 "16:00",
@@ -67,9 +70,11 @@ public class ExampleJSONBuilder {
                 "T",
                 "LI",
                 "6606",
-                new Teacher("Liu Chen"),
+                "A2",
                 "English",
-                "04:00 PM - 06:50 PM"
+                "04:00 PM - 06:50 PM",
+                new ArrayList<>(),
+                new ArrayList<>()
         );
         Course c3 = new Course(
                 "Chemistry",
@@ -93,10 +98,13 @@ public class ExampleJSONBuilder {
                 "R",
                 "YEUNG",
                 "LT-6",
-                new Teacher("Chan Michael C."),
+                "A3",
                 "English",
-                "09:00 AM - 10:50 AM"
+                "09:00 AM - 10:50 AM",
+                new ArrayList<>(),
+                new ArrayList<>()
         );
+        prerequisites.add(c1);
         Course c4 = new Course(
                 "English",
                 "GE",
@@ -119,9 +127,11 @@ public class ExampleJSONBuilder {
                 "R",
                 "YEUNG",
                 "P1615",
-                new Teacher("TBA LC005"),
+                "A4",
                 "English",
-                "09:00 AM - 11:50 AM"
+                "09:00 AM - 11:50 AM",
+                prerequisites,
+                new ArrayList<>()
         );
         courses.add(c1);
         courses.add(c2);
@@ -130,10 +140,22 @@ public class ExampleJSONBuilder {
         return courses;
     }
 
-    public static List<User> buildSampleStudents() {
+    public static List<User> buildSampleUsers() {
         List<User> users = new ArrayList<User>();
         List<Course> courses = buildSampleCourses();
         courses.removeLast();
+
+        Admin a1 = new Admin(
+                "Kim Tae Wook",
+                "password1",
+                "A1",
+                "ktw@gmail.com",
+                "612378191",
+                "Dr.",
+                "kimtaewook1",
+                new ArrayList<>(Collections.singleton(courses.getFirst().title()))
+        );
+
         Student s1 = new Student(
                 "John Doe",
                 "Doe",
@@ -150,7 +172,8 @@ public class ExampleJSONBuilder {
                 LocalDate.of(2026, 4, 18),
                 new ArrayList<Course>(),
                 courses,
-                Major.BUSINESS_ECONOMICS
+                Major.BUSINESS_ECONOMICS,
+                new ArrayList<Course>()
         );
         Student s2 = new Student(
                 "Jane Doe",
@@ -168,7 +191,8 @@ public class ExampleJSONBuilder {
                 LocalDate.of(2027, 4, 18),
                 courses,
                 new ArrayList<>(),
-                Major.FOOD_SAFETY_AND_TECHNOLOGY
+                Major.FOOD_SAFETY_AND_TECHNOLOGY,
+                new ArrayList<Course>()
         );
         Student s3 = new Student(
                 "Frank Ocean",
@@ -186,7 +210,8 @@ public class ExampleJSONBuilder {
                 LocalDate.of(2028, 4, 18),
                 courses,
                 new ArrayList<>(),
-                Major.ANIMATION_AND_VISUAL_EFFECTS
+                Major.ANIMATION_AND_VISUAL_EFFECTS,
+                new ArrayList<Course>()
         );
         User u1 = new User(
                 "1",
@@ -203,20 +228,26 @@ public class ExampleJSONBuilder {
                 "Frank Ocean",
                 s3
         );
+        User u4 = new User(
+                "4",
+                "Kim Tae Wook",
+                a1
+        );
 
         users.add(u1);
         users.add(u2);
         users.add(u3);
+        users.add(u4);
         return users;
     }
 
     public static void writeExampleCourseFile(File file) throws IOException {
-        mapper.registerSubtypes(Student.class, Teacher.class);
+        mapper.registerSubtypes(Student.class, Admin.class);
         mapper.writeValue(file, buildSampleCourses());
     }
 
-    public static void writeExampleStudentFile(File file) throws IOException {
-        mapper.registerSubtypes(Student.class, Teacher.class);
-        mapper.writeValue(file, buildSampleStudents());
+    public static void writeExampleUserFile(File file) throws IOException {
+        mapper.registerSubtypes(Student.class, Admin.class);
+        mapper.writeValue(file, buildSampleUsers());
     }
 }

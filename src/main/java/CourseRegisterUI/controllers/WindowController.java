@@ -1,10 +1,9 @@
 package CourseRegisterUI.controllers;
 
 import CourseRegisterUI.AppContext;
-import CourseRegisterUI.ComponentLoader;
 import CourseRegisterUI.ContextAware;
 import CourseRegisterUI.models.Course;
-import CourseRegisterUI.models.Root;
+import CourseRegisterUI.models.RootUserType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -49,7 +48,7 @@ public class WindowController {
         }
     }
 
-    public static void switchToMainView(Stage stage, AppContext context) {
+    public static void switchToStudentMainView(Stage stage, AppContext context) {
         try {
             FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/Main.fxml"));
             Parent root = loader.load();
@@ -67,43 +66,42 @@ public class WindowController {
             e.printStackTrace();
         }
     }
-    public static void showCourseInfoPopup(Window owner, Course selectedCourse) {
+
+    public static void switchToAdminMainView(Stage stage, AppContext context) {
         try {
-            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/CourseInfo.fxml"));
+            FXMLLoader loader = new FXMLLoader(WindowController.class.getResource("/CourseRegisterUI/AdminMainPage.fxml"));
             Parent root = loader.load();
-
-            CourseInfoController controller = loader.getController();
-            controller.setCourseInfo(selectedCourse);
-
-            Stage popupStage = new Stage();
-            popupStage.initOwner(owner);
-            popupStage.initModality(Modality.NONE);
-            popupStage.initStyle(javafx.stage.StageStyle.TRANSPARENT);
-
-            Scene scene = new Scene(root);
-            scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
-            popupStage.setScene(scene);
-
-            popupStage.focusedProperty().addListener((obs, wasFocused, isNowFocused) -> {
-                if (!isNowFocused) {
-                    popupStage.close();
-                }
-            });
-            scene.getStylesheets().add(WindowController.class.getResource("/CourseRegisterUI/css/style.css").toExternalForm());
-            popupStage.show();
-            BoxBlur blur = new BoxBlur(8, 8, 3);
-            owner.getScene().getRoot().setEffect(blur);
-            popupStage.setOnHidden(e -> owner.getScene().getRoot().setEffect(null));
-            popupStage.setX(owner.getX() + (owner.getWidth() - popupStage.getWidth()) / 2);
-            popupStage.setY(owner.getY() + (owner.getHeight() - popupStage.getHeight()) / 2);
-
+            AdminCourseController mainController = loader.getController();
+            mainController.setAppContext(context);
+            if (stage.getScene() != null) {
+                stage.getScene().setRoot(root);
+            } else {
+                Scene scene = new Scene(root, 800, 600);
+                stage.setScene(scene);
+            }
+            SignInController controller =  WindowController.showModal(stage, "/CourseRegisterUI/SignInDialog.fxml", "Sign In" , context);
+            controller.setMainController(mainController);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    public static void showCourseInfoPopup(Window owner, AppContext context, Course selectedCourse) {
+        CourseInfoController controller = WindowController.showModal(
+                owner,
+                "/CourseRegisterUI/CourseInfo.fxml",
+                "Course Information",
+                context
+        );
+        controller.setCourseInfo(selectedCourse);
+    }
 
     public static void showCreateAccountPopup(Window owner, AppContext context) {
-        WindowController.showModal(owner, "/CourseRegisterUI/CreateAccount.fxml", "Sign In" , context);
+        if (context.getRootUserType().equals(RootUserType.STUDENT)) {
+            WindowController.showModal(owner, "/CourseRegisterUI/CreateAccount.fxml", "Sign In" , context);
+        } else {
+            WindowController.showModal(owner, "/CourseRegisterUI/CreateAdminAccount.fxml", "Sign In" , context);
+        }
+
     }
     public static void showStudentInfoDialog(Window owner, AppContext context) {
         WindowController.showModal(
@@ -114,7 +112,16 @@ public class WindowController {
         );
     }
 
-    public static void requestCourseInfo(Window owner,Course course) {
-        showCourseInfoPopup(owner, course);
+    public static void showAdminInfoDialog(Window owner, AppContext context) {
+        WindowController.showModal(
+                owner,
+                "/CourseRegisterUI/AdminInfo.fxml",
+                "Admin Information",
+                context
+        );
+    }
+
+    public static void requestCourseInfo(Window owner, AppContext context, Course course) {
+        showCourseInfoPopup(owner, context, course);
     }
 }

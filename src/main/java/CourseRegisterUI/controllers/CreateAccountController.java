@@ -10,6 +10,7 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
@@ -25,7 +26,6 @@ import static CourseRegisterUI.ComponentLoader.showErrorAlert;
 import static CourseRegisterUI.ComponentLoader.showSuccessAlert;
 
 public class CreateAccountController implements ContextAware {
-
     @FXML
     private VBox createAccountBox;
 
@@ -222,7 +222,7 @@ public class CreateAccountController implements ContextAware {
         String email = emailField.getText();
         String phone_number = phoneField.getText();
         String level = levelComboBox.getValue();
-        List<String> completed_courses = completedRequisitesComboBox.getItems();
+        List<String> completed_courses = completedRequisitesComboBox.getCheckModel().getCheckedItems();
         College college = College.valueOf(collegeComboBox.getValue());
         Major major = Major.valueOf(majorComboBox.getValue());
         Program program = Program.valueOf(programComboBox.getValue());
@@ -249,7 +249,8 @@ public class CreateAccountController implements ContextAware {
                 end,
                 new ArrayList<Course>(),
                 CourseService.coursesFromTitles(context.exportContext(), completed_courses),
-                major
+                major,
+                new ArrayList<Course>()
 
         );
 
@@ -369,6 +370,5 @@ public class CreateAccountController implements ContextAware {
         // by default the user is set to signed out
         Stage stage = (Stage) nameField.getScene().getWindow();
         stage.close();
-//        WindowController.showModal(stage, "/CourseRegisterUI/SignInDialog.fxml", "Sign In", context);
     }
 }

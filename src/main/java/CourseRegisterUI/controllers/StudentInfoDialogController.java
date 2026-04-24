@@ -33,6 +33,7 @@ public class StudentInfoDialogController implements ContextAware {
     @FXML private Label endDateLabel;
     @FXML private Label enrolledCoursesLabel;
     @FXML private Label completedCoursesLabel;
+    @FXML private Label waitlistedCoursesLabel;
     @FXML private Button closeBtn;
 
     public void setStudent(Student student) {
@@ -54,6 +55,7 @@ public class StudentInfoDialogController implements ContextAware {
         endDateLabel.setText(student.end_date() == null ? "-" : student.end_date().format(DATE_FORMAT));
         enrolledCoursesLabel.setText(formatCourses(student.enrolled_courses()));
         completedCoursesLabel.setText(formatCourses(student.completed_courses()));
+        waitlistedCoursesLabel.setText(formatCourses(student.waitlisted_courses()));
     }
 
     private String formatCourses(List<Course> courses) {
