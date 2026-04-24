@@ -81,7 +81,8 @@ class AppContextTest {
                 LocalDate.of(2028, 1, 1),
                 new ArrayList<>(List.of(existing)),
                 List.of(),
-                null
+                null,
+                List.of()
         );
         User user = new User("1", "Jane Doe", student);
         context.setCurrentUser(user);

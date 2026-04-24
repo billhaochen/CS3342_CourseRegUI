@@ -81,7 +81,8 @@ class UserServiceTest {
                 LocalDate.of(2028, 1, 1),
                 enrolled,
                 completed,
-                null
+                null,
+                List.of()
         );
         return new User(id, name, student);
     }
